@@ -94,9 +94,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
     //init auto mode
-    m_robotContainer.initAutoMode();
+    //m_robotContainer.initAutoMode();
+    
   }
-
+ 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}

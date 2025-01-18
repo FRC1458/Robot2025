@@ -3,6 +3,8 @@ package frc.robot;
 
 import java.util.Optional;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -91,6 +93,8 @@ public class RobotContainer25 {
                 m_ExampleSubsystem
                 //Insert instances of additional subsystems here
             );
+
+            
             //register subsystems to loopers
             m_SubsystemManager.registerEnabledLoops(m_EnabledLooper);
             m_SubsystemManager.registerDisabledLoops(m_DisabledLooper);
@@ -241,7 +245,7 @@ public class RobotContainer25 {
 
     //dummy methods for now.
     public Command getAutonomousCommand() {
-        return null;
+        return new PathPlannerAuto("Example Auto");
     }
     public void updateLimeLightData() {
     }

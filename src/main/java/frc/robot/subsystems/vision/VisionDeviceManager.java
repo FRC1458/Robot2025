@@ -2,8 +2,8 @@ package frc.robot.subsystems.vision;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Subsystem;
-import frc.robot.lib.util.TunableNumber;
-import frc.robot.lib.util.MovingAverage;
+//import frc.robot.lib.util.TunableNumber;
+//import frc.robot.lib.util.MovingAverage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.List;
 
@@ -22,9 +22,9 @@ public class VisionDeviceManager extends Subsystem {
 
 	private List<VisionDevice> mAllCameras;
 
-	private static TunableNumber timestampOffset = new TunableNumber("VisionTimestampOffset", (0.1), false);
+	//private static TunableNumber timestampOffset = new TunableNumber("VisionTimestampOffset", (0.1), false);
 
-	private MovingAverage mHeadingAvg = new MovingAverage(100);
+	//private MovingAverage mHeadingAvg = new MovingAverage(100);
 	private double mMovingAvgRead = 0.0;
 
 	private static boolean disable_vision = false;
@@ -38,7 +38,7 @@ public class VisionDeviceManager extends Subsystem {
 	@Override
 	public void readPeriodicInputs() {
 		mAllCameras.forEach(VisionDevice::readPeriodicInputs);
-		mMovingAvgRead = mHeadingAvg.getAverage();
+		//mMovingAvgRead = mHeadingAvg.getAverage();
 	}
 
 	@Override
@@ -56,10 +56,11 @@ public class VisionDeviceManager extends Subsystem {
 	public Double getMovingAverageRead() {
 		return mMovingAvgRead;
 	}
-
-	public synchronized MovingAverage getMovingAverage() {
-		return mHeadingAvg;
+/*	public synchronized MovingAverage getMovingAverage() {
+		//return mHeadingAvg;
+		
 	}
+ */
 
 	public synchronized boolean fullyConnected() {
 		return mLeftCamera.isConnected() && mRightCamera.isConnected();
@@ -74,7 +75,8 @@ public class VisionDeviceManager extends Subsystem {
 	}
 
 	public static double getTimestampOffset() {
-		return timestampOffset.get();
+		//return timestampOffset.get();
+		return 0;
 	}
 
 	public static boolean visionDisabled() {

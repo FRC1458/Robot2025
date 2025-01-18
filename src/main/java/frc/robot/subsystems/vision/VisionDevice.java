@@ -1,5 +1,6 @@
 package frc.robot.subsystems.vision;
 
+import frc.robot.lib.util.MovingAverageTwist2d;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import frc.robot.FieldLayout;
@@ -216,7 +217,7 @@ public class VisionDevice extends Subsystem {
 			}
 
 			SmartDashboard.putNumber("Vision Heading/" + mConstants.kTableName, rotation_degrees);
-			VisionDeviceManager.getInstance().getMovingAverage().addNumber(rotation_degrees);
+			//VisionDeviceManager.getInstance().getMovingAverage().addNumber(rotation_degrees);
 		}
 	}
 
