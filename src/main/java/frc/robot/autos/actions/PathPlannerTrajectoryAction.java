@@ -33,7 +33,7 @@ public class PathPlannerTrajectoryAction implements Action {
 		}
 		System.out.println("Swerve Trajectory Action Started!");
 		System.out.println(mTrajectory);
-		mDrive.setTrajectory(mTrajectory);
+		//mDrive.setTrajectory(mTrajectory);
 	}
 
 	@Override
