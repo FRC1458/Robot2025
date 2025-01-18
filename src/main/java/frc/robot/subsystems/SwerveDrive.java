@@ -130,41 +130,36 @@ public class SwerveDrive extends Subsystem {
       e.printStackTrace();
     }
 
-    // Configure AutoBuilder last
-    AutoBuilder.configure(
-            this::getPose, // Robot pose supplier
-            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-            this::getChassisS, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            (speeds, feedforwards) -> feedTeleopSetpoint(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
-            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
-                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-            ),
-            config, // The robot configuration
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+		// Configure AutoBuilder last
+		AutoBuilder.configure(
+			this::getPose, // Robot pose supplier
+			this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+			this::getChassisS, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+			this:: driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+			new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+					new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+					new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+			),
+			config, // The robot configuration
+			() -> {
+				// Boolean supplier that controls when the path will be mirrored for the red alliance
+				// This will flip the path being followed to the red side of the field.
+				// THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            }
-            
-    );
-
-
+				var alliance = DriverStation.getAlliance();
+				if (alliance.isPresent()) {
+					return alliance.get() == DriverStation.Alliance.Red;
+				}
+				return false;
+			},
+			new edu.wpi.first.wpilibj2.command.Subsystem[]{}
+		);
 	}
 
-	private ChassisSpeeds getRobotRelativeSpeeds() {
-		return new ChassisSpeeds();
-	}
 
-	private Object driveRobotRelative(ChassisSpeeds speeds) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'driveRobotRelative'");
+	//interface to PathPlanner.AutoBuilder
+	private void driveRobotRelative(ChassisSpeeds speeds) {
+		updateModuleStates(speeds);
 	}
 
 	public void setKinematicLimits(KinematicLimits newLimits) {
@@ -571,7 +566,38 @@ public class SwerveDrive extends Subsystem {
 			}*/
 		}
 		
+		
+		updateModuleStates(wanted_speeds);//dc.1.18.25 carve out the code into private method to be reused 
+/* 		SwerveModuleState[] real_module_setpoints = SwerveConstants.kKinematics.toSwerveModuleStates(wanted_speeds);
+   		{
+			//TODO: debug code, TBR
+//			if (mCounter++ >50){
+//				mCounter =0;
+//				SmartDashboard.putString("updateSetPoint().wanted_speed (Omega, vx, vy)", 
+//						String.format("%.2f,%.2f,%.2f", wanted_speeds.omegaRadiansPerSecond, wanted_speeds.vxMetersPerSecond, wanted_speeds.vyMetersPerSecond));
+//
+//				for (int i = 0; i < mModules.length; i++) {
+//					SmartDashboard.putString("updateSetPoint().real_module_setpoints["+ i +"].angle", 
+//						String.format("%.2f",real_module_setpoints[i].angle.getDegrees()));
+//				}
+//			}
+			SmartDashboard.putNumber("updateSetPoint().wanted_speed.Omega)", wanted_speeds.omegaRadiansPerSecond);
+			SmartDashboard.putNumber("updateSetPoint().wanted_speed.vx)", wanted_speeds.vxMetersPerSecond);
+			SmartDashboard.putNumber("updateSetPoint().wanted_speed.vy)", wanted_speeds.vyMetersPerSecond);	
+		}
 
+		SwerveDriveKinematics.desaturateWheelSpeeds(real_module_setpoints, Constants.SwerveConstants.maxSpeed);
+
+		Twist2d pred_twist_vel= new Twist2d(wanted_speeds.vxMetersPerSecond,wanted_speeds.vyMetersPerSecond,wanted_speeds.omegaRadiansPerSecond);
+		mPeriodicIO.predicted_velocity =
+				Util.logMap(Util.expMap(pred_twist_vel).rotateBy(getHeading()));//dc modified original citrus code: Pose2d.log(Pose2d.exp(wanted_speeds.toTwist2d()).rotateBy(getHeading()));
+		mPeriodicIO.des_module_states = real_module_setpoints;
+*/
+	}
+
+	// actually convert robot-relative chassis speed into module states, which will be used by writePeriodicOutput() to drive the motors
+	private void updateModuleStates(ChassisSpeeds wanted_speeds )
+	{
 		SwerveModuleState[] real_module_setpoints = SwerveConstants.kKinematics.toSwerveModuleStates(wanted_speeds);
    		{
 			//TODO: debug code, TBR
@@ -697,7 +723,7 @@ public class SwerveDrive extends Subsystem {
 	}
 
 	public ChassisSpeeds getChassisS() {
-		return mPeriodicIO.des_chassis_speeds;
+		return Constants.SwerveConstants.kKinematics.toChassisSpeeds(getModuleStates());
 	}
 
 	public SwerveModuleState[] getModuleStates() {
