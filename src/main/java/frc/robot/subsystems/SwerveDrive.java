@@ -38,7 +38,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
-import frc.robot.lib.trajectory.PathPlannerTrajectoryIterator;
+//import frc.robot.lib.trajectory.PathPlannerTrajectoryIterator;
 import frc.robot.lib.trajectory.TrajectoryIterator;
 //TODO:import com.team254.lib.trajectory.TimedView;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -72,6 +72,7 @@ public class SwerveDrive extends Subsystem {
 	private DriveControlState mControlState = DriveControlState.FORCE_ORIENT;
 
 	private boolean odometryReset = false;
+	
 
 	private final DriveMotionPlanner mMotionPlanner;
 	private final SwerveHeadingController mHeadingController;
@@ -103,7 +104,7 @@ public class SwerveDrive extends Subsystem {
 		return mInstance;
 	}
 
-	private SwerveDrive() {
+	public SwerveDrive() {
 		mModules = new SwerveModule[] {
 			//TODO: code review to confirm the
 			new SwerveModule(0, Constants.Swerve.FrontLeftMod.constants, Cancoders.getInstance().getFrontLeft()),
@@ -120,6 +121,41 @@ public class SwerveDrive extends Subsystem {
 
 		SmartDashboard.putData("Field", m_field);
 	
+		RobotConfig config;
+		config = null;
+    try{
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+
+    // Configure AutoBuilder last
+    AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getChassisS, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> feedTeleopSetpoint(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            }
+            
+    );
+
+
 	}
 
 	private ChassisSpeeds getRobotRelativeSpeeds() {
@@ -311,7 +347,7 @@ public class SwerveDrive extends Subsystem {
 			mControlState = DriveControlState.PATH_FOLLOWING;
 		}
 	}
-
+/*
 	public synchronized void setTrajectory(PathPlannerTrajectoryIterator trajectory) {
 		if (mMotionPlanner != null) {
 			mOverrideTrajectory = false;
@@ -321,7 +357,7 @@ public class SwerveDrive extends Subsystem {
 		}
 		
 	}
-
+ */
 	/**
 	 * @param pid_enable Switches between using PID control or Pure Pursuit control to follow trajectories.
 	 */
@@ -658,6 +694,10 @@ public class SwerveDrive extends Subsystem {
 
 		Rotation2d rotation = mWheelTracker.getRobotPose().getRotation();
 		rotationPublisher.set(rotation);
+	}
+
+	public ChassisSpeeds getChassisS() {
+		return mPeriodicIO.des_chassis_speeds;
 	}
 
 	public SwerveModuleState[] getModuleStates() {
