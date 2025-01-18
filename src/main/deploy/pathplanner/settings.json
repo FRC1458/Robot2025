@@ -3,7 +3,10 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "CoralStationToReef",
+    "ReefToProcessor",
     "ProcessorToCoralStation",
+    "ReefToCoralStation",
     "Start1ToReef",
     "Start2ToReef",
     "Start3ToReef",
