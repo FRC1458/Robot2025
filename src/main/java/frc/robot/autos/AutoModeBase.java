@@ -32,6 +32,7 @@ public abstract class AutoModeBase {
 			routine();
 		} catch (AutoModeEndedException e) {
 			System.out.println("Auto mode done, ended early");
+			System.out.println(e);
 			return;
 		}
 

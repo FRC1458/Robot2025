@@ -145,7 +145,7 @@ public class DriveMotionPlanner {
     // update chassis speeds at the specified timestamp based on current Pose2d and Velocity
 	// return a robot-relative chassis_speeds
 	public ChassisSpeeds update(double timestamp, Pose2d current_pose, Translation2d current_velocity) {
-		if (mCurrentTrajectory == null) return null;
+		if (mCurrentPathPlannerTrajectory == null) return null;
 		if (!Double.isFinite(mLastTime)) mLastTime = timestamp;
 		mDt = timestamp - mLastTime;
 		mLastTime = timestamp;
@@ -163,7 +163,7 @@ public class DriveMotionPlanner {
 			pid_error = current_pose.log(mSetpoint.poseMeters);//* calculate the Twist2d delta/error between actual pose and the desired pose.  citrus original code is //Pose2d.log(mError);			
 //dc.10.21.2024			mErrorTracker.addObservation(mError);
 			if (mFollowerType == FollowerType.FEEDFORWARD_ONLY) {
-				sample_point = mCurrentTrajectory.advance(mDt);
+				sample_point = mCurrentPathPlannerTrajectory.advance(mDt);
 				// RobotState.getInstance().setDisplaySetpointPose(Pose2d.fromTranslation(RobotState.getInstance().getFieldToOdom(timestamp)).transformBy(sample_point.state().state().getPose()));
 				mSetpoint = sample_point;
 
@@ -185,12 +185,12 @@ public class DriveMotionPlanner {
 						// Need unit conversion because Pose2dWithMotion heading rate is per unit distance.
 						velocity_m * mSetpoint.curvatureRadPerMeter); //state().getHeadingRate());
 			} else if (mFollowerType == FollowerType.RAMSETE) {
-				sample_point = mCurrentTrajectory.advance(mDt);
+				sample_point = mCurrentPathPlannerTrajectory.advance(mDt);
 				// RobotState.getInstance().setDisplaySetpointPose(Pose2d.fromTranslation(RobotState.getInstance().getFieldToOdom(timestamp)).transformBy(sample_point.state().state().getPose()));
 				mSetpoint = sample_point;
 				// mOutput = updateRamsete(sample_point.state(), current_pose, current_velocity);
 			} else if (mFollowerType == FollowerType.PID) {
-				sample_point = mCurrentTrajectory.advance(mDt);
+				sample_point = mCurrentPathPlannerTrajectory.advance(mDt);
 				// RobotState.getInstance().setDisplaySetpointPose(Pose2d.fromTranslation(RobotState.getInstance().getFieldToOdom(timestamp)).transformBy(sample_point.state().state().getPose()));
 				mSetpoint = sample_point;
 
@@ -233,13 +233,15 @@ public class DriveMotionPlanner {
 				}
 				SmartDashboard.putNumber("PurePursuit/PreviewQuantity(s)", previewQuantity);
 				
-				sample_point = mCurrentTrajectory.advance(previewQuantity);
+				sample_point = mCurrentPathPlannerTrajectory.advance(previewQuantity);
 				// RobotState.getInstance().setDisplaySetpointPose(Pose2d.fromTranslation(RobotState.getInstance().getFieldToOdom(timestamp)).transformBy(sample_point.state().state().getPose()));
 				mSetpoint = sample_point;
+				//!
+				//System.out.println(sample_point.curvatureRadPerMeter * sample_point.velocityMetersPerSecond);
 				mOutput = updatePurePursuit(current_pose, 0.0);
 			}
 		} else {
-			if (mCurrentTrajectory.getLastPoint().velocityMetersPerSecond == 0.0) {
+			if (mCurrentPathPlannerTrajectory.getLastPoint().velocityMetersPerSecond == 0.0) {
 				mOutput = new ChassisSpeeds();
 			}
 		}
@@ -272,7 +274,7 @@ public class DriveMotionPlanner {
 	protected ChassisSpeeds updatePurePursuit(Pose2d current_pose, double feedforwardOmegaRadiansPerSecond) {
 		double lookahead_time = kPathLookaheadTime;
 		final double kLookaheadSearchDt = 0.01;
-		Trajectory.State lookahead_state = mCurrentTrajectory.preview(lookahead_time);
+		Trajectory.State lookahead_state = mCurrentPathPlannerTrajectory.preview(lookahead_time);
 		double actual_lookahead_distance = distance(mSetpoint.poseMeters, lookahead_state.poseMeters);
 		double adaptive_lookahead_distance = mSpeedLookahead.getLookaheadForSpeed(mSetpoint.velocityMetersPerSecond);
 				//+ kAdaptiveErrorLookaheadCoefficient * mError.getTranslation().getNorm(); //TODO: TB restored, dc.12.7.24, turn off mError compensation
@@ -282,15 +284,16 @@ public class DriveMotionPlanner {
 		
 		// Find the Point on the Trajectory that is Lookahead Distance Away
 		while (actual_lookahead_distance < adaptive_lookahead_distance
-				&& mCurrentTrajectory.getRemainingProgress() > lookahead_time) {
+				&& mCurrentPathPlannerTrajectory.getRemainingProgress() > lookahead_time) {
 			lookahead_time += kLookaheadSearchDt;	//+10ms
-			lookahead_state = mCurrentTrajectory.preview(lookahead_time);
+			lookahead_state = mCurrentPathPlannerTrajectory.preview(lookahead_time);
 			actual_lookahead_distance = distance(mSetpoint.poseMeters, lookahead_state.poseMeters);
 		}
 
 		// If the Lookahead Point's Distance is less than the Lookahead Distance transform it so it is the lookahead
 		// distance away
 		if (actual_lookahead_distance < adaptive_lookahead_distance) {
+			
 			Transform2d transform = new Transform2d(
 					new Translation2d((mIsReversed ? -1.0 : 1.0)* (kPathMinLookaheadDistance - actual_lookahead_distance),0.0), 
 					new Rotation2d());
@@ -300,6 +303,7 @@ public class DriveMotionPlanner {
 					lookahead_state.accelerationMetersPerSecondSq, 
 					lookahead_state.poseMeters.transformBy(transform),
 					lookahead_state.curvatureRadPerMeter);
+			
 			System.out.println("PurePursuit().lookahead_distance actual < adaptive happened at lookahead_state.timeSeconds=" + lookahead_state.timeSeconds);
 
 		}
@@ -307,11 +311,11 @@ public class DriveMotionPlanner {
 		SmartDashboard.putNumber("PurePursuit/AdaptiveLookahead(m)", adaptive_lookahead_distance);
 //		LogUtil.recordPose2d(
 //				"PurePursuit/LookaheadState", lookahead_state.state().getPose());
-		SmartDashboard.putNumber("PurePursuit/RemainingProgress(s)", mCurrentTrajectory.getRemainingProgress());
+		SmartDashboard.putNumber("PurePursuit/RemainingProgress(s)", mCurrentPathPlannerTrajectory.getRemainingProgress());
 		SmartDashboard.putNumber("PurePursuit/PathVelocity(m/s)", lookahead_state.velocityMetersPerSecond);
 
 		if (lookahead_state.velocityMetersPerSecond == 0.0) {
-			mCurrentTrajectory.advance(Double.POSITIVE_INFINITY); //advance to the end of Trajectory
+			mCurrentPathPlannerTrajectory.advance(Double.POSITIVE_INFINITY); //advance to the end of Trajectory
 			return new ChassisSpeeds();
 		}
 
@@ -379,7 +383,7 @@ public class DriveMotionPlanner {
 
 	//dc.10.24.24, calculate the curve distance to travel measured by robot's odometry
 	private double distance(Pose2d current_pose, double additional_progress) {
-		Trajectory.State previewState = mCurrentTrajectory.preview(additional_progress);
+		Trajectory.State previewState = mCurrentPathPlannerTrajectory.preview(additional_progress);
 		return distance(previewState.poseMeters, current_pose);
 	}
 

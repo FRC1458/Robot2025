@@ -32,7 +32,7 @@ public class PathPlannerTrajectoryIterator {
         progress_ = Math.max(0.0, Math.min(mCurrentPathPlannerTrajectory.getTotalTimeSeconds(), progress_ + additional_progress));
         current_PathPlannerSample_ = mCurrentPathPlannerTrajectory.sample(progress_);
         current_sample_ = fromPathPlannerTrajectoryState(current_PathPlannerSample_,prev_PathPlannerSample_);
-        System.out.println("advance");
+        //System.out.println("advance" + additional_progress);
         return current_sample_;
     }
 
@@ -41,7 +41,7 @@ public class PathPlannerTrajectoryIterator {
         final double progress = Math.max(0.0, Math.min(mCurrentPathPlannerTrajectory.getTotalTimeSeconds(), progress_ + additional_progress));
         PathPlannerTrajectoryState future_PathPlannerSample_ = mCurrentPathPlannerTrajectory.sample(progress);
         Trajectory.State future_sample_ = fromPathPlannerTrajectoryState(future_PathPlannerSample_,oneBefore(future_PathPlannerSample_,progress));
-        System.out.println("preview");
+        //System.out.println("preview");
         return future_sample_;
     }
 
@@ -61,7 +61,7 @@ public class PathPlannerTrajectoryIterator {
         List<PathPlannerTrajectoryState> stateList = mCurrentPathPlannerTrajectory.getStates();
         PathPlannerTrajectoryState lastSample = stateList.get(stateList.size()-1);
         Trajectory.State lastPathPlannerSample = fromPathPlannerTrajectoryState(lastSample,oneBefore(lastSample,lastSample.timeSeconds));
-        System.out.println("lastpoint");
+        //System.out.println("lastpoint");
         return lastPathPlannerSample;
     }
 
@@ -70,7 +70,7 @@ public class PathPlannerTrajectoryIterator {
 
     //get the current state
     public Trajectory.State getState(){
-        System.out.println("getstate");
+        //System.out.println("getstate");
         return fromPathPlannerTrajectoryState(current_PathPlannerSample_,prev_PathPlannerSample_);
     }
     public Trajectory.State fromPathPlannerTrajectoryState(PathPlannerTrajectoryState first, PathPlannerTrajectoryState second) {
@@ -95,6 +95,7 @@ public class PathPlannerTrajectoryIterator {
         int index = low;
         double deltaTime = state.timeSeconds - stateList.get(index).timeSeconds;
         PathPlannerTrajectoryState oneBefore = mCurrentPathPlannerTrajectory.sample(stateList.get(index - 1).timeSeconds + deltaTime);//basically, just 1 sample behind future pathplanner sample
+        //System.out.println(state.timeSeconds+","+oneBefore.timeSeconds);
         return oneBefore;
     }
 }
