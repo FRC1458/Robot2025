@@ -37,6 +37,9 @@ import frc.robot.lib.trajectory.TrajectoryIterator;
 //TODO:import com.team254.lib.trajectory.TimedView;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
@@ -46,6 +49,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class SwerveDrive extends Subsystem {
 	public enum DriveControlState {
@@ -112,6 +116,20 @@ public class SwerveDrive extends Subsystem {
 		mWheelTracker = new WheelTracker(mModules);
 
 		SmartDashboard.putData("Field", m_field);
+
+		// Create the trajectory to follow in autonomous.
+        Trajectory trajectory =
+			TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+				// Pass through these two interior waypoints, making an 's' curve path
+				List.of(new Translation2d(1, 1), new Translation2d(2, 1)),
+				// End 3 meters straight ahead of where we started, facing forward
+				new Pose2d(3, 0, new Rotation2d(0)),
+				new TrajectoryConfig(Units.feetToMeters(0.5), Units.feetToMeters(0.5)));
+
+        // Push the trajectory to Field2d.
+        m_field.getObject("traj").setTrajectory(trajectory);
 	}
 
 	public void setKinematicLimits(KinematicLimits newLimits) {
@@ -507,24 +525,24 @@ public class SwerveDrive extends Subsystem {
 				NetworkTableInstance.getDefault().getEntry("/Telemetry/ChassisAccel/omegaRPSS").setDouble(domega * min_omega_scalar);
 			}*/
 		}
-		
+
 
 		SwerveModuleState[] real_module_setpoints = SwerveConstants.kKinematics.toSwerveModuleStates(wanted_speeds);
    		{
 			//TODO: debug code, TBR
 //			if (mCounter++ >50){
 //				mCounter =0;
-//				SmartDashboard.putString("updateSetPoint().wanted_speed (Omega, vx, vy)", 
+//				SmartDashboard.putString("updateSetPoint().wanted_speed (Omega, vx, vy)",
 //						String.format("%.2f,%.2f,%.2f", wanted_speeds.omegaRadiansPerSecond, wanted_speeds.vxMetersPerSecond, wanted_speeds.vyMetersPerSecond));
 //
 //				for (int i = 0; i < mModules.length; i++) {
-//					SmartDashboard.putString("updateSetPoint().real_module_setpoints["+ i +"].angle", 
+//					SmartDashboard.putString("updateSetPoint().real_module_setpoints["+ i +"].angle",
 //						String.format("%.2f",real_module_setpoints[i].angle.getDegrees()));
 //				}
 //			}
 			SmartDashboard.putNumber("updateSetPoint().wanted_speed.Omega)", wanted_speeds.omegaRadiansPerSecond);
 			SmartDashboard.putNumber("updateSetPoint().wanted_speed.vx)", wanted_speeds.vxMetersPerSecond);
-			SmartDashboard.putNumber("updateSetPoint().wanted_speed.vy)", wanted_speeds.vyMetersPerSecond);	
+			SmartDashboard.putNumber("updateSetPoint().wanted_speed.vy)", wanted_speeds.vyMetersPerSecond);
 		}
 
 		SwerveDriveKinematics.desaturateWheelSpeeds(real_module_setpoints, Constants.SwerveConstants.maxSpeed);
@@ -631,6 +649,14 @@ public class SwerveDrive extends Subsystem {
 
 		Rotation2d rotation = mWheelTracker.getRobotPose().getRotation();
 		rotationPublisher.set(rotation);
+	}
+
+	// /* Used by SwerveControllerCommand in Auto */
+	public void setModuleStates(SwerveModuleState[] desiredStates) {
+		// SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+		mPeriodicIO.des_module_states = desiredStates;
+		mControlState = DriveControlState.PATH_FOLLOWING;
+		writePeriodicOutputs();
 	}
 
 	public SwerveModuleState[] getModuleStates() {

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Loops.Looper;
+import frc.robot.autos.Auto;
 import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
@@ -149,10 +150,10 @@ public class RobotContainer25 {
     // init manual (teleop) mode
     public void initAutoMode (){
         try {
-//          RobotState.getInstance().setIsInAuto(false);
+            // RobotState.getInstance().setIsInAuto(false);
             switchOnLooper(m_EnabledLooper, m_DisabledLooper);
             
-            m_AutoModeExecutor.start();
+            // m_AutoModeExecutor.start();
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
 			throw t;
@@ -239,9 +240,9 @@ public class RobotContainer25 {
 
     }
 
-    //dummy methods for now.
     public Command getAutonomousCommand() {
-        return null;
+        // An ExampleCommand will run in autonomous
+        return new Auto(m_SwerveDrive);
     }
     public void updateLimeLightData() {
     }
