@@ -21,6 +21,7 @@ import java.io.IOException;
 
 public class TrajectoryGenerator {
     
+    public RobotConfig config;
     //the trajectories used in auto mode
     private TrajectorySet mTrajectorySet = null;
     /*
@@ -94,6 +95,13 @@ public class TrajectoryGenerator {
     public TrajectoryGenerator (){
         //dc.to be implemented
         //TODO: finish trajectory generator constructor
+        try{
+        config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+        // Handle exception as needed
+        System.out.println("whyyyyyyy");
+        e.printStackTrace();
+        }
     }
 
     //actually create the trajectory object
