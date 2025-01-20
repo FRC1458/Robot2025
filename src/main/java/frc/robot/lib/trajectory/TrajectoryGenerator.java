@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import com.pathplanner.lib.util.FileVersionException;
@@ -91,18 +92,6 @@ public class TrajectoryGenerator {
 		return mInstance;
 	}
 
-    //constructor code
-    public TrajectoryGenerator (){
-        //dc.to be implemented
-        //TODO: finish trajectory generator constructor
-        try{
-        config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-        // Handle exception as needed
-        System.out.println("whyyyyyyy");
-        e.printStackTrace();
-        }
-    }
 
     //actually create the trajectory object
     public void generateTrajectories (){
