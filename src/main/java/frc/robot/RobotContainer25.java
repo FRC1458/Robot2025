@@ -20,6 +20,7 @@ import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 import frc.robot.subsystems.Cancoders;
 import frc.robot.subsystems.DummySubsystem;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Timer;
@@ -54,6 +55,7 @@ public class RobotContainer25 {
     public final SubsystemManager m_SubsystemManager = SubsystemManager.getInstance();
     /* Subsystems instance */
     private DummySubsystem m_ExampleSubsystem;
+    private Elevator m_Elevator;
     private SwerveDrive m_SwerveDrive;
     private Cancoders m_Cancoders;
     
@@ -68,6 +70,7 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
+            m_Elevator = Elevator.getInstance(0,1,new XboxController(0));
 
             // init cancoders
             if (Robot.isReal()) {
@@ -88,7 +91,8 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
-                m_ExampleSubsystem
+                m_ExampleSubsystem,
+                m_Elevator
                 //Insert instances of additional subsystems here
             );
             //register subsystems to loopers
