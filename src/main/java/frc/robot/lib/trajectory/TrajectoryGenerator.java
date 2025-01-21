@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import com.pathplanner.lib.util.FileVersionException;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 public class TrajectoryGenerator {
     
+    public RobotConfig config;
     //the trajectories used in auto mode
     private TrajectorySet mTrajectorySet = null;
     /*
@@ -90,11 +92,6 @@ public class TrajectoryGenerator {
 		return mInstance;
 	}
 
-    //constructor code
-    public TrajectoryGenerator (){
-        //dc.to be implemented
-        //TODO: finish trajectory generator constructor
-    }
 
     //actually create the trajectory object
     public void generateTrajectories (){

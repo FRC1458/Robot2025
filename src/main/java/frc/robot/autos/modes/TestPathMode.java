@@ -4,6 +4,7 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 
 import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeEndedException;
+import frc.robot.autos.actions.PathPlannerTrajectoryAction;
 import frc.robot.autos.actions.SwerveTrajectoryAction;
 import frc.robot.autos.actions.WaitAction;
 import frc.robot.autos.actions.SwerveTrajectoryAction.ResetWheelTracker;
