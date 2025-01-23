@@ -227,6 +227,7 @@ public class DriveMotionPlanner {
 				mSetpoint = sample_point;
 				//3.calculate chassis speed for next movement via pure pursuit algo, 
 				mOutput = updatePurePursuit(current_pose, mCurrentTrajectory.current_chassis_speeds.omegaRadiansPerSecond);
+				System.out.println(mCurrentTrajectory.current_chassis_speeds.omegaRadiansPerSecond);
 			}
 		} else {
 			if (mCurrentTrajectory.getLastPoint().velocityMetersPerSecond == 0.0) {
