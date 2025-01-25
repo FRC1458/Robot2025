@@ -413,6 +413,11 @@ public final class Constants {
             return config;
         }
       }
+
+      public static class LED {
+        public final static int ledStart = 18;
+        public final static int ledLength = 120;
+      }
     
     /* dc.10.21.2024 extra constants needed during porting of citrus SwerveModule.java code */
 

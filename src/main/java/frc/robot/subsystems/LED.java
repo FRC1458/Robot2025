@@ -1,47 +1,110 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-public class LED extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public LED() {}
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
+public class LED {
+    private AddressableLED led;
+    private AddressableLEDBuffer ledBuffer;
+    private int count;
+    private long timer;
+    
+    public LED() {
+        led = new AddressableLED(1);
+        ledBuffer = new AddressableLEDBuffer(Constants.LED.ledLength);
+        count = 100; //arbritrary positive number
+        timer = System.currentTimeMillis();
+        led.setLength(ledBuffer.getLength());
+        led.setData(ledBuffer);
+        led.start();
+    }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
+    public void rainbowPulse() {
+        for(int i = Constants.LED.ledStart; i < 53; i++) {
+            ledBuffer.setHSV(i, (53 + count - i) % 180 , 255, 255);
+          }
+          for(int i = 53; i < 106; i++) {
+            ledBuffer.setHSV(i, (count + i - 53) % 180 , 255, 255);
+          }
+          count++;
+          led.setData(ledBuffer);
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public void ChristmasStream() {
+        int red = 0, green = 0,blue = 0;
+        for(int i = Constants.LED.ledStart; i < 106; i++) {
+            if(i % 53 < 26) {
+                red = 255;
+                green = 0;
+                blue = 0;
+            }
+            else {
+                red = 0;
+                green = 255;
+                blue = 0;
+            }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
+            if(timer < System.currentTimeMillis()) {
+                timer = System.currentTimeMillis() + 100;
+                count++;
+            }
+            ledBuffer.setRGB((i + count) % 108, red, green ,blue);
+        }
+          led.setData(ledBuffer);
+    }
+
+
+    public void random() {
+        setSolidColor((int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100);
+    }
+    
+    public void yellow() {
+        setSolidColor(255, 255, 0);
+    }
+
+    public void red() {
+        setSolidColor(255, 0, 0);
+    }
+
+    public void pink() {
+        setSolidColor(200, 50, 50);
+    }
+
+    public void white() {
+        setSolidColor(255, 255, 255);
+    }
+
+    public void orange() {
+        setSolidColor(255, 50, 0);
+    }
+
+    public void green() {
+        setSolidColor(0, 255, 0);
+    }
+
+    public void lightBlue() {
+        setSolidColor(0, 255, 255);
+    }
+
+    public void blue() {
+        setSolidColor(0, 0, 255);
+    }
+
+    public void purple() {
+        setSolidColor(255,0, 255);
+    }
+
+    public void setSolidColor(int r, int g, int b) {
+        for(int i = Constants.LED.ledStart; i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, r, g, b);
+        }
+        led.setData(ledBuffer);
+    }
+
+    
 }
+
+ 
