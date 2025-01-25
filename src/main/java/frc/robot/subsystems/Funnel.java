@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 import frc.robot.Loops.ILooper;
 
+import java.util.Queue;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -21,7 +23,41 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * state; the robot code will try to match the two states with actions. Each Subsystem also is responsible for
  * instantializing all member components at the start of the match.
  */
+
 public class Funnel extends Subsystem {
+
+	private static Funnel mInstance;
+
+	private Boolean isExtended;
+
+	public static Funnel getInstance() {
+		if (mInstance == null) {
+		  mInstance = new Funnel();
+		}
+		return mInstance;
+	  }
+
+	private TalonFX mFunnelPivotMotor;
+
+	private Funnel() {
+		
+        mFunnelPivotMotor = new TalonFX(Constants.Elevator.kElevatorLeftMotorId);
+		mFunnelPivotMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
+
+	public void retractFunnel(){
+		mFunnelPivotMotor.set(0.05);
+	}
+
+	public void extendFunnel(){
+		mFunnelPivotMotor.set(-0.05);
+	}
+
+	private void pivotFunnel() {
+		
+	}
+
+
 	public void writeToLog() {}
 
 	// Optional design pattern for caching periodic reads to avoid hammering the HAL/CAN.
