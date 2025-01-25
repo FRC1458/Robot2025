@@ -413,6 +413,10 @@ public class SwerveDrive extends Subsystem {
 	private void updateSetpoint() {
 		if (mControlState == DriveControlState.FORCE_ORIENT) return;
 
+		SmartDashboard.putNumber("Drive/ChassisSpeeds.vx", mPeriodicIO.des_chassis_speeds.vxMetersPerSecond);
+		SmartDashboard.putNumber("Drive/ChassisSpeeds.vy", mPeriodicIO.des_chassis_speeds.vyMetersPerSecond);
+		SmartDashboard.putNumber("Drive/ChassisSpeeds.omega", mPeriodicIO.des_chassis_speeds.omegaRadiansPerSecond);
+		
 		Pose2d robot_pose_vel = new Pose2d(
 				mPeriodicIO.des_chassis_speeds.vxMetersPerSecond * Constants.kLooperDt * 4.0,
 				mPeriodicIO.des_chassis_speeds.vyMetersPerSecond * Constants.kLooperDt * 4.0,
@@ -672,6 +676,11 @@ public class SwerveDrive extends Subsystem {
 		odometryReset = true;
 		Pose2d wanted_pose = pose;
 		mWheelTracker.resetPose(wanted_pose);
+		//dc.1.24.2025, bugfix, force update odometry after resetPose for WheelTracker. 
+		// Otherwise, RobotState will NOT be updated until next cycle (20ms later, at OnLoop()).. 
+		// Therefore, immediate call to getPose() will return pose before reset. 
+		// Wield behavior are found for SwerveTrajectoryAction() in SIM mode
+		RobotState.getInstance().addOdometryUpdate(Timer.getFPGATimestamp(),new InterpolatingPose2d(mWheelTracker.getRobotPose()),mPeriodicIO.measured_velocity,mPeriodicIO.predicted_velocity);
 	}
 /*
 //dc.zeroReference

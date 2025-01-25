@@ -20,6 +20,7 @@ import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 import frc.robot.subsystems.Cancoders;
 import frc.robot.subsystems.DummySubsystem;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Timer;
@@ -40,6 +41,8 @@ public class RobotContainer25 {
 
     /* Controllers */
     private final Joystick m_JoyStick = new Joystick(0);
+
+    private final XboxController xboxController = new XboxController(0);
     /* button key-value */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -55,6 +58,7 @@ public class RobotContainer25 {
     /* Subsystems instance */
     private DummySubsystem m_ExampleSubsystem;
     private SwerveDrive m_SwerveDrive;
+    private Elevator m_Elevator;
     private Cancoders m_Cancoders;
     
     public AutoModeExecutor m_AutoModeExecutor;
@@ -68,6 +72,7 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
+            m_Elevator = Elevator.getInstance();
 
             // init cancoders
             if (Robot.isReal()) {
@@ -88,6 +93,7 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
+                m_Elevator,
                 m_ExampleSubsystem
                 //Insert instances of additional subsystems here
             );
@@ -149,18 +155,18 @@ public class RobotContainer25 {
     // init manual (teleop) mode
     public void initAutoMode (){
         try {
-            m_AutoModeSelector.reset();
-            m_AutoModeSelector.updateModeCreator(false);
+            RobotState.getInstance().setIsInAuto(false);//let robot state apply stricter vision filtering
+            switchOnLooper(m_EnabledLooper, m_DisabledLooper);
+            //select the auto_mode
+//            m_AutoModeSelector.reset();
+//            m_AutoModeSelector.updateModeCreator(false);
             Optional<AutoModeBase> autoMode = m_AutoModeSelector.getAutoMode();
-
-            m_AutoModeExecutor = new AutoModeExecutor();
             if (autoMode.isPresent() && (autoMode.get() != m_AutoModeExecutor.getAutoMode())) {
                 m_AutoModeExecutor.setAutoMode(autoMode.get());
+            }else{
+                System.out.println("initAutoMode: auto-mode is NOT selected");
             }
-//          RobotState.getInstance().setIsInAuto(false);
-            switchOnLooper(m_EnabledLooper, m_DisabledLooper);
-            
-            m_AutoModeExecutor.start();
+            m_AutoModeExecutor.start();            
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
 			throw t;
@@ -170,15 +176,22 @@ public class RobotContainer25 {
 
     // init manual (teleop) mode
     public void initDisabledMode (){
-        if (m_AutoModeExecutor != null) {
-			m_AutoModeExecutor.stop();
-		}
+        //turn off the "EnabledLooper" and turn on the "DisabledLooper"
         try {
             switchOnLooper(m_DisabledLooper, m_EnabledLooper);
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
 			throw t;
+		}        
+        //stop current autoMode executor if there is one active
+        if (m_AutoModeExecutor != null) {
+			m_AutoModeExecutor.stop();
 		}
+        //reset all auto mode state
+		m_AutoModeSelector.reset();
+		m_AutoModeSelector.updateModeCreator(false);
+		m_AutoModeExecutor = new AutoModeExecutor();
+        //limelight set pipleline code goes here. 
     }
 
     // init manual (teleop) mode
@@ -188,7 +201,7 @@ public class RobotContainer25 {
             if (m_AutoModeExecutor != null) {
 			    m_AutoModeExecutor.stop();
 		    }
-            testChassisSpeedConvert();
+//            testChassisSpeedConvert();
             //CrashTracker.logTest("Testing crashtracker - if you see this it works");
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
@@ -235,6 +248,12 @@ public class RobotContainer25 {
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
+                if(xboxController.getYButtonPressed()) {
+                    m_Elevator.incTarget();
+                }
+                if(xboxController.getAButtonPressed()) {
+                    m_Elevator.decTarget();
+                }
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
@@ -248,7 +267,7 @@ public class RobotContainer25 {
 		}
 
     }
-
+/* 
     public void testChassisSpeedConvert (){
         double tV= 2;
         double sV=0.0;//1;
@@ -258,7 +277,7 @@ public class RobotContainer25 {
         System.out.println("DC: testChassisSpeedConvert robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
         System.out.println("DC: testChassisSpeedConvert swerveHeading: heading=" + m_SwerveDrive.getHeading() + ", field=" + sV + ", rVal=" + rV);
     }
-
+*/
     //dummy methods for now.
     public Command getAutonomousCommand() {
         return null;
