@@ -13,7 +13,7 @@ public class LED {
     private long timer;
     
     public LED() {
-        led = new AddressableLED(1);
+        led = new AddressableLED(8);
         ledBuffer = new AddressableLEDBuffer(Constants.LED.ledLength);
         count = 100; //arbritrary positive number
         timer = System.currentTimeMillis();
@@ -24,13 +24,13 @@ public class LED {
 
     public void rainbowPulse() {
         for(int i = Constants.LED.ledStart; i < 53; i++) {
-            ledBuffer.setHSV(i, (53 + count - i) % 180 , 255, 255);
-          }
-          for(int i = 53; i < 106; i++) {
-            ledBuffer.setHSV(i, (count + i - 53) % 180 , 255, 255);
-          }
-          count++;
-          led.setData(ledBuffer);
+          ledBuffer.setHSV(i, (53 + count - i) % 180 , 255, 255);
+        }
+        for(int i = 53; i < 106; i++) {
+          ledBuffer.setHSV(i, (count + i - 53) % 180 , 255, 255);
+        }
+        count++;
+        led.setData(ledBuffer);
     }
 
     public void ChristmasStream() {
