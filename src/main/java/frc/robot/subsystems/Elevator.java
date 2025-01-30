@@ -115,10 +115,10 @@ public class Elevator extends Subsystem {
 	public void setTargetLevel(int target) {
 		mPeriodicIO.targetState = target;
 		if (mPeriodicIO.targetState > 4) {
-			mPeriodicIO.targetState = 0;
+			mPeriodicIO.targetState = 4;
 		}
 		if (mPeriodicIO.targetState < 0) {
-			mPeriodicIO.targetState = 4;
+			mPeriodicIO.targetState = 0;
 		}
 	}
 
@@ -137,7 +137,10 @@ public class Elevator extends Subsystem {
 	public boolean goToTarget() {
 		updateLocation();
 
-		if (mPeriodicIO.targetState > 4 || mPeriodicIO.targetState < 0) {
+		if (mPeriodicIO.targetState > 4) {
+			mPeriodicIO.targetState = 4;
+		}
+		if (mPeriodicIO.targetState < 0) {
 			mPeriodicIO.targetState = 0;
 		}
 

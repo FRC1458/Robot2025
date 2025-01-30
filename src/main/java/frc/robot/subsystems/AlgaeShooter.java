@@ -65,14 +65,14 @@ public class AlgaeShooter extends Subsystem {
 				switch (mPeriodicIO.state) {
 					case INTAKE:
 						if (checkIntakeSensor()) {
-							spinIn();
+							intake();
 						} else {
 							stop();
 						}
 						break;
 					case SHOOT:
 						if (checkShootSensor()) {
-							spinOut();
+							shoot();
 						} else {
 							stop();
 						}
@@ -112,10 +112,12 @@ public class AlgaeShooter extends Subsystem {
 	/*---------------------------------- Custom Public Functions ----------------------------------*/
 
 	public void intake() {
+		mPeriodicIO.speed = -Constants.AlgaeShooter.kAlgaeShooterSpeed;
 		mPeriodicIO.state = AlgaeShooterState.INTAKE;
 	}
 
 	public void shoot() {
+		mPeriodicIO.speed = Constants.AlgaeShooter.kAlgaeShooterSpeed;
 		mPeriodicIO.state = AlgaeShooterState.SHOOT;
 	}
 
@@ -139,14 +141,6 @@ public class AlgaeShooter extends Subsystem {
 		}
 	}
 	/*---------------------------------- Custom Private Functions ---------------------------------*/
-
-	public void spinOut() {
-		mPeriodicIO.speed = Constants.AlgaeShooter.kAlgaeShooterSpeed;
-	}
-
-    public void spinIn() {
-        mPeriodicIO.speed = -Constants.AlgaeShooter.kAlgaeShooterSpeed;
-    }
 	
 	@Override
 	public void stop() {

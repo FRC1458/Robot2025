@@ -20,7 +20,7 @@ public class TeleopActionExecutor {
 
 	public static TeleopActionExecutor getInstance() {
 		if (mInstance == null) {
-		mInstance = new TeleopActionExecutor();
+			mInstance = new TeleopActionExecutor();
 		}
 		return mInstance;
 	}

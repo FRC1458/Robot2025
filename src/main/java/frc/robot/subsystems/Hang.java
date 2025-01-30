@@ -93,17 +93,21 @@ public class Hang extends Subsystem {
     }*/
 
     public void hang() {
-        mPeriodicIO.speed = Constants.Hang.kHangSpeed;
-        mPeriodicIO.state = HangState.HANG;
+        if (Cancoders.getInstance().getHangSensor().getPosition().getValueAsDouble() < Constants.Hang.kHangCancoderMinDistance) {
+            mPeriodicIO.speed = Constants.Hang.kHangSpeed;
+            mPeriodicIO.state = HangState.HANG;
+        } else {
+            hold();
+        }
     }
 
     public void unhang() {
-        mPeriodicIO.speed = -Constants.Hang.kHangSpeed;
-        mPeriodicIO.state = HangState.UNHANG;
-    }
-
-    public void stopHanger() {
-        mPeriodicIO.state = HangState.STOP;
+        if (Cancoders.getInstance().getHangSensor().getPosition().getValueAsDouble() < Constants.Hang.kHangCancoderMaxDistance) {
+            mPeriodicIO.speed = -Constants.Hang.kHangSpeed;
+            mPeriodicIO.state = HangState.UNHANG;
+        } else {
+            stop();
+        }
     }
 
     public void stop() {

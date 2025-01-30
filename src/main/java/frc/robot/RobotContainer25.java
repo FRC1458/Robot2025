@@ -19,6 +19,7 @@ import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.SwerveDrive.PeriodicIO;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
@@ -237,19 +238,40 @@ public class RobotContainer25 {
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
-                if(xboxController.getYButtonPressed()) {
+                /*if(xboxController.getYButtonPressed()) {
                     m_Elevator.runElevator(0.1);
                 }
                 if(xboxController.getAButtonPressed()) {
                     m_Elevator.runElevator(-0.1);
+                }*/
+                if (xboxController.getYButtonPressed()) {
+                    m_Elevator.incTarget();
+                    m_Elevator.goToTarget();
                 }
-
+                if (xboxController.getAButtonPressed()) {
+                    m_Elevator.decTarget();
+                    m_Elevator.goToTarget();
+                }
                 if(xboxController.getYButton()) {
                     m_Shooter.spin();                   
-                }
-                else{
+                } else {
                     m_Shooter.stop();
                 }
+                if (xboxController.getLeftTriggerAxis() > 0.7) {
+                        m_Hang.hang();
+                } else if (xboxController.getLeftBumper()) {
+                    m_Hang.unhang();
+                } else {
+                    m_Hang.stop();
+                }
+                if (xboxController.getRightBumper()) {
+                    m_AlgaeShooter.shoot();
+                } else if (xboxController.getRightTriggerAxis() > 0.7) {
+                    m_AlgaeShooter.intake();
+                } else {
+                    m_AlgaeShooter.stop();
+                }
+
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));

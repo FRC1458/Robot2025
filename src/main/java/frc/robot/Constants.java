@@ -383,6 +383,8 @@ public final class Constants {
         public static final int kHangMotorId = 200;
         public static final double kHangSpeed = 0.05;
         public static final double kHoldSpeed = 0.02;
+        public static final double kHangCancoderMaxDistance = 0.01;
+        public static final double kHangCancoderMinDistance = 0.25;
     }
     
 
