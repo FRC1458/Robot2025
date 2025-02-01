@@ -69,7 +69,7 @@ public class LED {
         }
     }
 
-    public void alternatingFlash(int h1, int h2, int delay) {
+    public void alternatingFlash(int h1, int h2, int delay) { // delay in milliseconds
         for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
             if ((i % 2 == 0) == even) {
                 ledBuffer.setHSV(i,h1,255,255);
@@ -77,7 +77,7 @@ public class LED {
                 ledBuffer.setHSV(i,h2,255,255);
             }
             if(timer < System.currentTimeMillis()) {
-                timer = System.currentTimeMillis() + 250;
+                timer = System.currentTimeMillis() + delay;
                 even = !even;
             }
         }
