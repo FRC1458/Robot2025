@@ -40,18 +40,18 @@ public class LED {
         led.setData(ledBuffer);
     }
 
-    public void ChristmasStream() {
+    public void Steam(int red1, int green1, int blue1, int red2, int green2, int blue2) {
         int red = 0, green = 0,blue = 0;
         for(int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
             if(i % 53 < 26) {
-                red = 255;
-                green = 0;
-                blue = 0;
+                red = red1;
+                green = green1;
+                blue = blue1;
             }
             else {
-                red = 0;
-                green = 255;
-                blue = 0;
+                red = red2;
+                green = green2;
+                blue = blue2;
             }
 
             if(timer < System.currentTimeMillis()) {
@@ -70,6 +70,7 @@ public class LED {
             }
             timer = System.currentTimeMillis()+50;
         }
+        led.setData(ledBuffer);
     }
 
     public void alternatingFlash(int h1, int h2, int delay) { // delay in milliseconds
@@ -84,6 +85,7 @@ public class LED {
                 even = !even;
             }
         }
+        led.setData(ledBuffer);
     }
 
 
