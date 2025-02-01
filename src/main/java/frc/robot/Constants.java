@@ -416,6 +416,7 @@ public final class Constants {
 
       public static class LED {
         public final static int ledStart = 18;
+        public final static int ledEnd = 106;
         public final static int ledLength = 120;
       }
     

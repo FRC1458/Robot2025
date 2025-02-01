@@ -5,16 +5,19 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Random;
 
 public class LED {
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
     private int count;
     private long timer;
+    Random random;
     
     public LED() {
         led = new AddressableLED(8);
         ledBuffer = new AddressableLEDBuffer(Constants.LED.ledLength);
+        Random random = new Random();
         count = 100; //arbritrary positive number
         timer = System.currentTimeMillis();
         led.setLength(ledBuffer.getLength());
@@ -26,7 +29,7 @@ public class LED {
         for(int i = Constants.LED.ledStart; i < 53; i++) {
           ledBuffer.setHSV(i, (53 + count - i) % 180 , 255, 255);
         }
-        for(int i = 53; i < 106; i++) {
+        for(int i = 53; i < Constants.LED.ledEnd; i++) {
           ledBuffer.setHSV(i, (count + i - 53) % 180 , 255, 255);
         }
         count++;
@@ -35,7 +38,7 @@ public class LED {
 
     public void ChristmasStream() {
         int red = 0, green = 0,blue = 0;
-        for(int i = Constants.LED.ledStart; i < 106; i++) {
+        for(int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
             if(i % 53 < 26) {
                 red = 255;
                 green = 0;
@@ -54,6 +57,15 @@ public class LED {
             ledBuffer.setRGB((i + count) % 108, red, green ,blue);
         }
           led.setData(ledBuffer);
+    }
+
+    public void epilepsy() {
+        while (true) {
+            for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
+                ledBuffer.setHSV(i,random.nextInt(256),255,255);
+            }
+        }
+
     }
 
 
