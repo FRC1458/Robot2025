@@ -64,8 +64,11 @@ public class LED {
     }
 
     public void epilepsy() {
-        for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
-            ledBuffer.setHSV(i,random.nextInt(256),255,255);
+        if (timer < System.currentTimeMillis()) {
+            for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
+                ledBuffer.setHSV(i,random.nextInt(256),255,255);
+            }
+            timer = System.currentTimeMillis()+50;
         }
     }
 
