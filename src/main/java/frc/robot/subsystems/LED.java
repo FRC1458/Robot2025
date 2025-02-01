@@ -1,16 +1,19 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Random;
+import static edu.wpi.first.units.Units.*;
 
 public class LED {
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
     private int count;
+    private boolean even;
     private long timer;
     Random random;
     
@@ -19,6 +22,7 @@ public class LED {
         ledBuffer = new AddressableLEDBuffer(Constants.LED.ledLength);
         Random random = new Random();
         count = 100; //arbritrary positive number
+        even = true; //can be false, doens't matter
         timer = System.currentTimeMillis();
         led.setLength(ledBuffer.getLength());
         led.setData(ledBuffer);
@@ -60,12 +64,23 @@ public class LED {
     }
 
     public void epilepsy() {
-        while (true) {
-            for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
-                ledBuffer.setHSV(i,random.nextInt(256),255,255);
+        for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
+            ledBuffer.setHSV(i,random.nextInt(256),255,255);
+        }
+    }
+
+    public void alternatingFlash(int h1, int h2, int delay) {
+        for (int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
+            if ((i % 2 == 0) == even) {
+                ledBuffer.setHSV(i,h1,255,255);
+            } else {
+                ledBuffer.setHSV(i,h2,255,255);
+            }
+            if(timer < System.currentTimeMillis()) {
+                timer = System.currentTimeMillis() + 250;
+                even = !even;
             }
         }
-
     }
 
 
