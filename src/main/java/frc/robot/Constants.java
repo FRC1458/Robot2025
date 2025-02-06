@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.lib.util.COTSTalonFXSwerveConstants;
 import frc.robot.lib.util.SwerveModuleConstants;
 import frc.robot.subsystems.SwerveDrive.KinematicLimits;
@@ -316,108 +317,51 @@ public final class Constants {
 
     public static class Elevator {
         //TODO: tune elevator constants to bot
-        public static final int kElevatorLeftMotorId = 9;
-        public static final int kElevatorRightMotorId = 10;
-    
-        public static final double kP = 0.15;
-        public static final double kI = 0;
-        public static final double kD = 0.0;
-        public static final double kIZone = 5.0;
-        public static final double kG = 0.5;
-    
-        public static final double kMaxVelocity = 65;
-        public static final double kMaxAcceleration = 200;
-        public static final int kCurrentThreshold = 45;
-        public static final int kMaxCurrent = 40;
-        public static final double kMaxPowerUp = 0.1;
-        public static final double kMaxPowerDown = 0.1;
-        
-        //TODO: Find correct elevator heights for each level
-        public static final double kGROUNDHeight = 0.0;
-        public static final double kL1Height = 5.0; //Most likely wrong
-        public static final double kL2Height = 9.0;
-        public static final double kL3Height = 25.14;
-        public static final double kL4Height = 52.0;
-        public static final double kMaxHeight = 56.2;
-        
-        public static final TalonFXConfiguration ElevatorConfiguration() {
-            TalonFXConfiguration config = new TalonFXConfiguration();
-            config.CurrentLimits.StatorCurrentLimitEnable = true;
-            config.CurrentLimits.StatorCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus code value = 110;
-            config.CurrentLimits.SupplyCurrentLimitEnable = true;
-            config.CurrentLimits.SupplyCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus value = 90;
-            config.Voltage.PeakForwardVoltage = 12.0;
-            config.Voltage.PeakReverseVoltage = -12.0;
-            // Set PID values for the elevator motor
-            config.Slot0.kP = Constants.Elevator.kP;
-            config.Slot0.kI = Constants.Elevator.kI;
-            config.Slot0.kD = Constants.Elevator.kD;
-            config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-            return config;
+        public static final int kElevatorLeftMotorId = 2000000;
+        public static final int kElevatorRightMotorId = 20000000;
+        public static final double kElevatorSpeed = 0.05;
+        public static final double kElevatorHoldAlgaeVoltage = 0.002; //TODO:measure
+        public static final double kElevatorHoldCoralVoltage = 0.001; //TODO:measure
+        public static final double gearRatio = 1.0;
+        public static TalonFXConfiguration motorConfigs() {
+            TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+            var slot0Configs = talonFXConfigs.Slot0;
+            slot0Configs.kG = 0.2; // overcome gravity
+            slot0Configs.kS = 0.25; // output to overcome static friction (output)
+            slot0Configs.kV = 0.12; // output per unit of target velocity (output/rps)
+            slot0Configs.kA = 0.01; // output per unit of target acceleration (output/(rps/s))
+            slot0Configs.kP = 4.8;
+            slot0Configs.kI = 0;
+            slot0Configs.kD = 0.1; 
+            // set Motion Magic settings
+            var motionMagicConfigs = talonFXConfigs.MotionMagic;
+            motionMagicConfigs.MotionMagicCruiseVelocity = 80; // Target cruise velocity of 80 rps
+            motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
+            motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
+            return talonFXConfigs;
         }
     }
     
     public static class Intake {
         //TODO: Tune intake constants to bot
+        public static final int kIntakeMotorId = 2000000000;
+        public static final int kPivotMotorId = 2000000001;
+        public static final double k_pivotStartAngle = 0.0;
+        public static final double k_pivotEndAngle = 75.0;
+        public static final double k_pivotEncoderOffset = 0.0;
+    }
 
-        // Motors
-        public static final int kIntakeMotorId = 9;
-        public static final int kPivotMotorId = 10;
-    
-        // DIO
-        public static final int kIntakeLimitSwitchId = 30;
-        public static final int kShooterLimitSwitchId = 31;
-    
-    
-        // Absolute encoder offset
-        public static final double k_pivotEncoderOffset = 0.166842; // Straight up, sketchy to reset to "up"
-    
-        // Pivot set point angles
-        public static final double k_pivotAngleGround = 60;
-        public static final double k_pivotAngleSource = 190;
-        public static final double k_pivotAngleAmp = k_pivotAngleSource;
-        public static final double k_pivotAngleStow = 275;
-    
-        // Intake speeds
-        public static final double k_intakeSpeed = 0.7;
-        public static final double k_ejectSpeed = -0.45;
-        public static final double k_feedShooterSpeed = -0.5;
-        
-        public static final TalonFXConfiguration IntakeConfiguration() {
-            TalonFXConfiguration config = new TalonFXConfiguration();
-            config.CurrentLimits.StatorCurrentLimitEnable = true;
-            config.CurrentLimits.StatorCurrentLimit = 10;
-            config.CurrentLimits.SupplyCurrentLimitEnable = true;
-            config.CurrentLimits.SupplyCurrentLimit = 10;
-            config.Voltage.PeakForwardVoltage = 12.0;
-            config.Voltage.PeakReverseVoltage = -12.0;
-            return config;
-        }
-      }
-
-      public static class Shooter {
-        public static final int kShooterLeftMotorId = 12;
-        public static final int kShooterRightMotorId = 13;
-
-        public static final double kShooterP = 0.00005;
-        public static final double kShooterI = 0.0;
-        public static final double kShooterD = 0.0;
-        public static final double kShooterFF = 0.0002;
-
-        public static final double kShooterMinOutput = 0;
-        public static final double kShooterMaxOutput = 1;
-        public static final TalonFXConfiguration ShooterConfiguration() {
-            TalonFXConfiguration config = new TalonFXConfiguration();
-            config.Slot0.kP = Constants.Shooter.kShooterP;
-            config.Slot0.kI = Constants.Shooter.kShooterI;
-            config.Slot0.kD = Constants.Shooter.kShooterD;
-            return config;
-        }
-      }
+    public static class Shooter {
+        //TODO: Tune shooter
+        public static final int kShooterLeftMotorId = 200;
+        public static final int kShooterRightMotorId = 2000;
+        public static final int kShooterLimitSwitchId = 20000;
+        public static final int kIntakeLimitSwitchId = 200000;
+        public static final double kShooterSpeed = 0.05;
+    }
     
     public static final class PathPlannerRobotConfig {
         public static RobotConfig config = null;
-        //ok java
         static {
             try {
                 config = RobotConfig.fromGUISettings();
@@ -426,6 +370,21 @@ public final class Constants {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static final class AlgaeShooter { //TODO: make constants correct
+        public static final int kAlgaeShooterLeftMotorId = 200;
+        public static final int kAlgaeShooterRightMotorId = 2000;
+        public static final int kAlgaeShooterLimitSwitchId = 20000;
+        public static final double kAlgaeShooterSpeed = 0.05;
+    }
+
+    public static final class Hang { //TODO: make constants correct
+        public static final int kHangMotorId = 200;
+        public static final double kHangSpeed = 0.05;
+        public static final double kHoldSpeed = 0.02;
+        public static final double kHangCancoderMaxDistance = 0.01;
+        public static final double kHangCancoderMinDistance = 0.25;
     }
     
 

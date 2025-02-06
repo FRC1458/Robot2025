@@ -22,6 +22,7 @@ public class Cancoders {
 	private final CANcoder mFrontRight;
 	private final CANcoder mBackLeft;
 	private final CANcoder mBackRight;
+	private final CANcoder mHangSensor;
 /* 	private final CANcoder mElevatorLeft;
 	private final CANcoder mElevatorRight;
 	private final CANcoder mShooterLeft;
@@ -31,6 +32,7 @@ public class Cancoders {
 	private final CanTsObserver mFrontLeftObserver;
 	private final CanTsObserver mBackLeftObserver;
 	private final CanTsObserver mBackRightObserver;
+	private final CanTsObserver mHangSensorObserver;
 /* 	private final CanTsObserver mElevatorLeftObserver;
 	private final CanTsObserver mElevatorRightObserver;
 	private final CanTsObserver mShooterLeftObserver;
@@ -114,6 +116,9 @@ public class Cancoders {
 
 		mBackRight = build(Ports.BR_CANCODER);
 		mBackRightObserver = new CanTsObserver(mBackRight);
+
+		mHangSensor = build(Ports.HS_CANCODER);
+		mHangSensorObserver = new CanTsObserver(mHangSensor);
 		
 /* 		mElevatorLeft = build(Ports.EL_CANCODER);
 		mElevatorLeftObserver = new CanTsObserver(mElevatorLeft);
@@ -133,7 +138,8 @@ public class Cancoders {
 		return mFrontLeftObserver.hasUpdate()
 				&& mFrontRightObserver.hasUpdate()
 				&& mBackLeftObserver.hasUpdate()
-				&& mBackRightObserver.hasUpdate();
+				&& mBackRightObserver.hasUpdate()
+				&& mHangSensorObserver.hasUpdate();
 /* 				&& mElevatorLeftObserver.hasUpdate()
 				&& mElevatorRightObserver.hasUpdate()
 				&& mShooterLeftObserver.hasUpdate()
@@ -155,6 +161,10 @@ public class Cancoders {
 
 	public CANcoder getBackRight() {
 		return mBackRight;
+	}
+
+	public CANcoder getHangSensor() {
+		return mHangSensor;
 	}
 /* 
 	public CANcoder getElevatorLeft() {

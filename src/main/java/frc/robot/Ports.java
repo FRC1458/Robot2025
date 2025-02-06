@@ -32,6 +32,7 @@ public class Ports {
 
 //	public static final CanDeviceId EL_CANCODER = new CanDeviceId(13, "CV");
 //	public static final CanDeviceId ER_CANCODER = new CanDeviceId(14, "CV");
+	public static final CanDeviceId HS_CANCODER = new CanDeviceId(15);
 
 	
 	/* SUBSYSTEM CAN DEVICE IDS */
