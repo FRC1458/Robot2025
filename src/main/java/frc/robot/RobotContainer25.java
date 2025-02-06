@@ -20,11 +20,13 @@ import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 import frc.robot.subsystems.Cancoders;
 import frc.robot.subsystems.DummySubsystem;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
+import frc.robot.subsystems.Shooter;
 import frc.robot.Loops.CrashTracker;
 /**
  * DC 10.28.2024
@@ -40,6 +42,8 @@ public class RobotContainer25 {
 
     /* Controllers */
     private final Joystick m_JoyStick = new Joystick(0);
+
+    private final XboxController xboxController = new XboxController(0);
     /* button key-value */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -55,6 +59,8 @@ public class RobotContainer25 {
     /* Subsystems instance */
     private DummySubsystem m_ExampleSubsystem;
     private SwerveDrive m_SwerveDrive;
+    private Elevator m_Elevator;
+    private Shooter m_Shooter;
     private Cancoders m_Cancoders;
     
     public AutoModeExecutor m_AutoModeExecutor;
@@ -68,6 +74,8 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
+            m_Elevator = Elevator.getInstance();
+            m_Shooter = Shooter.getInstance();
 
             // init cancoders
             if (Robot.isReal()) {
@@ -88,6 +96,7 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
+                m_Elevator,
                 m_ExampleSubsystem
                 //Insert instances of additional subsystems here
             );
@@ -149,14 +158,6 @@ public class RobotContainer25 {
     // init manual (teleop) mode
     public void initAutoMode (){
         try {
-            m_AutoModeSelector.reset();
-            m_AutoModeSelector.updateModeCreator(false);
-            Optional<AutoModeBase> autoMode = m_AutoModeSelector.getAutoMode();
-
-            m_AutoModeExecutor = new AutoModeExecutor();
-            if (autoMode.isPresent() && (autoMode.get() != m_AutoModeExecutor.getAutoMode())) {
-                m_AutoModeExecutor.setAutoMode(autoMode.get());
-            }
 //          RobotState.getInstance().setIsInAuto(false);
             switchOnLooper(m_EnabledLooper, m_DisabledLooper);
             
@@ -173,6 +174,14 @@ public class RobotContainer25 {
         if (m_AutoModeExecutor != null) {
 			m_AutoModeExecutor.stop();
 		}
+		m_AutoModeSelector.reset();
+		m_AutoModeSelector.updateModeCreator(false);
+        Optional<AutoModeBase> autoMode = m_AutoModeSelector.getAutoMode();
+
+		m_AutoModeExecutor = new AutoModeExecutor();
+        if (autoMode.isPresent() && (autoMode.get() != m_AutoModeExecutor.getAutoMode())) {
+            m_AutoModeExecutor.setAutoMode(autoMode.get());
+        }
         try {
             switchOnLooper(m_DisabledLooper, m_EnabledLooper);
 		} catch (Throwable t) {
@@ -235,6 +244,19 @@ public class RobotContainer25 {
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
+                if(xboxController.getYButtonPressed()) {
+                    m_Elevator.runElevator(0.1);
+                }
+                if(xboxController.getAButtonPressed()) {
+                    m_Elevator.runElevator(-0.1);
+                }
+
+                if(xboxController.getYButton()) {
+                    m_Shooter.spin();                   
+                }
+                else{
+                    m_Shooter.stop();
+                }
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));

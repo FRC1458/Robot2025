@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.lib.drivers.Pigeon;
 import frc.robot.lib.swerve.SwerveModule;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -199,7 +200,11 @@ public class WheelTracker {
 		} else if (Math.signum(deltaPosition.getY()) == -1.0) {
 			yCorrectionFactor = (3.660 / 4.0);
 		}
-
+/*  		if (Robot.isSimulation()) {//scale up speed in simulation mode
+			xCorrectionFactor *= 4.0;
+			yCorrectionFactor *= 4.0;
+		} 
+*/
 //		SmartDashboard.putString(
 //				"Correction Factors", String.valueOf(xCorrectionFactor) + ":" + String.valueOf(yCorrectionFactor));
 
@@ -230,8 +235,15 @@ public class WheelTracker {
 		}
 	}
 
-	public void resetPose(Pose2d pose) {
-		mRobotPose = pose;
+	/*
+	 * dc.1.23.25, bugfix, thread-safe practice,
+	 * all public methods accessing to wheeltracker properties sahll use synchronized call 
+	 * because wheeltracker thread could update them simultaneously, synchronized call help 
+	 * to lock the critical section code. 
+	 */
+
+	public synchronized void resetPose(Pose2d pose) {
+		mRobotPose = new Pose2d(pose.getTranslation(), pose.getRotation());//dc 1.23.25, bugfix;
 		resetModulePoses(mRobotPose);
 	}
 
@@ -246,7 +258,7 @@ public class WheelTracker {
 		return mRobotPose;
 	}
 
-	public Translation2d getMeasuredVelocity() {
+	public synchronized Translation2d getMeasuredVelocity() { 
 		return mRobotVelocity;
 	}
 

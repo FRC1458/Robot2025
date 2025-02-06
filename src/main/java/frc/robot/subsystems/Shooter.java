@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -12,7 +13,9 @@ public class Shooter extends Subsystem {
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Shooter mInstance;
-  private PeriodicIO mPeriodicIO;
+  private double minSpeed = 0;
+  private double speed = 0;
+  private boolean sensorTripped = false;
 
   public static Shooter getInstance() {
     if (mInstance == null) {
@@ -25,39 +28,21 @@ public class Shooter extends Subsystem {
   private TalonFX mRightShooterMotor;
 
 
-  private CANcoder mLeftShooterEncoder;
-  private CANcoder mRightShooterEncoder;
+
 
   private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(1000);
 
   private Shooter() {
     //super("Shooter");
 
-    mPeriodicIO = new PeriodicIO();
 
-    mLeftShooterMotor = new TalonFX(Constants.Shooter.kShooterLeftMotorId);//, MotorType.kBrushless);
-    mRightShooterMotor = new TalonFX(Constants.Shooter.kShooterRightMotorId);//, MotorType.kBrushless);
-    //mLeftShooterMotor.restoreFactoryDefaults();
-    //mRightShooterMotor.restoreFactoryDefaults();
-    
-    
-    mLeftShooterMotor.getConfigurator().apply(Constants.Shooter.ShooterConfiguration(),Constants.kLongCANTimeoutMs);
-    mRightShooterMotor.getConfigurator().apply(Constants.Shooter.ShooterConfiguration(),Constants.kLongCANTimeoutMs);
-    mLeftShooterEncoder = Cancoders.getInstance().getShooterLeft();
-    mRightShooterEncoder = Cancoders.getInstance().getShooterRight();
-
-    mLeftShooterMotor.setNeutralMode(NeutralModeValue.Coast);
-    mRightShooterMotor.setNeutralMode(NeutralModeValue.Coast);
-    //mLeftShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
-    //mRightShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
-
-    mLeftShooterMotor.setInverted(true);
-    mRightShooterMotor.setInverted(false);
+    mLeftShooterMotor = new TalonFX(Constants.Shooter.kShooterLeftMotorId);
+    mRightShooterMotor = new TalonFX(Constants.Shooter.kShooterRightMotorId); //LEADER
+    mLeftShooterMotor.setControl(new Follower(mRightShooterMotor.getDeviceID(), true));
+    mRightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    mRightShooterMotor.setNeutralMode(NeutralModeValue.Brake);
   }
-
-  private static class PeriodicIO {
-    double shooter_rpm = 0.0;
-  }
+  
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/
 
@@ -69,21 +54,17 @@ public class Shooter extends Subsystem {
 
   @Override
   public void writePeriodicOutputs() {
-    double limitedSpeed = mSpeedLimiter.calculate(mPeriodicIO.shooter_rpm);
-    mLeftShooterMotor.set(limitedSpeed);//, ControlType.kVelocity);
-    mRightShooterMotor.set(limitedSpeed);//, ControlType.kVelocity);
+
   }
 
   @Override
   public void stop() {
-    stopShooter();
+    mRightShooterMotor.set(0);
   }
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Speed (RPM):", mPeriodicIO.shooter_rpm);
-    SmartDashboard.putNumber("Left speed:", mLeftShooterEncoder.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Right speed:", mRightShooterEncoder.getVelocity().getValueAsDouble());
+
   }
 
   /*
@@ -94,13 +75,19 @@ public class Shooter extends Subsystem {
 
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
-  public void setSpeed(double rpm) {
-    mPeriodicIO.shooter_rpm = rpm;
+  public void spin() {
+    mRightShooterMotor.set(0.05);
   }
 
-  public void stopShooter() {
-    mPeriodicIO.shooter_rpm = 0.0;
+  public void checkSensor() {
+    if(Laser.inRangeIntake()) {
+      spin();
+      sensorTripped = true;
+    }
+    else if(sensorTripped == true) {
+      stop();
+      sensorTripped = false;
+    }
   }
-
   /*---------------------------------- Custom Private Functions ---------------------------------*/
 }
