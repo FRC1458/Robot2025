@@ -18,14 +18,19 @@ import frc.robot.Loops.Looper;
 import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
+<<<<<<< HEAD
 import frc.robot.subsystems.Cancoders;
 import frc.robot.subsystems.DummySubsystem;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.SwerveDrive;
+=======
+import frc.robot.subsystems.*;
+>>>>>>> main
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
+import frc.robot.subsystems.Shooter;
 import frc.robot.Loops.CrashTracker;
 /**
  * DC 10.28.2024
@@ -41,6 +46,8 @@ public class RobotContainer25 {
 
     /* Controllers */
     private final Joystick m_JoyStick = new Joystick(0);
+
+    private final XboxController xboxController = new XboxController(0);
     /* button key-value */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -57,7 +64,10 @@ public class RobotContainer25 {
     private DummySubsystem m_ExampleSubsystem;
     private Elevator m_Elevator;
     private SwerveDrive m_SwerveDrive;
+    private Elevator m_Elevator;
+    private Shooter m_Shooter;
     private Cancoders m_Cancoders;
+    private AlgaeShooter m_AlgaeShooter;
     
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
@@ -70,7 +80,13 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
+<<<<<<< HEAD
             m_Elevator = Elevator.getInstance(0,1,new XboxController(0));
+=======
+            m_Elevator = Elevator.getInstance();
+            m_Shooter = Shooter.getInstance();
+            m_AlgaeShooter = AlgaeShooter.getInstance();
+>>>>>>> main
 
             // init cancoders
             if (Robot.isReal()) {
@@ -91,8 +107,14 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
+<<<<<<< HEAD
                 m_ExampleSubsystem,
                 m_Elevator
+=======
+                m_Elevator,
+                m_ExampleSubsystem,
+                m_AlgaeShooter
+>>>>>>> main
                 //Insert instances of additional subsystems here
             );
             //register subsystems to loopers
@@ -192,7 +214,8 @@ public class RobotContainer25 {
             if (m_AutoModeExecutor != null) {
 			    m_AutoModeExecutor.stop();
 		    }
-            CrashTracker.logTest("Testing crashtracker - if you see this it works");
+            testChassisSpeedConvert();
+            //CrashTracker.logTest("Testing crashtracker - if you see this it works");
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
 			throw t;
@@ -228,10 +251,46 @@ public class RobotContainer25 {
                 double translationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(translationAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
                 double strafeVal = - MathUtil.applyDeadband(m_JoyStick.getRawAxis(strafeAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
                 double rotationVal = MathUtil.applyDeadband(m_JoyStick.getRawAxis(rotationAxis), Constants.stickDeadband)* Constants.Swerve.maxAngularVelocity;
-    //                System.out.println("DC: manualModePeriodc() translationVal=" + translationVal + ", StrafeVal=" + strafeVal + ", rotationVal=" + rotationVal);
-                    m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
+/*                 if (translationVal!=0.0 || strafeVal!=0.0 ) { 
+                    //dc 1.20.25, debug issues after robot rotation
+                    System.out.println("DC: manualModePeriodc() field speed: tVal=" + translationVal + ", sVal=" + strafeVal + ", rVal=" + rotationVal);
+                    System.out.println("DC: manualModePeriodc() swerveHeading =" + m_SwerveDrive.getHeading().getDegrees());
+                    ChassisSpeeds rs = ChassisSpeeds.fromFieldRelativeSpeeds(
                         translationVal, strafeVal, rotationVal,
-                        Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
+                        Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance));
+                    System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
+                }
+*/
+                if(xboxController.getYButton()) {
+                    m_Elevator.runElevator(-0.1);
+                }
+                else if(xboxController.getAButton()) {
+                    m_Elevator.runElevator(0.1);
+                }
+                else{
+                    m_Elevator.runElevator(-0.02);
+                }
+
+                if(xboxController.getXButton()) {
+                    m_Shooter.spin();                   
+                }
+                else if(xboxController.getBButton()) {
+                    m_Shooter.reverse();
+                }
+                else{
+                    m_Shooter.stop();
+                }
+                if(xboxController.getRightBumperButton()) {
+                    m_AlgaeShooter.intake();
+                }else if(xboxController.getLeftBumperButton()){
+                    m_AlgaeShooter.shoot();
+                }
+                else{
+                    m_AlgaeShooter.stopAlgaeShooter();
+                }
+                m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
+                    translationVal, strafeVal, rotationVal,
+                    Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
 
 
 //			mDriverControls.oneControllerMode();
@@ -241,6 +300,16 @@ public class RobotContainer25 {
 			throw t;
 		}
 
+    }
+
+    public void testChassisSpeedConvert (){
+        double tV= 2;
+        double sV=0.0;//1;
+        double rV=0.0;
+        ChassisSpeeds rs = ChassisSpeeds.fromFieldRelativeSpeeds( tV, sV, rV, Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance));
+        System.out.println("DC: testChassisSpeedConvert field speed: tVal=" + tV + ", sVal=" + sV + ", rVal=" + rV);
+        System.out.println("DC: testChassisSpeedConvert robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
+        System.out.println("DC: testChassisSpeedConvert swerveHeading: heading=" + m_SwerveDrive.getHeading() + ", field=" + sV + ", rVal=" + rV);
     }
 
     //dummy methods for now.

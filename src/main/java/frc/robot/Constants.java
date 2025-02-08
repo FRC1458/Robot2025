@@ -3,7 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-
+import com.pathplanner.lib.config.RobotConfig;
 //dc.10.21.2024 classes used in SwerveConstants
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
@@ -17,6 +17,7 @@ import frc.robot.lib.util.SwerveModuleConstants;
 import frc.robot.subsystems.SwerveDrive.KinematicLimits;
 import frc.robot.subsystems.limelight.GoalTracker;
 import frc.robot.subsystems.vision.VisionDeviceConstants;
+import com.pathplanner.lib.config.RobotConfig;
 
 public final class Constants {
     public static final double stickDeadband = 0.07;
@@ -30,12 +31,12 @@ public final class Constants {
     public static final class Swerve {
         public static final int pigeonID = 20;
 
-        public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+        public static final COTSTalonFXSwerveConstants chosenModule =  
         COTSTalonFXSwerveConstants.SDS.MK4i.KrakenX60(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L3);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(23.5); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(23.5); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(23.5); 
+        public static final double wheelBase = Units.inchesToMeters(23.5);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -241,8 +242,7 @@ public final class Constants {
         public static final double maxAngularVelocity = Swerve.maxAngularVelocity;
         public static final double kV = 12 * Math.PI * wheelDiameter / (driveGearRatio * maxSpeed); //TODO: need to finetune with the actual robot
         public static final double maxAutoSpeed = maxSpeed * 0.85;  // Max out at 85% to ensure attainable speeds, 
-                                                                    // This max_speed needs to be consistent with the max_velocity used by pathweaver 
-                                                                    // It will be used to normalize velocity on trajectory point
+        
         public static final double kCancoderBootAllowanceSeconds = 10.0;
 
         public static final KinematicLimits kUncappedLimits = new KinematicLimits();
@@ -313,7 +313,127 @@ public final class Constants {
 		}
 
     }
+
+    public static class Elevator {
+        //TODO: tune elevator constants to bot
+        public static final int kElevatorLeftMotorId = 20;
+        public static final int kElevatorRightMotorId = 21;
     
+        public static final double kP = 0.15;
+        public static final double kI = 0;
+        public static final double kD = 0.0;
+        public static final double kIZone = 5.0;
+        public static final double kG = 0.5;
+    
+        public static final double kMaxVelocity = 65;
+        public static final double kMaxAcceleration = 200;
+        public static final int kCurrentThreshold = 45;
+        public static final int kMaxCurrent = 40;
+        public static final double kMaxPowerUp = 0.1;
+        public static final double kMaxPowerDown = 0.1;
+        
+        //TODO: Find correct elevator heights for each level
+        public static final double kGROUNDHeight = 0.0;
+        public static final double kL1Height = 5.0; //Most likely wrong
+        public static final double kL2Height = 9.0;
+        public static final double kL3Height = 25.14;
+        public static final double kL4Height = 52.0;
+        public static final double kMaxHeight = 56.2;
+        
+        public static final TalonFXConfiguration ElevatorConfiguration() {
+            TalonFXConfiguration config = new TalonFXConfiguration();
+            config.CurrentLimits.StatorCurrentLimitEnable = true;
+            config.CurrentLimits.StatorCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus code value = 110;
+            config.CurrentLimits.SupplyCurrentLimitEnable = true;
+            config.CurrentLimits.SupplyCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus value = 90;
+            config.Voltage.PeakForwardVoltage = 12.0;
+            config.Voltage.PeakReverseVoltage = -12.0;
+            // Set PID values for the elevator motor
+            config.Slot0.kP = Constants.Elevator.kP;
+            config.Slot0.kI = Constants.Elevator.kI;
+            config.Slot0.kD = Constants.Elevator.kD;
+            config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+            return config;
+        }
+    }
+    
+    public static class Intake {
+        //TODO: Tune intake constants to bot
+
+        // Motors
+        public static final int kIntakeMotorId = 9;
+        public static final int kPivotMotorId = 10;
+    
+        // DIO
+        public static final int kIntakeLimitSwitchId = 70;
+        public static final int kShooterLimitSwitchId = 71;
+    
+    
+        // Absolute encoder offset
+        public static final double k_pivotEncoderOffset = 0.166842; // Straight up, sketchy to reset to "up"
+    
+        // Pivot set point angles
+        public static final double k_pivotAngleGround = 60;
+        public static final double k_pivotAngleSource = 190;
+        public static final double k_pivotAngleAmp = k_pivotAngleSource;
+        public static final double k_pivotAngleStow = 275;
+    
+        // Intake speeds
+        public static final double k_intakeSpeed = 0.7;
+        public static final double k_ejectSpeed = -0.45;
+        public static final double k_feedShooterSpeed = -0.5;
+        
+        public static final TalonFXConfiguration IntakeConfiguration() {
+            TalonFXConfiguration config = new TalonFXConfiguration();
+            config.CurrentLimits.StatorCurrentLimitEnable = true;
+            config.CurrentLimits.StatorCurrentLimit = 10;
+            config.CurrentLimits.SupplyCurrentLimitEnable = true;
+            config.CurrentLimits.SupplyCurrentLimit = 10;
+            config.Voltage.PeakForwardVoltage = 12.0;
+            config.Voltage.PeakReverseVoltage = -12.0;
+            return config;
+        }
+      }
+
+      public static class Shooter {
+        public static final int kShooterLeftMotorId = 12;
+        public static final int kShooterRightMotorId = 13;
+
+        public static final double kShooterP = 0.00005;
+        public static final double kShooterI = 0.0;
+        public static final double kShooterD = 0.0;
+        public static final double kShooterFF = 0.0002;
+
+        public static final double kShooterMinOutput = 0;
+        public static final double kShooterMaxOutput = 1;
+        public static final TalonFXConfiguration ShooterConfiguration() {
+            TalonFXConfiguration config = new TalonFXConfiguration();
+            config.Slot0.kP = Constants.Shooter.kShooterP;
+            config.Slot0.kI = Constants.Shooter.kShooterI;
+            config.Slot0.kD = Constants.Shooter.kShooterD;
+            return config;
+        }
+      }
+      public static class AlgaeShooter {
+        public static final int kAlgaeShooterLeftMotorId = 26;
+        public static final int kAlgaeShooterRightMotorId = 27;
+        public static final double kAlgaeShooterSpeed = 0.5;
+      }
+    
+    public static final class PathPlannerRobotConfig {
+        public static RobotConfig config = null;
+        //ok java
+        static {
+            try {
+                config = RobotConfig.fromGUISettings();
+            } catch (Exception e) {
+                System.err.println("Pathplanner Configs failed to load!");
+                e.printStackTrace();
+            }
+        }
+    }
+    
+
     /* dc.10.21.2024 extra constants needed during porting of citrus SwerveModule.java code */
 
     // Timeout constants
