@@ -243,6 +243,72 @@ public class RobotContainer25 {
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
+                // New Experimental code for xboxController 1:
+/*                 if(xboxController.getYButton()) {
+                    m_Elevator.runElevator(-0.1);
+                }
+                else if(xboxController.getAButton()) {
+                    m_Elevator.runElevator(0.1);
+                }
+                else{
+                    m_Elevator.runElevator(-0.02);
+                }
+
+                if(xboxController.getXButton()) {
+                    m_Shooter.spin();                   
+                }
+                else if(xboxController.getBButton()) {
+                    m_Shooter.reverse();
+                }
+                else{
+                    m_Shooter.stop();
+                }
+                if(xboxController.getRightBumperButton()) {
+                    m_AlgaeShooter.shoot();
+                }else if(xboxController.getLeftBumperButton()){
+                    m_AlgaeShooter.intake();
+                }
+                else{
+                    m_AlgaeShooter.stopAlgaeShooter();
+                } */
+
+                // Controller2 code:
+                /* boolean blockController2 = false;
+
+                if (xboxController2.getStartButton()){
+                    blockController2 = true;
+                }
+
+                 if(xboxController2.getYButton()) {
+                    m_Elevator.runElevator(-0.1);
+                }
+                else if(xboxController2.getAButton()) {
+                    m_Elevator.runElevator(0.1);
+                }
+                else{
+                    m_Elevator.runElevator(-0.02);
+                }
+
+                if(xboxController2.getXButton()) {         
+                }
+                else if(xboxController2.getBButton()) {
+                }
+                else{
+                    m_Shooter.stop();
+                }
+                if(xboxController2.getRightBumperButton()) {
+                    m_AlgaeShooter.intake();
+                    m_Shooter.reverse();
+                }else if(xboxController2.getLeftBumperButton()){
+                    m_AlgaeShooter.shoot();
+                    m_Shooter.spin(); 
+                }
+                else{
+                    m_AlgaeShooter.stopAlgaeShooter();
+                } */
+
+
+                // Old code for testing elevator:
                 if(xboxController.getYButton()) {
                     m_Elevator.runElevator(-0.1);
                 }
@@ -270,40 +336,6 @@ public class RobotContainer25 {
                 else{
                     m_AlgaeShooter.stopAlgaeShooter();
                 }
-
-                /* boolean blockController2 = false;
-
-                if (xboxController2.getStartButton()){
-                    blockController2 = true;
-                }
-
-                 if(xboxController2.getYButton()) {
-                    m_Elevator.runElevator(-0.1);
-                }
-                else if(xboxController2.getAButton()) {
-                    m_Elevator.runElevator(0.1);
-                }
-                else{
-                    m_Elevator.runElevator(-0.02);
-                }
-
-                if(xboxController2.getXButton()) {
-                    m_Shooter.spin();                
-                }
-                else if(xboxController2.getBButton()) {
-                    m_Shooter.reverse();
-                }
-                else{
-                    m_Shooter.stop();
-                }
-                if(xboxController2.getRightBumperButton()) {
-                    m_AlgaeShooter.intake();
-                }else if(xboxController2.getLeftBumperButton()){
-                    m_AlgaeShooter.shoot();
-                }
-                else{
-                    m_AlgaeShooter.stopAlgaeShooter();
-                } */
 
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
