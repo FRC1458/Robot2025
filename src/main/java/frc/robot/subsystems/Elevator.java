@@ -74,7 +74,6 @@ public class Elevator extends Subsystem {
   }
 
   public enum ElevatorState {
-    NONE,
     GROUND,
     L1,
     L2,
@@ -82,8 +81,10 @@ public class Elevator extends Subsystem {
     L4,
   }
 
-  public int currentState = 0;
-  public int targetState = 0;
+private ElevatorState targetState = ElevatorState.GROUND;
+
+  public ElevatorState currentState = ElevatorState.GROUND;
+  //public int targetState = 0; This want from the int type system
 
   private static class PeriodicIO {
     double elevator_target = 0.0;
@@ -161,9 +162,41 @@ public class Elevator extends Subsystem {
 
     SmartDashboard.putNumber("Output/Left", mLeftMotor.getMotorOutputStatus().getValueAsDouble());
     SmartDashboard.putNumber("Output/Right", mRightMotor.getMotorOutputStatus().getValueAsDouble());
+  
+  int currentStateInt = 0;
+    if (currentState == ElevatorState.GROUND) {
+      currentStateInt = 0;
+  } else if (currentState == ElevatorState.L1) {
+      currentStateInt = 1;
+  } else if (currentState == ElevatorState.L2) {
+      currentStateInt = 2;
+  } else if (currentState == ElevatorState.L3) {
+      currentStateInt = 3;
+  } else if (currentState == ElevatorState.L4) {
+      currentStateInt = 4;
+  }
 
-    //SmartDashboard.putNumber("State", mPeriodicIO.state);
-	//TODO: figure out how to put a state in smart dashbaord
+  SmartDashboard.putNumber("Elevator/State", currentStateInt);
+
+  int targetStateInt = 0;
+
+  if (targetState == ElevatorState.GROUND) {
+    targetStateInt = 0;
+} else if (targetState == ElevatorState.L1) {
+    targetStateInt = 1;
+} else if (currentState == ElevatorState.L2) {
+    targetStateInt = 2;
+} else if (currentState == ElevatorState.L3) {
+    targetStateInt = 3;
+} else if (currentState == ElevatorState.L4) {
+    targetStateInt = 4;
+}
+
+  SmartDashboard.putNumber("Elevator/State", targetStateInt);
+
+  //Integer values Guide: 0 is ground, and numbers after represent the level and their number. (E.g. int 4 = L4)
+    
+  //SmartDashboard.putNumber("State", mPeriodicIO.state);
 }
 
   /*
@@ -178,49 +211,66 @@ public class Elevator extends Subsystem {
     return mPeriodicIO.state;
   }
 
-  // public ElevatorState getLevel() {
-  //   if (DigitalSensor.getSensor(4)) {
-  //     return ElevatorState.L4;
-  //   } else if (DigitalSensor.getSensor(3)) {
-  //     return ElevatorState.L3;
-  //   } else if (DigitalSensor.getSensor(2)) {
-  //     return ElevatorState.L2;
-  //   } else if (DigitalSensor.getSensor(1)) {
-  //     return ElevatorState.L1;
-  //   } else if (DigitalSensor.getSensor(0)) {
-  //     return ElevatorState.GROUND;
-  //   } else {
-  //     return ElevatorState.NONE;
-  //   }
-  // }
-
-public void updateLocation() {
-  for(int i = 0; i < 5; i++) {
-    if(DigitalSensor.getSensor(i)) {
-      currentState = i;
-      break;
+  public ElevatorState getLevel() {
+    if (DigitalSensor.getSensor(4)) {
+      return ElevatorState.L4;
+    } else if (DigitalSensor.getSensor(3)) {
+      return ElevatorState.L3;
+    } else if (DigitalSensor.getSensor(2)) {
+      return ElevatorState.L2;
+    } else if (DigitalSensor.getSensor(1)) {
+      return ElevatorState.L1;
+    } else if (DigitalSensor.getSensor(0)) {
+      return ElevatorState.GROUND;
+    } else {
+      return currentState;
     }
   }
-}
-
-
-
-public void setTargetLevel(int target) {
-  targetState = target;
-  if(targetState > 4) {
-    targetState = 0;
-  }
-  if(targetState < 0) {
-    targetState = 4;
-  }
-}
 
 public void incTarget() {
- setTargetLevel(targetState + 1);
+  switch (targetState) {
+    case GROUND:
+      targetState = ElevatorState.L1;
+      break;
+    case L1:
+      targetState = ElevatorState.L2;
+      break;
+    case L2:
+      targetState = ElevatorState.L3;
+      break;
+    case L3:
+      targetState = ElevatorState.L4;
+      break;
+    case L4:
+      targetState = ElevatorState.GROUND;
+      break;
+    default:
+      targetState = ElevatorState.GROUND;
+      break;
+  }
 }
 
 public void decTarget() {
-  setTargetLevel(targetState - 1);
+  switch (targetState) {
+    case GROUND:
+      targetState = ElevatorState.L4;
+      break;
+    case L1:
+      targetState = ElevatorState.GROUND;
+      break;
+    case L2:
+      targetState = ElevatorState.L1;
+      break;
+    case L3:
+      targetState = ElevatorState.L2;
+      break;
+    case L4:
+      targetState = ElevatorState.L3;
+      break;
+    default:
+      targetState = ElevatorState.GROUND;
+      break;
+  }
  }
 
 public void runElevator(double speed) {
@@ -228,10 +278,12 @@ public void runElevator(double speed) {
 }
 
 public boolean goToTarget() {
-  updateLocation();
-  if(targetState > 4 || targetState < 0) {
+  currentState = getLevel();
+
+ /*  if(targetState > 4 || targetState < 0) {
     targetState = 0;
-  }
+  } */
+ 
   if(Laser.inRangeIntake()) {
     return false;
   }
@@ -239,11 +291,11 @@ public boolean goToTarget() {
     stop();
     return true;
   }
-  else if(targetState > currentState) {
+  else if(targetState.ordinal() > currentState.ordinal()) {
     runElevator(0.05);
     return false;
   }
-  else if(targetState < currentState) {
+  else if(targetState.ordinal() < currentState.ordinal()) {
     runElevator(-0.05);
     return false;
   }

@@ -22,7 +22,6 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
-import frc.robot.subsystems.Shooter;
 import frc.robot.Loops.CrashTracker;
 /**
  * DC 10.28.2024
@@ -40,6 +39,7 @@ public class RobotContainer25 {
     private final Joystick m_JoyStick = new Joystick(0);
 
     private final XboxController xboxController = new XboxController(0);
+    private final XboxController xboxController2 = new XboxController(1);
     /* button key-value */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
@@ -243,7 +243,7 @@ public class RobotContainer25 {
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
-                if(xboxController.getYButton()) {
+/*                 if(xboxController.getYButton()) {
                     m_Elevator.runElevator(-0.1);
                 }
                 else if(xboxController.getAButton()) {
@@ -269,7 +269,42 @@ public class RobotContainer25 {
                 }
                 else{
                     m_AlgaeShooter.stopAlgaeShooter();
+                } */
+
+                boolean blockController2 = false;
+
+                if (xboxController2.getStartButton()){
+                    blockController2 = true;
                 }
+
+                 if(xboxController2.getYButton()) {
+                    m_Elevator.runElevator(-0.1);
+                }
+                else if(xboxController2.getAButton()) {
+                    m_Elevator.runElevator(0.1);
+                }
+                else{
+                    m_Elevator.runElevator(-0.02);
+                }
+
+                if(xboxController2.getXButton()) {
+                    m_Shooter.spin();                   
+                }
+                else if(xboxController2.getBButton()) {
+                    m_Shooter.reverse();
+                }
+                else{
+                    m_Shooter.stop();
+                }
+                if(xboxController2.getRightBumperButton()) {
+                    m_AlgaeShooter.intake();
+                }else if(xboxController2.getLeftBumperButton()){
+                    m_AlgaeShooter.shoot();
+                }
+                else{
+                    m_AlgaeShooter.stopAlgaeShooter();
+                }
+
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
