@@ -249,7 +249,7 @@ public class RobotContainer25 {
                     */
                 // Controller2 code:
 
-                if (xboxController2.getStartButton()){
+                if (xboxController2.getBButton()){
                     controller2Toggle = !controller2Toggle;
                 }
                 if(controller2Toggle){
@@ -264,8 +264,6 @@ public class RobotContainer25 {
                 }
 
                 if(xboxController2.getXButton()) {         
-                }
-                else if(xboxController2.getBButton()) {
                 }
                 else{
                     m_Shooter.stop();

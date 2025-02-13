@@ -23,7 +23,8 @@ public class ElevatorMoveAction implements Action {
 
 	@Override
 	public boolean isFinished() {
-		return mElevator.goToTarget();
+		//return mElevator.goToTarget();
+		return true;
 
 	}
 
