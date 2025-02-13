@@ -291,14 +291,13 @@ public class RobotContainer25 {
 
                 else if (dPadInput == 180) {  // D-Pad Down
                     m_Elevator.runElevator(0.1);
-                }
-
-                else if(m_Elevator.atTarget()){
+                } 
+                else {
                     m_Elevator.runElevator(-0.02);
                 }
 
                 // New Code for L1-L4 inputs via xyab buttons
-                if(xboxController.getYButton()) {
+                /* if(xboxController.getYButton()) {
                     m_Elevator.goToElevatorL4();
                 }
                 else if(xboxController.getAButton()) {
@@ -318,7 +317,7 @@ public class RobotContainer25 {
                 }
                 if(!m_Elevator.atTarget()) {
                     m_Elevator.goToTarget();
-                }
+                } */
 
                 // Algae shooter stuff:
                 if(xboxController.getRightBumperButton()) {
