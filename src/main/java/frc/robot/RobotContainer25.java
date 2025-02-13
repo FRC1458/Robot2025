@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import java.lang.reflect.Member;
 import java.util.Optional;
 
 import edu.wpi.first.math.MathUtil;
@@ -59,6 +60,9 @@ public class RobotContainer25 {
     private Shooter m_Shooter;
     private Cancoders m_Cancoders;
     private AlgaeShooter m_AlgaeShooter;
+
+    private boolean controller2Toggle = false;
+    private boolean atTarget = false;
     
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
@@ -242,43 +246,13 @@ public class RobotContainer25 {
                         Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance));
                     System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
-*/
-                // New Experimental code for xboxController 1:
-/*                 if(xboxController.getYButton()) {
-                    m_Elevator.runElevator(-0.1);
-                }
-                else if(xboxController.getAButton()) {
-                    m_Elevator.runElevator(0.1);
-                }
-                else{
-                    m_Elevator.runElevator(-0.02);
-                }
-
-                if(xboxController.getXButton()) {
-                    m_Shooter.spin();                   
-                }
-                else if(xboxController.getBButton()) {
-                    m_Shooter.reverse();
-                }
-                else{
-                    m_Shooter.stop();
-                }
-                if(xboxController.getRightBumperButton()) {
-                    m_AlgaeShooter.shoot();
-                }else if(xboxController.getLeftBumperButton()){
-                    m_AlgaeShooter.intake();
-                }
-                else{
-                    m_AlgaeShooter.stopAlgaeShooter();
-                } */
-
+                    */
                 // Controller2 code:
-                /* boolean blockController2 = false;
 
                 if (xboxController2.getStartButton()){
-                    blockController2 = true;
+                    controller2Toggle = !controller2Toggle;
                 }
-
+                if(controller2Toggle){
                  if(xboxController2.getYButton()) {
                     m_Elevator.runElevator(-0.1);
                 }
@@ -305,37 +279,73 @@ public class RobotContainer25 {
                 }
                 else{
                     m_AlgaeShooter.stopAlgaeShooter();
-                } */
-
-
-                // Old code for testing elevator:
-                if(xboxController.getYButton()) {
-                    m_Elevator.runElevator(-0.1);
                 }
-                else if(xboxController.getAButton()) {
+            }
+
+                // Manual Elevator
+                int dPadInput = xboxController.getPOV();  // Returns the angle of the D-Pad
+
+                if (dPadInput == 0) {  // D-Pad Up
+                    m_Elevator.runElevator(-0.1);
+                } 
+
+                else if (dPadInput == 180) {  // D-Pad Down
                     m_Elevator.runElevator(0.1);
                 }
-                else{
+
+                else if(m_Elevator.atTarget()){
                     m_Elevator.runElevator(-0.02);
                 }
 
-                if(xboxController.getXButton()) {
-                    m_Shooter.spin();                   
+                // New Code for L1-L4 inputs via xyab buttons
+                if(xboxController.getYButton()) {
+                    m_Elevator.goToElevatorL4();
                 }
+                else if(xboxController.getAButton()) {
+                    m_Elevator.goToElevatorL1();
+                }
+
+                else if(xboxController.getXButton()) {
+                    m_Elevator.goToElevatorL3();               
+                }
+
                 else if(xboxController.getBButton()) {
-                    m_Shooter.reverse();
+                    m_Elevator.goToElevatorL2();
                 }
-                else{
-                    m_Shooter.stop();
+
+                else if(xboxController.getBackButton()) {
+                    m_Elevator.goToElevatorGround();
                 }
+                if(!m_Elevator.atTarget()) {
+                    m_Elevator.goToTarget();
+                }
+
+                // Algae shooter stuff:
                 if(xboxController.getRightBumperButton()) {
-                    m_AlgaeShooter.intake();
-                }else if(xboxController.getLeftBumperButton()){
                     m_AlgaeShooter.shoot();
                 }
+                
+                else if(xboxController.getLeftBumperButton()){
+                    m_AlgaeShooter.intake();
+                }
+
                 else{
                     m_AlgaeShooter.stopAlgaeShooter();
                 }
+
+            // Coral Shooter Code (Via triggers):
+            if (xboxController.getRightTriggerAxis() > 0.9) {
+                m_Shooter.spin();
+            } 
+
+            else if (xboxController.getLeftTriggerAxis() > 0.9) {
+                m_Shooter.reverse();
+            } 
+
+            else {
+                m_Shooter.stop();  // Optional: stop the shooter if neither trigger is pressed
+            }
+
 
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,

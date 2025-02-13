@@ -41,6 +41,8 @@ public class Elevator extends Subsystem {
   private PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
   private double prevUpdateTime = Timer.getFPGATimestamp();
 
+  private boolean atTarget = false;
+
   //private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(1000);
 
   private void setUpElevatorMotor(TalonFX motor) {
@@ -227,7 +229,11 @@ private ElevatorState targetState = ElevatorState.GROUND;
     }
   }
 
-public void incTarget() {
+  
+
+
+  //This code is for the incline or decline system version for the elevator which uses two buttons
+/* public void incTarget() {
   switch (targetState) {
     case GROUND:
       targetState = ElevatorState.L1;
@@ -271,13 +277,35 @@ public void decTarget() {
       targetState = ElevatorState.GROUND;
       break;
   }
- }
+ } */
+
+ // this code is for the single button assignment elevator
+public void goToElevatorGround() {
+  targetState = ElevatorState.GROUND;
+}
+
+public void goToElevatorL1() {
+    targetState = ElevatorState.L1;
+}
+
+ public void goToElevatorL2() {
+  targetState = ElevatorState.L2;
+}
+
+public void goToElevatorL3() {
+  targetState = ElevatorState.L3;
+}
+
+public void goToElevatorL4() {
+  targetState = ElevatorState.L4;
+}
+
 
 public void runElevator(double speed) {
   mRightMotor.set(speed);
 }
 
-public boolean goToTarget() {
+public void goToTarget() {
   currentState = getLevel();
 
  /*  if(targetState > 4 || targetState < 0) {
@@ -285,24 +313,26 @@ public boolean goToTarget() {
   } */
  
   if(Laser.inRangeIntake()) {
-    return false;
+    atTarget = false;
   }
   else if(targetState == currentState) {
     stop();
-    return true;
+    atTarget = true;
   }
   else if(targetState.ordinal() > currentState.ordinal()) {
     runElevator(0.05);
-    return false;
+    atTarget = false;
   }
   else if(targetState.ordinal() < currentState.ordinal()) {
     runElevator(-0.05);
-    return false;
+    atTarget = false;
   }
-  return false;
+  atTarget = false;
 }
 
-
+public boolean atTarget() {
+  return targetState == currentState;
+}
 
   // public void setElevatorPower(double power) {
   //   SmartDashboard.putNumber("setElevatorPower", power);
