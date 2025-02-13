@@ -92,7 +92,7 @@ public class TestAutoMode3 extends AutoModeBase {
                     else {
                         listOfActions.add(new SwerveTrajectoryAction(lastPoint+"-"+point,isFirstTrajectory?ResetWheelTracker.SET_TO_STARTING_POS:ResetWheelTracker.NO));
                         if(point.length() == 4) {
-                            lastPoint = point.substring(0,1);
+                            lastPoint = point.substring(0,2);
                         } else {
                             lastPoint = point;
                         }
