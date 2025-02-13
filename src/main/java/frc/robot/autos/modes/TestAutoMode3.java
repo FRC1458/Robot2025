@@ -34,7 +34,7 @@ public class TestAutoMode3 extends AutoModeBase {
      */
     
     public TestAutoMode3() {
-        autoString = "S 1 R 1 S 1 R 1 S 1";
+        autoString = "S 1 R 1-1 S 1";
     }
         
     @Override
@@ -91,7 +91,11 @@ public class TestAutoMode3 extends AutoModeBase {
                     if(lastPoint == null) {lastPoint = point;}
                     else {
                         listOfActions.add(new SwerveTrajectoryAction(lastPoint+"-"+point,isFirstTrajectory?ResetWheelTracker.SET_TO_STARTING_POS:ResetWheelTracker.NO));
-                        lastPoint = point;
+                        if(point.length() == 4) {
+                            lastPoint = point.substring(0,1);
+                        } else {
+                            lastPoint = point;
+                        }
                         isFirstTrajectory = false;
                     }
                     break;
