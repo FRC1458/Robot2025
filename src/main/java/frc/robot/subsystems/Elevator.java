@@ -308,6 +308,7 @@ public void runElevator(double speed) {
 public void goToTarget() {
   currentState = getLevel();
 
+  //old int system
  /*  if(targetState > 4 || targetState < 0) {
     targetState = 0;
   } */

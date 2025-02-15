@@ -252,35 +252,45 @@ public class RobotContainer25 {
                 if (xboxController2.getBButton()){
                     controller2Toggle = !controller2Toggle;
                 }
+
                 if(controller2Toggle){
                  if(xboxController2.getYButton()) {
                     m_Elevator.runElevator(-0.1);
                 }
+
                 else if(xboxController2.getAButton()) {
                     m_Elevator.runElevator(0.1);
                 }
+                
                 else{
                     m_Elevator.runElevator(-0.02);
                 }
 
-                if(xboxController2.getXButton()) {         
+                if(xboxController2.getXButton()) { 
+
                 }
+
                 else{
                     m_Shooter.stop();
                 }
+
                 if(xboxController2.getRightBumperButton()) {
                     m_AlgaeShooter.intake();
                     m_Shooter.reverse();
-                }else if(xboxController2.getLeftBumperButton()){
+                }
+                
+                else if(xboxController2.getLeftBumperButton()){
                     m_AlgaeShooter.shoot();
                     m_Shooter.spin(); 
                 }
+
                 else{
                     m_AlgaeShooter.stopAlgaeShooter();
                 }
             }
 
                 // Manual Elevator
+                if (!controller2Toggle){
                 int dPadInput = xboxController.getPOV();  // Returns the angle of the D-Pad
 
                 if (dPadInput == 0) {  // D-Pad Up
@@ -295,9 +305,10 @@ public class RobotContainer25 {
                 }
 
                 // New Code for L1-L4 inputs via xyab buttons
-                /* if(xboxController.getYButton()) {
+                if(xboxController.getYButton()) {
                     m_Elevator.goToElevatorL4();
                 }
+
                 else if(xboxController.getAButton()) {
                     m_Elevator.goToElevatorL1();
                 }
@@ -313,9 +324,10 @@ public class RobotContainer25 {
                 else if(xboxController.getBackButton()) {
                     m_Elevator.goToElevatorGround();
                 }
+
                 if(!m_Elevator.atTarget()) {
                     m_Elevator.goToTarget();
-                } */
+                }
 
                 // Algae shooter stuff:
                 if(xboxController.getRightBumperButton()) {
@@ -342,7 +354,9 @@ public class RobotContainer25 {
             else {
                 m_Shooter.stop();  // Optional: stop the shooter if neither trigger is pressed
             }
+        }
 
+// end of if statement for controller 2 toggle that turns off the controller 1 input
 
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,

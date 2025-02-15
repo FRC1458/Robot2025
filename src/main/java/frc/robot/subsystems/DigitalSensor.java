@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import au.grapplerobotics.LaserCan;
 
 public class DigitalSensor {
-    
+    //TODO: make the channels correct based on the roborio
     public static DigitalInput level0 = new DigitalInput(0);
     public static DigitalInput level1 = new DigitalInput(1);
     public static DigitalInput level2 = new DigitalInput(2);
