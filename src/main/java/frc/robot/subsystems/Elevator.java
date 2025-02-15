@@ -294,6 +294,26 @@ public void runElevator(double speed) {
   mRightMotor.set(speed);
 }
 
+public void setTargetLevel (int kLevel) {
+  switch (kLevel) {
+    case 0:
+      targetState = ElevatorState.GROUND;
+      break;
+    case 1:
+     targetState = ElevatorState.L2;
+      break;
+    case 2:
+      targetState = ElevatorState.L3;
+      break;
+    case 3:
+      targetState = ElevatorState.L4;
+      break;
+    default:
+      targetState = ElevatorState.GROUND;
+      break;
+}
+}
+
 public void goToTarget() {
   currentState = getLevel();
 
