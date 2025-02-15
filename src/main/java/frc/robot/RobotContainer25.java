@@ -260,13 +260,13 @@ public class RobotContainer25 {
                 }
 
                 if(xboxController.getXButton()) {
-                    m_Shooter.spin();                   
+                    //m_Shooter.spin();                   
                 }
                 else if(xboxController.getBButton()) {
-                    m_Shooter.reverse();
+                    //m_Shooter.reverse();
                 }
                 else{
-                    m_Shooter.stop();
+                    //m_Shooter.stop();
                 }
                 if(xboxController.getRightBumperButton()) {
                     m_AlgaeShooter.intake();
@@ -279,6 +279,16 @@ public class RobotContainer25 {
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
+
+                if(Laser.inRangeIntake()) {
+                    m_Shooter.spin();
+                }
+                else{
+                    m_Shooter.stop();
+                }
+
+                Laser.testLaser();
+
 
 //			mDriverControls.oneControllerMode();
 
