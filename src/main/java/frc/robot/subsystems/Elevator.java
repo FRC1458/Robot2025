@@ -77,7 +77,6 @@ public class Elevator extends Subsystem {
 
   public enum ElevatorState {
     GROUND,
-    L1,
     L2,
     L3,
     L4,
@@ -167,8 +166,6 @@ private ElevatorState targetState = ElevatorState.GROUND;
   
   int currentStateInt = 0;
     if (currentState == ElevatorState.GROUND) {
-      currentStateInt = 0;
-  } else if (currentState == ElevatorState.L1) {
       currentStateInt = 1;
   } else if (currentState == ElevatorState.L2) {
       currentStateInt = 2;
@@ -183,8 +180,6 @@ private ElevatorState targetState = ElevatorState.GROUND;
   int targetStateInt = 0;
 
   if (targetState == ElevatorState.GROUND) {
-    targetStateInt = 0;
-} else if (targetState == ElevatorState.L1) {
     targetStateInt = 1;
 } else if (currentState == ElevatorState.L2) {
     targetStateInt = 2;
@@ -221,8 +216,6 @@ private ElevatorState targetState = ElevatorState.GROUND;
     } else if (DigitalSensor.getSensor(2)) {
       return ElevatorState.L2;
     } else if (DigitalSensor.getSensor(1)) {
-      return ElevatorState.L1;
-    } else if (DigitalSensor.getSensor(0)) {
       return ElevatorState.GROUND;
     } else {
       return currentState;
@@ -284,10 +277,6 @@ public void goToElevatorGround() {
   targetState = ElevatorState.GROUND;
 }
 
-public void goToElevatorL1() {
-    targetState = ElevatorState.L1;
-}
-
  public void goToElevatorL2() {
   targetState = ElevatorState.L2;
 }
@@ -316,14 +305,17 @@ public void goToTarget() {
   if(Laser.inRangeIntake()) {
     atTarget = false;
   }
+  
   else if(targetState == currentState) {
     stop();
     atTarget = true;
   }
+
   else if(targetState.ordinal() > currentState.ordinal()) {
     runElevator(0.05);
     atTarget = false;
   }
+
   else if(targetState.ordinal() < currentState.ordinal()) {
     runElevator(-0.05);
     atTarget = false;

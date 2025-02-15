@@ -261,7 +261,7 @@ public class RobotContainer25 {
                 else if(xboxController2.getAButton()) {
                     m_Elevator.runElevator(0.1);
                 }
-                
+
                 else{
                     m_Elevator.runElevator(-0.02);
                 }
@@ -306,23 +306,19 @@ public class RobotContainer25 {
 
                 // New Code for L1-L4 inputs via xyab buttons
                 if(xboxController.getYButton()) {
-                    m_Elevator.goToElevatorL4();
+                    m_Elevator.goToElevatorL3(); 
                 }
 
                 else if(xboxController.getAButton()) {
-                    m_Elevator.goToElevatorL1();
+                    m_Elevator.goToElevatorGround();
                 }
 
                 else if(xboxController.getXButton()) {
-                    m_Elevator.goToElevatorL3();               
+                    m_Elevator.goToElevatorL2();              
                 }
 
                 else if(xboxController.getBButton()) {
-                    m_Elevator.goToElevatorL2();
-                }
-
-                else if(xboxController.getBackButton()) {
-                    m_Elevator.goToElevatorGround();
+                    m_Elevator.goToElevatorL4();
                 }
 
                 if(!m_Elevator.atTarget()) {

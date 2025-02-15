@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import au.grapplerobotics.LaserCan;
 
 public class DigitalSensor {
-    //TODO: make the channels correct based on the roborio
+    //TODO: make the channels correct based on the
     public static DigitalInput level0 = new DigitalInput(0);
     public static DigitalInput level1 = new DigitalInput(1);
     public static DigitalInput level2 = new DigitalInput(2);
     public static DigitalInput level3 = new DigitalInput(3);
-    public static DigitalInput level4 = new DigitalInput(4);
+
     
     
     
@@ -26,8 +26,6 @@ public class DigitalSensor {
                 return level2.get();
             case 3:
                 return level3.get();
-            case 4:
-                return level4.get();
             default:
                 return false;
         }
