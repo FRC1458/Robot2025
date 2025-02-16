@@ -317,6 +317,8 @@ public final class Constants {
         public static final double kIZone = 5.0;
         public static final double kG = 0.5;
     
+        public static final double kElevatorSpeed = 0.05;
+
         public static final double kMaxVelocity = 65;
         public static final double kMaxAcceleration = 200;
         public static final int kCurrentThreshold = 45;

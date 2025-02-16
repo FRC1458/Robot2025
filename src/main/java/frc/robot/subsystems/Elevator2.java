@@ -50,8 +50,6 @@ public class Elevator2 extends Subsystem {
 		// RIGHT ELEVATOR MOTOR
 		mRightMotor = new TalonFX(Constants.Elevator.kElevatorRightMotorId);
 		// in init function
-		mRightMotor.getConfigurator().apply(Constants.Elevator.motorConfigs());
-		mLeftMotor.getConfigurator().apply(Constants.Elevator.motorConfigs());
 		mLeftMotor.setControl(new Follower(mRightMotor.getDeviceID(), true));
 		mLeftMotor.setNeutralMode(NeutralModeValue.Brake);
 		mRightMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -72,8 +70,7 @@ public class Elevator2 extends Subsystem {
 	@Override
 	public void readPeriodicInputs() {
 		updateLocation();
-		mPeriodicIO.currentPositionInches = getPositionInches();
-		if (mPeriodicIO.targetPositionInches - mPeriodicIO.currentPositionInches < Constants.Elevator.kElevatorTolerance) {
+		if (mPeriodicIO.currentState == mPeriodicIO.targetState) {
 			mPeriodicIO.isAtTarget = true;
 		} else {
 			mPeriodicIO.isAtTarget = false;
@@ -87,9 +84,7 @@ public class Elevator2 extends Subsystem {
 			public void onStart(double timestamp) {}
 
 			@Override
-			public void onLoop(double timestamp) {
-				setPosition(Constants.Elevator.kPositions[mPeriodicIO.targetState]);
-			}
+			public void onLoop(double timestamp) {}
 
 			@Override
 			public void onStop(double timestamp) {}
@@ -98,27 +93,7 @@ public class Elevator2 extends Subsystem {
 	
 	@Override
 	public void writePeriodicOutputs() {
-		
-		switch (mMode) {
-			case MOTION_MAGIC:
-				if (mPeriodicIO.isAtTarget && mPeriodicIO.currentState != mPeriodicIO.targetState) {
-					if(mPeriodicIO.prevState < mPeriodicIO.currentState) {
-						runElevator(Constants.Elevator.kElevatorSpeed);
-					} else {
-						runElevator(-Constants.Elevator.kElevatorSpeed);
-					}
-					System.err.println("THIS SHOULD NOT HAPPEN !! !! !!");
-				} else {
-					mRightMotor.setControl(mPeriodicIO.demand);
-				}
-				break;
-
-			case MANUAL:
-				goToTarget();
-				break;
-			 
-		}
-				
+        goToTarget();
 	}
 
 	@Override
@@ -176,26 +151,28 @@ public class Elevator2 extends Subsystem {
 		mRightMotor.set(speed);
 	}
 
-	public boolean goToTarget() {
+	public void goToTarget() {
 		updateLocation();
 
 		if (mPeriodicIO.targetState > 4 || mPeriodicIO.targetState < 0) {
 			mPeriodicIO.targetState = 0;
+            //todo: error output
 		}
 
 		if (Laser.inRangeIntake()) {
-			return false;
+            //todo: really big err if code goes here. report
+			//return false;
 		} else if (mPeriodicIO.targetState == mPeriodicIO.currentState) {
 			stop();
-			return true;
+			//return true;
 		} else if (mPeriodicIO.targetState > mPeriodicIO.currentState) {
 			runElevator(Constants.Elevator.kElevatorSpeed);
-			return false;
+			//return false;
 		} else if (mPeriodicIO.targetState < mPeriodicIO.currentState) {
 			runElevator(-Constants.Elevator.kElevatorSpeed);
-			return false;
+			//return false;
 		}
-		return false;
+		//return false;
 	}
 
 	/*---------------------------------- Custom Private Functions ---------------------------------*/
