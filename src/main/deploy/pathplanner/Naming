@@ -5,9 +5,9 @@ CS 2 = coral station closest to processor (bottom of field)
 P 1 = processor
 
 S = start
-S 1 = top starting position
-S 2 = between top and center cages
-S 3 = between center and bottom cages
+S 1 = top starting position (1 meter away from top)
+S 2 = middle starting position
+S 3 = bottom starting position (1 meter away from bottom)
 S 4 = bottom starting position (between center and closest cage to center)
 
 R = reef
