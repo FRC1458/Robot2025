@@ -59,7 +59,7 @@ public class RobotContainer25 {
     /* Subsystems instance */
     private DummySubsystem m_ExampleSubsystem;
     private SwerveDrive m_SwerveDrive;
-    private Elevator m_Elevator;
+    private Elevator2 m_Elevator;
     //private Shooter m_Shooter;
     private Cancoders m_Cancoders;
     private AlgaeShooter m_AlgaeShooter;
@@ -82,7 +82,7 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
-            m_Elevator = Elevator.getInstance();
+            m_Elevator = Elevator2.getInstance();
             //m_Shooter = Shooter.getInstance();
             m_AlgaeShooter = AlgaeShooter.getInstance();
             m_CoralShooter = CoralShooter.getInstance();

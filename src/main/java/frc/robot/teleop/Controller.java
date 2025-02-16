@@ -6,6 +6,7 @@ import frc.robot.subsystems.*;
 import frc.robot.FieldLayout;
 import frc.robot.RobotState;
 import frc.robot.autos.actions.*;
+import frc.robot.subsystems.*;
 /**
  * A class that contains the controls for the robot.
  */
@@ -14,14 +15,30 @@ public class Controller {
     public XboxController mXboxController = null;
     public boolean prev_left_trigger = false;
     public boolean prev_right_trigger = false;
-    public Controller(XboxController xboxController, TeleopActionExecutor teleopActionExecutor) {
+    private Elevator2 mElevator = null;
+    
+    public Controller(XboxController xboxController, TeleopActionExecutor teleopActionExecutor ) {
         mXboxController = xboxController;
         m_TeleopActionExecutor = teleopActionExecutor;
+        mElevator = Elevator2.getInstance();
     }
     public void update() {
         //if(mXboxController.getPOV() == 180) {
         //    m_TeleopActionExecutor.runAction(new ElevatorAction(0));
         //}
+        if (mXboxController.getYButtonPressed()) {
+            mElevator.setTargetLevel(3);
+        }
+        if (mXboxController.getAButtonPressed()) {
+            mElevator.setTargetLevel(2);
+        }
+        if (mXboxController.getBButtonPressed()) {
+            mElevator.setTargetLevel(1);
+        }
+        if (mXboxController.getXButtonPressed()) {
+            mElevator.setTargetLevel(0);
+        }
+/* 
         if (mXboxController.getYButtonPressed()) {
             m_TeleopActionExecutor.runAction(new ElevatorAction(0));
         }
@@ -34,7 +51,7 @@ public class Controller {
         if (mXboxController.getXButtonPressed()) {
             m_TeleopActionExecutor.runAction(new ElevatorAction(3));
         }
-
+*/
         if (mXboxController.getLeftTriggerAxis() > 0.5) {
             if (!prev_left_trigger) {
                 prev_left_trigger = true;
