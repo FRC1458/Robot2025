@@ -23,7 +23,7 @@ public class AlgaeShooterAction implements Action {
 	@Override
 	public boolean isFinished() {
 		if (Robot.isSimulation()) return true;
-        return !Laser.inRangeShooter();
+        return !Laser.inRangeAlgaeShooter();
 	}
 
 	@Override
