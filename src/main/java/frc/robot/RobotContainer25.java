@@ -109,7 +109,7 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
-                m_Elevator,
+                //m_Elevator,
                 m_ExampleSubsystem,
                 m_AlgaeShooter,
                 m_VisionDevices,
