@@ -253,8 +253,12 @@ public class RobotContainer25 {
                 System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
-
-                m_Controller.update();
+                if(xboxController.getXButtonPressed()) {
+                    m_CoralShooter.shoot();
+                } else {
+                    m_CoralShooter.intake();
+                }
+                //m_Controller.update();
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
