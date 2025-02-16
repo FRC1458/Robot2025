@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.705301339285714,
-        "y": 2.3796875
+        "x": 5.216685267857143,
+        "y": 2.0401785714285707
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.6172825975709606,
-        "y": 2.879777480212882
+        "x": 3.904352678571428,
+        "y": 2.7518415178571423
       },
       "prevControl": {
-        "x": 3.3036830357142857,
-        "y": 1.720256696428571
+        "x": 3.414676339285714,
+        "y": 1.55703125
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 55.52778611996352
+    "rotation": 57.30850746876195
   },
   "reversed": false,
   "folder": "Start2ToReef",
