@@ -70,8 +70,7 @@ public class RobotContainer25 {
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
 
-    // private VisionDeviceManager m_VisionDevices =
-    // VisionDeviceManager.getInstance();
+    private VisionDeviceManager m_VisionDevices = VisionDeviceManager.getInstance();
 
     // contructor
     public RobotContainer25() {
@@ -111,7 +110,7 @@ public class RobotContainer25 {
                     m_Elevator,
                     m_ExampleSubsystem,
                     m_AlgaeShooter,
-                    // m_VisionDevices,
+                    m_VisionDevices,
                     // m_CoralShooter,
                     m_Hang,
                     m_Funnel

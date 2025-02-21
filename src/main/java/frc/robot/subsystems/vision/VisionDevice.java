@@ -108,21 +108,16 @@ public class VisionDevice extends Subsystem {
 	}
 
 	private void processFrames() {
-		if (mVisible.get() == 0) {
+		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, mPigeon.getYaw().getDegrees(), 0, 0, 0, 0, 0);	
+		
+		if (LimelightHelpers.getTV(mConstants.kTableName) == false) {
 			return;
 		}
-
-		double[] mt2Pose = mObservations.get();
+		
+		Pose2d botPose = LimelightHelpers.getBotPoseEstimate_wpiBlue(mConstants.kTableName).pose;
 		double[] stdDevs = mStdDevs.get();
 		double timestamp = Timer.getFPGATimestamp() * Math.pow(10, 6) - VisionDeviceManager.getTimestampOffset();
-		
-		if (mt2Pose.length == 0) {
-			return;
-		}
 
-		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, mPigeon.getYaw().getDegrees(), 0, 0, 0, 0, 0);	
-
-		Pose2d botPose = new Pose2d(mt2Pose[0], mt2Pose[1], new Rotation2d(mt2Pose[5] * Math.PI / 180));
 		Vector<N2> stdDevsVec = VecBuilder.fill(stdDevs[6], stdDevs[7]);
 
 		robotField.setRobotPose(botPose);
