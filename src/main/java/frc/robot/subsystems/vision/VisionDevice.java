@@ -48,7 +48,7 @@ public class VisionDevice extends Subsystem {
 		robotField = new Field2d();
 		SmartDashboard.putData(constants.kTableName + "/Vision Measurement", robotField);
 
-		mPigeon = Pigeon.getInstance();
+//		mPigeon = Pigeon.getInstance();
 
 		mConstants = constants;
 		mConfigTable = NetworkTableInstance.getDefault().getTable(mConstants.kTableName + "/configs");
@@ -108,6 +108,22 @@ public class VisionDevice extends Subsystem {
 	}
 
 	private void processFrames() {
+  		//try limelight helper to get pose
+/*		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, 0, 0, 0, 0, 0, 0);	
+		LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(mConstants.kTableName);
+
+		if(mt2.tagCount > 0)
+		{
+			robotField.setRobotPose(mt2.pose);
+			SmartDashboard.putNumber("VisionDevice/mt2.tagCount", mt2.tagCount);
+			SmartDashboard.putNumber("VisionDevice/mt2.avgTagArea", mt2.avgTagArea);
+			SmartDashboard.putNumber("VisionDevice/mt2.avgTagDist", mt2.avgTagDist);
+			SmartDashboard.putBoolean("VisionDevice/mt2.isMegaTag2", mt2.isMegaTag2);
+		}else{
+			System.out.println("VisionDevice/mt2 finds zero tag");
+		}	
+*/
+		// original networktable based code starts here
 		if (mVisible.get() == 0) {
 			return;
 		}
@@ -120,14 +136,16 @@ public class VisionDevice extends Subsystem {
 			return;
 		}
 
-		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, mPigeon.getYaw().getDegrees(), 0, 0, 0, 0, 0);	
+//		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, mPigeon.getYaw().getDegrees(), 0, 0, 0, 0, 0);	
+		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, 0, 0, 0, 0, 0, 0);	
 
 		Pose2d botPose = new Pose2d(mt2Pose[0], mt2Pose[1], new Rotation2d(mt2Pose[5] * Math.PI / 180));
 		Vector<N2> stdDevsVec = VecBuilder.fill(stdDevs[6], stdDevs[7]);
 
-		robotField.setRobotPose(botPose);
+ 		robotField.setRobotPose(botPose);
 
-		RobotState.getInstance()
+		//turn off the RobotState update code as barebone robot does not have any robotstate
+/*		RobotState.getInstance()
 				.addVisionUpdate(
 						new VisionUpdate(
 								timestamp,
@@ -135,7 +153,7 @@ public class VisionDevice extends Subsystem {
 								new Translation2d(0, 0),
 								stdDevsVec),
 						botPose.getRotation());
-	}
+*/	}
 
 	@Override
 	public void readPeriodicInputs() {

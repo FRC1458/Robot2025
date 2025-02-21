@@ -83,7 +83,7 @@ public class RobotContainer25 {
     public RobotContainer25() {
         try {
             // get instance of subsystems
-            m_ExampleSubsystem = DummySubsystem.getInstance();
+ /*            m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();// Cancoders shall be initialized before SwerveDrive as Cancoders are
                                                   // used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
@@ -110,17 +110,18 @@ public class RobotContainer25 {
             // reset swerve modules
             if (m_SwerveDrive != null)
                 m_SwerveDrive.resetModulesToAbsolute();
-
+*/
             // add subsystems to its manager
             m_SubsystemManager.setSubsystems(
-                    m_SwerveDrive,
+/*                     m_SwerveDrive,
                     m_Elevator,
                     m_ExampleSubsystem,
                     m_AlgaeShooter,
-                    // m_VisionDevices,
                     m_CoralShooter,
                     m_Hang,
                     m_Funnel
+*/                   
+                    m_VisionDevices
             // Insert instances of additional subsystems here
             );
             // register subsystems to loopers
@@ -128,7 +129,7 @@ public class RobotContainer25 {
             m_SubsystemManager.registerDisabledLoops(m_DisabledLooper);
 
             // load all predefined trajectories
-            TrajectoryGenerator.getInstance().generateTrajectories();
+/*             TrajectoryGenerator.getInstance().generateTrajectories();
 
             RobotState.getInstance().resetKalman(); // TODO: complete RobotState classes
 
@@ -138,7 +139,8 @@ public class RobotContainer25 {
 
             // binds single-button events
             // bindSingleButtonCmds ();
-        } catch (Throwable t) {
+ */
+       } catch (Throwable t) {
             CrashTracker.logThrowableCrash(t); // TODO: CrashTracker needs to be ported. to log crash/exception
             throw t;
         }
@@ -235,7 +237,9 @@ public class RobotContainer25 {
                 m_AutoModeExecutor.stop();
             }
 
-            // testChassisSpeedConvert();
+            //enable looper to test whatever subsystem registered
+            switchOnLooper(m_EnabledLooper, m_DisabledLooper);
+
             // CrashTracker.logTest("Testing crashtracker - if you see this it works");
         } catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
@@ -244,7 +248,7 @@ public class RobotContainer25 {
     }
 
     public void testModePeriodic() {
-        Laser.testLaser();
+        //Laser.testLaser();
     }
 
     // manual mode periodic callback
