@@ -86,8 +86,14 @@ public class AutoStringAuto extends AutoModeBase {
                     }
                     break;
                 case ("R"):
+                    boolean isCenterOfFace = true; //Initialized here, so autos starting at a reef face may have problems
+                    if (actionStrings.length>i+3) {
+                        if (actionStrings[i+3] == "1" || actionStrings[i+3] == "2") {
+                            isCenterOfFace = false;
+                        }
+                    }
                     point = actionStrings[i] + actionStrings[++i];
-                    System.out.println("Trajectory Action: "+lastPoint+"-"+point);
+                    System.out.println("Trajectory Action: "+lastPoint+"-"+point+(isCenterOfFace?"":("-"+actionStrings[++i])));
                     if(lastPoint == null) {lastPoint = point;}
                     else {
                         listOfActions.add(new SwerveTrajectoryAction(lastPoint+"-"+point,isFirstTrajectory?ResetWheelTracker.SET_TO_STARTING_POS:ResetWheelTracker.NO));
