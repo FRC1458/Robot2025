@@ -18,7 +18,7 @@ public class AutoStringAuto extends AutoModeBase {
      * Syntax:
      * Space between each command (including brackets, parentheses, etc.)
      * Space between each command and its argument
-     * S, P, R, CS, and the following number denotes a point (REMEMBER TO ADD A SPACE BETWEEN THE LETTER AND THE NUMBER). See {@link Robot2025\src\main\deploy\pathplanner\Naming}
+     * S (start), P (processor), R (reef), CS (coral station), and the following number denotes a point (REMEMBER TO ADD A SPACE BETWEEN THE LETTER AND THE NUMBER). See {@link Robot2025\src\main\deploy\pathplanner\Naming}
      * After stating a point the robot will try to move to that point
      * Always check if the trajectory exists in the set
      * [ actions ] denote a parallel action, where actions are run in parallel
@@ -91,7 +91,11 @@ public class AutoStringAuto extends AutoModeBase {
                     if(lastPoint == null) {lastPoint = point;}
                     else {
                         listOfActions.add(new SwerveTrajectoryAction(lastPoint+"-"+point,isFirstTrajectory?ResetWheelTracker.SET_TO_STARTING_POS:ResetWheelTracker.NO));
-                        lastPoint = point;
+                        if(point.length() == 4) {
+                            lastPoint = point.substring(0,2);
+                        } else {
+                            lastPoint = point;
+                        }
                         isFirstTrajectory = false;
                     }
                     break;
