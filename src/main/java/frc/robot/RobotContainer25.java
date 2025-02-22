@@ -20,13 +20,14 @@ import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 //dc.2.11.25, keep Shooter for testing until CoralShooter is verified. 
+//dc.2.11.25, keep Shooter for testing until CoralShooter is verified. 
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.vision.*;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
-import frc.robot.subsystems.Shooter;//dc.2.11.25, keep Shooter for testing until CoralShooter is verified. 
 import frc.robot.Loops.CrashTracker;
+import frc.robot.teleop.*;
 /**
  * DC 10.28.2024
  * This class is where the bulk of the robot (for 2025 FRC season) should be declared,
@@ -58,14 +59,17 @@ public class RobotContainer25 {
     /* Subsystems instance */
     private DummySubsystem m_ExampleSubsystem;
     private SwerveDrive m_SwerveDrive;
-    private Elevator m_Elevator;
-    private Shooter m_Shooter;
+    private Elevator2 m_Elevator;
+    //private Shooter m_Shooter;
     private Cancoders m_Cancoders;
     private AlgaeShooter m_AlgaeShooter;
     private CoralShooter m_CoralShooter;
     private Funnel m_Funnel;
     private Hang m_Hang;
+    private TeleopActionExecutor m_TeleopActionExecutor = TeleopActionExecutor.getInstance();
     
+    private Controller m_Controller = new Controller(xboxController, m_TeleopActionExecutor);
+
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
 	
@@ -78,10 +82,10 @@ public class RobotContainer25 {
             m_ExampleSubsystem = DummySubsystem.getInstance();
             m_Cancoders = Cancoders.getInstance();//Cancoders shall be initialized before SwerveDrive as Cancoders are used by Module constructor and initialization code
             m_SwerveDrive = SwerveDrive.getInstance();
-            m_Elevator = Elevator.getInstance();
-            m_Shooter = Shooter.getInstance();
+            m_Elevator = Elevator2.getInstance();
+            //m_Shooter = Shooter.getInstance();
             m_AlgaeShooter = AlgaeShooter.getInstance();
-//            m_CoralShooter = CoralShooter.getInstance();
+            m_CoralShooter = CoralShooter.getInstance();
             m_Hang = Hang.getInstance();
             m_Funnel = Funnel.getInstance();
 
@@ -105,11 +109,11 @@ public class RobotContainer25 {
             //add subsystems to its manager
             m_SubsystemManager.setSubsystems(
                 m_SwerveDrive,
-                m_Elevator,
+                //m_Elevator,
                 m_ExampleSubsystem,
                 m_AlgaeShooter,
                 m_VisionDevices,
-//                m_CoralShooter,
+                m_CoralShooter,
                 m_Hang,
                 m_Funnel
                 //Insert instances of additional subsystems here
@@ -249,36 +253,17 @@ public class RobotContainer25 {
                 System.out.println("DC: manualModePeriodc() robot speed: tVal=" + rs.vxMetersPerSecond + ", sVal=" + rs.vyMetersPerSecond + ", rVal=" + rs.omegaRadiansPerSecond);
                 }
 */
-                if(xboxController.getYButton()) {
-                    m_Elevator.runElevator(-0.1);
+                if(xboxController.getXButtonPressed()) {
+                    m_CoralShooter.shoot();
+                } else {
+                    m_CoralShooter.intake();
                 }
-                else if(xboxController.getAButton()) {
-                    m_Elevator.runElevator(0.1);
-                }
-                else{
-                    m_Elevator.runElevator(-0.02);
-                }
-
-                if(xboxController.getXButton()) {
-                    m_Shooter.spin();                   
-                }
-                else if(xboxController.getBButton()) {
-                    m_Shooter.reverse();
-                }
-                else{
-                    m_Shooter.stop();
-                }
-                if(xboxController.getRightBumperButton()) {
-                    m_AlgaeShooter.intake();
-                }else if(xboxController.getLeftBumperButton()){
-                    m_AlgaeShooter.shoot();
-                }
-                else{
-                    m_AlgaeShooter.stopAlgaeShooter();
-                }
+                //m_Controller.update();
                 m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                     translationVal, strafeVal, rotationVal,
                     Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
+
+      
 
 //			mDriverControls.oneControllerMode();
 

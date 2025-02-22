@@ -131,6 +131,10 @@ public class CoralShooter extends Subsystem {
 	public void spin() {
 		mPeriodicIO.speed = Constants.CoralShooter.kShooterSpeed; //Constants.Shooter.kShooterSpeed;
 	}
+
+	public void reverse() {
+		mPeriodicIO.speed = - Constants.CoralShooter.kShooterSpeed; //Constants.Shooter.kShooterSpeed;
+	}
 	
 	@Override
 	public void stop() {

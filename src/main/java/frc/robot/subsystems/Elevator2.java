@@ -103,11 +103,15 @@ public class Elevator2 extends Subsystem {
 
 	@Override
 	public void outputTelemetry() {
-		SmartDashboard.putNumber("Current/Left", mLeftMotor.getSupplyCurrent().getValueAsDouble());
-		SmartDashboard.putNumber("Current/Right", mRightMotor.getSupplyCurrent().getValueAsDouble());
+		SmartDashboard.putNumber("Elevator/Current/Left", mLeftMotor.getSupplyCurrent().getValueAsDouble());
+		SmartDashboard.putNumber("Elevator/Current/Right", mRightMotor.getSupplyCurrent().getValueAsDouble());
 
-		SmartDashboard.putNumber("Output/Left", mLeftMotor.getMotorOutputStatus().getValueAsDouble());
-		SmartDashboard.putNumber("Output/Right", mRightMotor.getMotorOutputStatus().getValueAsDouble());
+		SmartDashboard.putNumber("Elevator/Output/Left", mLeftMotor.getMotorOutputStatus().getValueAsDouble());
+		SmartDashboard.putNumber("ELevator/Output/Right", mRightMotor.getMotorOutputStatus().getValueAsDouble());
+
+
+		SmartDashboard.putNumber("Elevator/TargetState", mPeriodicIO.targetState);
+		SmartDashboard.putNumber("Elevator/CurrentState", mPeriodicIO.currentState);
 		//TODO: figure out how to put a state in smart dashbaord
 	}
 

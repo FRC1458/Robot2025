@@ -1,10 +1,10 @@
 package frc.robot.autos.actions;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Elevator2;
 
 public class ElevatorAction implements Action {
-	private Elevator mElevator = null;
+	private Elevator2 mElevator = null;
 	private int kLevel;
     public ElevatorAction(int level) {
 		kLevel = level;
@@ -12,7 +12,7 @@ public class ElevatorAction implements Action {
 
 	@Override
 	public void start() {
-		mElevator = Elevator.getInstance();
+		mElevator = Elevator2.getInstance();
 		mElevator.setTargetLevel(kLevel);
 		System.out.println("Elevator going to " + kLevel);
 	}
@@ -25,7 +25,7 @@ public class ElevatorAction implements Action {
 	@Override
 	public boolean isFinished() {
 		if (Robot.isSimulation()) return true;
-		return true; //mElevator.getIsAtTarget();	/*dc.2.11.25. TODO: MUST revise when Elevator class is merged*/
+		return mElevator.getIsAtTarget();	/*dc.2.11.25. TODO: MUST revise when Elevator class is merged*/
 	}
 
 	@Override
