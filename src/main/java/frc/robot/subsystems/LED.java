@@ -40,7 +40,7 @@ public class LED {
         led.setData(ledBuffer);
     }
 
-    public void Steam(int red1, int green1, int blue1, int red2, int green2, int blue2) {
+    public void Stream(int red1, int green1, int blue1, int red2, int green2, int blue2) {
         int red = 0, green = 0,blue = 0;
         for(int i = Constants.LED.ledStart; i < Constants.LED.ledEnd; i++) {
             if(i % 53 < 26) {
