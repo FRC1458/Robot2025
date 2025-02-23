@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Loops.ILooper;
 import frc.robot.Loops.Loop;
+import edu.wpi.first.wpilibj2.command.Command;
+
+import static edu.wpi.first.wpilibj2.command.Commands.run;
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -221,6 +225,13 @@ public class Elevator extends Subsystem {
     System.out.println("Error: " + (mPeriodicIO.mCurrentPos - mPeriodicIO.elevator_target));
     
     return Math.abs(mPeriodicIO.mCurrentPos - mPeriodicIO.elevator_target) < 0.1;
+  }
+
+  public Command goToLevel(String levelString) {
+      return runOnce(
+              () -> {
+                setTarget(levelString);
+              });
   }
 
 }

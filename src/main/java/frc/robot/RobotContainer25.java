@@ -33,6 +33,7 @@ import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
 import frc.robot.Loops.CrashTracker;
 import frc.robot.teleop.Controller;
+import frc.robot.autos.ChorAutoBuilder;
 /**
  * DC 10.28.2024
  * This class is where the bulk of the robot (for 2025 FRC season) should be
@@ -76,6 +77,7 @@ public class RobotContainer25 {
 
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
+    public ChorAutoBuilder chorAutoBuilder;
 
     public AutoModeExecutor mTeleopActionExecutor;
 	
@@ -141,6 +143,8 @@ public class RobotContainer25 {
             CrashTracker.logThrowableCrash(t); // TODO: CrashTracker needs to be ported. to log crash/exception
             throw t;
         }
+
+        chorAutoBuilder = new ChorAutoBuilder(m_SwerveDrive);
     }
 
     // switch between two loopers

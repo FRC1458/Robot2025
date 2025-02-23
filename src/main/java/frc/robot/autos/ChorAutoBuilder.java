@@ -34,8 +34,9 @@ public class ChorAutoBuilder {
 
         //can bind commands for easier use
         autoFactory
-                .bind("elevatorl2", Elevator.getInstance().goToLevel(2))
-                .bind("elevatorl4", Elevator.getInstance().goToLevel(4));
+                .bind("elevatorl2", Elevator.getInstance().goToLevel("L2"))
+                .bind("elevatorl3", Elevator.getInstance().goToLevel("L3"))
+                .bind("elevatorl4", Elevator.getInstance().goToLevel("L4"));
 
         autoChooser = new AutoChooser();
 

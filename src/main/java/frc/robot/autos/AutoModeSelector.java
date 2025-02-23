@@ -10,6 +10,7 @@ public class AutoModeSelector {
 		DO_NOTHING,
 		TESTPATHMODE,
 		TESTAUTOMODE3,
+		CHOREO
 	}
 
 	private DesiredMode mCachedDesiredMode = DesiredMode.DO_NOTHING;
@@ -22,6 +23,7 @@ public class AutoModeSelector {
 		mModeChooser.addOption("Do Nothing", DesiredMode.DO_NOTHING);
 		mModeChooser.addOption("TestPathMode", DesiredMode.TESTPATHMODE);
 		mModeChooser.addOption("AutoMode3", DesiredMode.TESTAUTOMODE3);
+		mModeChooser.addOption("Choreo", DesiredMode.CHOREO);
 		mModeChooser.setDefaultOption("AutoMode3", DesiredMode.TESTAUTOMODE3);
 		SmartDashboard.putData("Auto Mode", mModeChooser);
 	}
@@ -64,6 +66,8 @@ public class AutoModeSelector {
 				return Optional.of(new TestPathMode());
 			case TESTAUTOMODE3:
 				return Optional.of(new TestAutoMode3());
+			case CHOREO:
+				return Optional.of(new ChoreoAuto());
 			default:
 				System.out.println("ERROR: unexpected auto mode: " + mode);
 				break;
