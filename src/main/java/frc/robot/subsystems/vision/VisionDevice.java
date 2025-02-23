@@ -46,7 +46,7 @@ public class VisionDevice extends Subsystem {
 
 	public VisionDevice(VisionDeviceConstants constants) {
 		robotField = new Field2d();
-		SmartDashboard.putData(constants.kTableName + "/Vision Measurement", robotField);
+		SmartDashboard.putData("VisionDevice/" + constants.kTableName, robotField);
 
 		mPigeon = Pigeon.getInstance();
 
@@ -108,17 +108,23 @@ public class VisionDevice extends Subsystem {
 	}
 
 	private void processFrames() {
+//		System.out.println("VisionDevice.processFrame");
 		if (mVisible.get() == 0) {
 			return;
 		}
+//		System.out.println("VisionDevice.processFrame, mVisible is true");
 
 		double[] mt2Pose = mObservations.get();
 		double[] stdDevs = mStdDevs.get();
 		double timestamp = Timer.getFPGATimestamp() * Math.pow(10, 6) - VisionDeviceManager.getTimestampOffset();
 		
 		if (mt2Pose.length == 0) {
+//			System.out.println("VisionDevice.processFrame, mt2Pose is zero length, mt2 from helper=" );
 			return;
 		}
+
+//		System.out.println("VisionDevice.processFrame, mt2Pose.length=" + mt2Pose.length);
+
 
 		LimelightHelpers.SetRobotOrientation(mConstants.kTableName, mPigeon.getYaw().getDegrees(), 0, 0, 0, 0, 0);	
 

@@ -100,7 +100,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 4; //TODO: dc 11.9.24, increase max speed so that we can observe amplified drivetrain bahavior 
+        public static final double maxSpeed = 1; //TODO: dc 11.9.24, increase max speed so that we can observe amplified drivetrain bahavior 
         /** Radians per Second */
         public static final double maxAngularVelocity = 3.14; //TODO: This must be tuned to specific robot
 
@@ -185,12 +185,12 @@ public final class Constants {
         kLeftVisionDevice.kTableName = "limelight-left";    
         kLeftVisionDevice.kRobotToCamera = new edu.wpi.first.math.geometry.Transform2d(
                 new Translation2d(Units.inchesToMeters(10.5), Units.inchesToMeters(1.23)),
-                Rotation2d.fromDegrees(0));
+                Rotation2d.fromDegrees(-90));
 
         kRightVisionDevice.kTableName = "limelight-right";  
         kRightVisionDevice.kRobotToCamera = new edu.wpi.first.math.geometry.Transform2d(
-                new Translation2d(Units.inchesToMeters(10.78), Units.inchesToMeters(-0.05)),
-                Rotation2d.fromDegrees(0));
+                new Translation2d(Units.inchesToMeters(10.78), Units.inchesToMeters(2)),
+                Rotation2d.fromDegrees(90));
         
         kFrontVisionDevice.kTableName = "limelight-front";
         kFrontVisionDevice.kRobotToCamera = new edu.wpi.first.math.geometry.Transform2d(
@@ -200,7 +200,7 @@ public final class Constants {
         kBackVisionDevice.kTableName = "limelight-back";
         kBackVisionDevice.kRobotToCamera = new edu.wpi.first.math.geometry.Transform2d(
                 new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(-0.96)),
-                Rotation2d.fromDegrees(0));
+                Rotation2d.fromDegrees(180));
 }
 
     //dc.10.21.2024, citrus code constants
@@ -310,27 +310,30 @@ public final class Constants {
         //TODO: tune elevator constants to bot
         public static final int kElevatorLeftMotorId = 20;
         public static final int kElevatorRightMotorId = 21;
-    
-        public static final double kP = 0.15;
-        public static final double kI = 0;
+        
+        public static final double kS = 0.125;
+        public static final double kV = 0.0;
+        public static final double kP = 5.0;
+        public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kIZone = 5.0;
-        public static final double kG = 0.5;
+        
     
-        public static final double kMaxVelocity = 65;
-        public static final double kMaxAcceleration = 200;
-        public static final int kCurrentThreshold = 45;
+        public static final double kCruiseVelocity = 80;
+        public static final double kAcceleration = 135;
+        public static final double kJerk = 1600;
+        public static final int CurrentThreshold = 45;
         public static final int kMaxCurrent = 40;
         public static final double kMaxPowerUp = 0.1;
         public static final double kMaxPowerDown = 0.1;
         
         //TODO: Find correct elevator heights for each level
-        public static final double kGROUNDHeight = 0.0;
-        public static final double kL1Height = 5.0; //Most likely wrong
-        public static final double kL2Height = 9.0;
-        public static final double kL3Height = 25.14;
-        public static final double kL4Height = 52.0;
-        public static final double kMaxHeight = 56.2;
+        public static final double kGroundHeight = 0.05; //occasionally stalls at bottom
+        public static final double kL2Height = 11.229;
+        public static final double kL3Height = 23.44;
+        public static final double kL4Height = 44.1;    //stalls at top
+        public static final double kAPHeight = 6.9;
+        public static final double kA1Height = 19.4;
+        public static final double kA2Height = 32.5; //Unsure
         
         public static final TalonFXConfiguration ElevatorConfiguration() {
             TalonFXConfiguration config = new TalonFXConfiguration();
@@ -389,7 +392,9 @@ public final class Constants {
         public static final int kShooterLeftMotorId = 12;
         public static final int kShooterRightMotorId = 13;
         
-        public static final double kShooterSpeed = 0.1;
+        public static final double kShooterIntakeSpeed = 0.1;
+        public static final double kShooterShootSpeed = 0.15;
+        
       }
 
       //dc.2.11.25, keey the shooter class for now, TODO: remove when CoralShooter is QAed.

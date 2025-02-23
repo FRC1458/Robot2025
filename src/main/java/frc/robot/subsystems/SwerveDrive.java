@@ -57,7 +57,7 @@ public class SwerveDrive extends Subsystem {
 	}
 
 	public WheelTracker mWheelTracker;
-	private final Field2d m_field = new Field2d();
+	public final Field2d m_field = new Field2d();
 	private Pigeon mPigeon = Pigeon.getInstance();
 	public SwerveModule[] mModules;
 
@@ -110,7 +110,7 @@ public class SwerveDrive extends Subsystem {
 		mMotionPlanner = new DriveMotionPlanner();
 		mHeadingController = new SwerveHeadingController();
 
-		mPigeon.setYaw(0.0);
+		//mPigeon.setYaw(0.0); //dc.2.21.25, pigeon could have starting angle such as FRC 2025 game, in which pigeon will face backward on blue side
 		mWheelTracker = new WheelTracker(mModules);
 
 		SmartDashboard.putData("Field", m_field);
@@ -775,7 +775,7 @@ public class SwerveDrive extends Subsystem {
 	}
 */
 	@Override
-	public void stop() {
+	public synchronized void stop() {
 		mPeriodicIO.des_chassis_speeds = new ChassisSpeeds();
 		mControlState = DriveControlState.OPEN_LOOP;
 	}

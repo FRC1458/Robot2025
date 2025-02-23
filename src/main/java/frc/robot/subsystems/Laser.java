@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest.RobotCentric;
+
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.interfaces.LaserCanInterface.Measurement;
@@ -15,35 +17,21 @@ public class Laser {
     public static LaserCan shooterLaser = new LaserCan(Ports.LaserCanIDCoralFront.getDeviceNumber());
     public static LaserCan algaeShooterLaser = new LaserCan(Ports.LaserCanIDAlgae.getDeviceNumber());
 
-    public Laser() {
-    }
+    public Laser() {}
 
     public static double getMeasurementIntake() {
-        if (Robot.isSimulation()) {
-            return 200;
-
-        }
-        else {
-            return intakeLaser.getMeasurement().distance_mm;
-        }
+        if (Robot.isSimulation()) return Double.NaN;
+        return intakeLaser.getMeasurement().distance_mm;
     }
 
     public static double getMeasurementShooter() {
-        if (Robot.isSimulation()) {
-            return 200;
-        }
-        else {
+        if (Robot.isSimulation()) return Double.NaN;
         return shooterLaser.getMeasurement().distance_mm;
-        }
     }
 
     public static double getMeasurementAlgaeShooter() {
-        if (Robot.isSimulation()) {
-            return 200;
-        }
-        else {
+        if (Robot.isSimulation()) return Double.NaN;
         return algaeShooterLaser.getMeasurement().distance_mm;
-        }
     }
 
     public static boolean inRangeIntake() {
