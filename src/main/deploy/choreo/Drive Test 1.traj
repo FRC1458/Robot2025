@@ -4,8 +4,14 @@
  "snapshot":{
   "waypoints":[
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     {"x":7.2, "y":4.0, "heading":3.141592653589793, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":7.2, "y":5.0, "heading":3.141592653589793, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+=======
+    {"x":5.666921138763428, "y":5.488146781921387, "heading":3.141592653589793, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":5.666921138763428, "y":6.488146781921387, "heading":3.141592653589793, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":4.666921138763428, "y":6.488146781921387, "heading":3.141592653589793, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+>>>>>>> Stashed changes
 =======
     {"x":5.666921138763428, "y":5.488146781921387, "heading":3.141592653589793, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":5.666921138763428, "y":6.488146781921387, "heading":3.141592653589793, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
@@ -16,8 +22,14 @@
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"first", "to":"last", "data":{"type":"KeepInRectangle", "props":{"x":0.0, "y":0.0, "w":17.548, "h":8.052}}, "enabled":false},
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     {"from":0, "to":1, "data":{"type":"MaxAcceleration", "props":{"max":0.2}}, "enabled":true},
     {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":0.2}}, "enabled":true}],
+=======
+    {"from":"first", "to":"last", "data":{"type":"MaxAcceleration", "props":{"max":0.2}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"MaxVelocity", "props":{"max":0.2}}, "enabled":true},
+    {"from":1, "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true}],
+>>>>>>> Stashed changes
 =======
     {"from":"first", "to":"last", "data":{"type":"MaxAcceleration", "props":{"max":0.2}}, "enabled":true},
     {"from":"first", "to":"last", "data":{"type":"MaxVelocity", "props":{"max":0.2}}, "enabled":true},
@@ -28,8 +40,14 @@
  "params":{
   "waypoints":[
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"5.488146781921387 m", "val":5.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":120, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"6.488146781921387 m", "val":6.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+=======
+    {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"5.488146781921387 m", "val":5.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":108, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"6.488146781921387 m", "val":6.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":108, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
+    {"x":{"exp":"4.666921138763428 m", "val":4.666921138763428}, "y":{"exp":"6.488146781921387 m", "val":6.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":40, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false}],
+>>>>>>> Stashed changes
 =======
     {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"5.488146781921387 m", "val":5.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":108, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
     {"x":{"exp":"5.666921138763428 m", "val":5.666921138763428}, "y":{"exp":"6.488146781921387 m", "val":6.488146781921387}, "heading":{"exp":"180 deg", "val":3.141592653589793}, "intervals":108, "split":false, "fixTranslation":true, "fixHeading":true, "overrideIntervals":false},
@@ -40,8 +58,14 @@
     {"from":"last", "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true},
     {"from":"first", "to":"last", "data":{"type":"KeepInRectangle", "props":{"x":{"exp":"0 m", "val":0.0}, "y":{"exp":"0 m", "val":0.0}, "w":{"exp":"17.548 m", "val":17.548}, "h":{"exp":"8.052 m", "val":8.052}}}, "enabled":false},
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     {"from":0, "to":1, "data":{"type":"MaxAcceleration", "props":{"max":{"exp":"0.2 m / s ^ 2", "val":0.2}}}, "enabled":true},
     {"from":0, "to":1, "data":{"type":"MaxVelocity", "props":{"max":{"exp":"0.2 m / s", "val":0.2}}}, "enabled":true}],
+=======
+    {"from":"first", "to":"last", "data":{"type":"MaxAcceleration", "props":{"max":{"exp":"0.5 m / s ^ 2", "val":0.5}}}, "enabled":true},
+    {"from":"first", "to":"last", "data":{"type":"MaxVelocity", "props":{"max":{"exp":"0.2 m / s", "val":0.2}}}, "enabled":true},
+    {"from":1, "to":null, "data":{"type":"StopPoint", "props":{}}, "enabled":true}],
+>>>>>>> Stashed changes
 =======
     {"from":"first", "to":"last", "data":{"type":"MaxAcceleration", "props":{"max":{"exp":"0.5 m / s ^ 2", "val":0.5}}}, "enabled":true},
     {"from":"first", "to":"last", "data":{"type":"MaxVelocity", "props":{"max":{"exp":"0.2 m / s", "val":0.2}}}, "enabled":true},
@@ -54,6 +78,7 @@
  },
  "trajectory":{
   "sampleType":"Swerve",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   "waypoints":[0.0,6.00122],
   "samples":[
@@ -179,6 +204,8 @@
     {"t":5.95121, "x":7.2, "y":4.99975, "heading":-3.14159, "vx":0.0, "vy":0.01, "omega":-0.00002, "ax":0.0, "ay":-0.19996, "alpha":0.00046, "fx":[0.00064,0.00064,-0.00064,-0.00064], "fy":[-3.40543,-3.39943,-3.39943,-3.40071]},
     {"t":6.00122, "x":7.2, "y":5.0, "heading":3.14159, "vx":0.0, "vy":0.0, "omega":0.0, "ax":0.0, "ay":0.0, "alpha":0.0, "fx":[0.0,0.0,0.0,0.0], "fy":[0.0,0.0,0.0,0.0]}],
 =======
+=======
+>>>>>>> Stashed changes
   "waypoints":[0.0,6.00122,12.00244],
   "samples":[
     {"t":0.0, "x":5.66692, "y":5.48815, "heading":3.14159, "vx":0.0, "vy":0.0, "omega":0.0, "ax":0.0, "ay":0.19992, "alpha":-0.00006, "fx":[-0.00015,-0.00015,0.00015,0.00015], "fy":[3.40073,3.40039,3.40039,3.40073]},
@@ -422,6 +449,9 @@
     {"t":11.90242, "x":4.66792, "y":6.48815, "heading":-3.14159, "vx":-0.02, "vy":0.0, "omega":-0.00001, "ax":0.19996, "ay":0.0, "alpha":0.00009, "fx":[3.40087,3.40265,3.40066,3.40066], "fy":[0.00006,-0.00006,-0.00006,0.00006]},
     {"t":11.95243, "x":4.66717, "y":6.48815, "heading":-3.14159, "vx":-0.01, "vy":0.0, "omega":0.0, "ax":0.19996, "ay":0.0, "alpha":0.00008, "fx":[3.40096,3.40252,3.40076,3.40076], "fy":[0.00006,-0.00006,-0.00006,0.00006]},
     {"t":12.00244, "x":4.66692, "y":6.48815, "heading":3.14159, "vx":0.0, "vy":0.0, "omega":0.0, "ax":0.0, "ay":0.0, "alpha":0.0, "fx":[0.0,0.0,0.0,0.0], "fy":[0.0,0.0,0.0,0.0]}],
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   "splits":[0]
  },
