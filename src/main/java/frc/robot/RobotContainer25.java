@@ -21,6 +21,7 @@ import frc.robot.autos.AutoModeExecutor;
 import frc.robot.autos.AutoModeSelector;
 //dc.2.11.25, keep Shooter for testing until CoralShooter is verified. 
 //dc.2.11.25, keep Shooter for testing until CoralShooter is verified. 
+import frc.robot.autos.ChorAutoBuilder;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.vision.*;
 import edu.wpi.first.wpilibj.Timer;
@@ -69,6 +70,8 @@ public class RobotContainer25 {
 
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
+    public ChorAutoBuilder chorAutoBuilder;
+
 
     // private VisionDeviceManager m_VisionDevices =
     // VisionDeviceManager.getInstance();
@@ -136,6 +139,9 @@ public class RobotContainer25 {
             CrashTracker.logThrowableCrash(t); // TODO: CrashTracker needs to be ported. to log crash/exception
             throw t;
         }
+
+        chorAutoBuilder = new ChorAutoBuilder(m_SwerveDrive);
+
     }
 
     /**
@@ -364,4 +370,5 @@ public class RobotContainer25 {
 
     public void updateLimeLightData() {
     }
+
 }

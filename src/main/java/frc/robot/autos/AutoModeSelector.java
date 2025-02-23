@@ -16,7 +16,8 @@ public class AutoModeSelector {
 		RRMIDDLE,
 		LRMIDDLE,
 		LLMIDDLE,
-		L4AROUND
+		L4AROUND,
+		Choreo
 	}
 
 	private DesiredMode mCachedDesiredMode = DesiredMode.DO_NOTHING;
@@ -35,6 +36,7 @@ public class AutoModeSelector {
 		mModeChooser.addOption("RRMiddle!", DesiredMode.RRMIDDLE);
 		mModeChooser.addOption("LRMiddle", DesiredMode.LRMIDDLE);
 		mModeChooser.addOption("L4Around", DesiredMode.L4AROUND);
+		mModeChooser.addOption("Choreo", DesiredMode.Choreo);
 
 		mModeChooser.setDefaultOption("mode to test autos", DesiredMode.TESTAUTOMODE3);
 		SmartDashboard.putData("Auto Mode", mModeChooser);
@@ -92,6 +94,8 @@ public class AutoModeSelector {
 				return Optional.of(new Start3LeftSideCoral());
 			case L4AROUND:
 				return Optional.of(new RightAroundTheReefL4());
+			case Choreo:
+				return Optional.of(new ChoreoAuto());
 			default:
 				System.out.println("ERROR: unexpected auto mode: " + mode);
 				break;

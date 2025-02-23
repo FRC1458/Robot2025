@@ -10,10 +10,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.subsystems.DigitalSensor;
+
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 
 public class Elevator extends Subsystem {
 
@@ -265,6 +268,13 @@ public class Elevator extends Subsystem {
     }
     System.out.println("No Case");
     return false;
+  }
+
+  public Command goToLevel(int level){
+    return runOnce(
+            () -> {
+              setTargetLevel(level);
+            });
   }
 
   // public void setElevatorPower(double power) {
