@@ -4,10 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "CoralStationToReef",
-    "RoutineSIM",
+    "4L4",
     "ProcessorToCoralStation",
     "ReefToCoralStation",
     "ReefToProcessor",
+    "RoutineSIM",
     "Start1ToReef",
     "Start2ToReef",
     "Start3ToReef",
