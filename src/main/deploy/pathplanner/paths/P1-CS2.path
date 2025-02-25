@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.05,
+    "maxAcceleration": 4.4,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 52.305759533310834
+    "rotation": 52.30575953331084
   },
   "reversed": false,
   "folder": "ProcessorToCoralStation",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -88.26429541107173
+    "rotation": -88.26429541107174
   },
   "useDefaultConstraints": true
 }
