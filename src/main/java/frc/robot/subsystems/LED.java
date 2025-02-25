@@ -18,6 +18,7 @@ public class LED extends Subsystem {
     public static LED getInstance() {
         if (m_Instance == null) {
             m_Instance = new LED();
+            m_Instance.setThreeAlternatingColor(255,0,0,255,255,255,0,0,255);
         }
         return m_Instance;
     }
@@ -151,16 +152,18 @@ public class LED extends Subsystem {
         led.setData(ledBuffer);
     }
 
-    public void setAlternatingColor(int r1, int g1, int b1, int r2, int g2, int b2) {
+    public void setThreeAlternatingColor(int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3) {
         for (int i = 0; i < ledBuffer.getLength(); i++) {
-            if (i % 2 == 0) {
-                ledBuffer.setRGB(i, r1, g1, b1);
-            } else {
+            if (i % 3 == 0) {
+                ledBuffer.setRGB(i, r3, g3, b3);
+            } 
+            else if (i % 2 == 0){
                 ledBuffer.setRGB(i, r2, g2, b2);
+            }
+            else {
+                ledBuffer.setRGB(i, r1, g1, b1);
             }
         }
         led.setData(ledBuffer);
     }
-
-
 }
