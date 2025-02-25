@@ -61,6 +61,12 @@ public class Elevator extends Subsystem {
     slot0Configs.kI = Constants.Elevator.kI; // no output for integrated error
     slot0Configs.kD = Constants.Elevator.kD; // A velocity of 1 rps results in 0.0 V output
 
+    talonFXConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.StatorCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus code value = 110;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    talonFXConfigs.CurrentLimits.SupplyCurrentLimit = Constants.Elevator.kMaxCurrent;//citrus value = 90;
+
+
     var motionMagicConfigs = talonFXConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity = Constants.Elevator.kCruiseVelocity; // Target cruise velocity of 80 rps
     motionMagicConfigs.MotionMagicAcceleration = Constants.Elevator.kAcceleration; // Target acceleration of 240 rps/s (0.5 seconds)
@@ -217,8 +223,6 @@ public class Elevator extends Subsystem {
   //
   public synchronized boolean isAtTarget() {
     //System.out.println("reading");
-    System.out.println("Current Pos: " + mPeriodicIO.mCurrentPos);
-    System.out.println("Error: " + (mPeriodicIO.mCurrentPos - mPeriodicIO.elevator_target));
     
     return Math.abs(mPeriodicIO.mCurrentPos - mPeriodicIO.elevator_target) < 0.75;
   }
