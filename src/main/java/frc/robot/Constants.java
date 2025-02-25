@@ -332,8 +332,8 @@ public final class Constants {
         public static final double kL3Height = 23.04;
         public static final double kL4Height = 44.0;    //stalls at top
         public static final double kAPHeight = 6.9;
-        public static final double kA1Height = 19.4;
-        public static final double kA2Height = 32.5; //Unsure
+        public static final double kA1Height = 18.08;
+        public static final double kA2Height = 31.30; //Unsure
         
         public static final TalonFXConfiguration ElevatorConfiguration() {
             TalonFXConfiguration config = new TalonFXConfiguration();
