@@ -6,14 +6,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.LEDS;
 
-public class LED {
+public class LED extends Subsystem {
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
     private int count;
     private long timer;
 
+    private static LED m_Instance;
+
+
+    public static LED getInstance() {
+        if (m_Instance == null) {
+            m_Instance = new LED();
+        }
+        return m_Instance;
+    }
+
     public LED() {
-        led = new AddressableLED(1);
+        led = new AddressableLED(3);
         ledBuffer = new AddressableLEDBuffer(Constants.LEDS.ledLength);
         count = 100; //arbritrary positive number
         timer = System.currentTimeMillis();
@@ -32,8 +42,25 @@ public class LED {
           led.setData(ledBuffer);
     }
 
+    public void ThreeWayGradient(int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3) {
+
+    }
+
+
+    public void TwoWayGradient(int r1, int g1, int b1, int r2, int g2, int b2) {
+        int length = ledBuffer.getLength();
+        for (int i = 0; i < length; i++) {
+            double ratio = (double) i / (length - 1);
+            int r = (int) ((1 - ratio) * r1 + ratio * r2);
+            int g = (int) ((1 - ratio) * g1 + ratio * g2);
+            int b = (int) ((1 - ratio) * b1 + ratio * b2);
+            ledBuffer.setRGB(i, r, g, b);
+        }
+        led.setData(ledBuffer);
+    }
+
     public void ChristmasStream() {
-        int red = 0, green = 0,blue = 0;
+        int red = 0, green = 0, blue = 0;
         for(int i = Constants.LEDS.ledStart; i < 106; i++) {
             if(i % 53 < 26) {
                 red = 255;
@@ -66,12 +93,12 @@ public class LED {
 
     // Red = Error
     public void red() {
-        setSolidColor(255, 0, 0, 18, 128);
+        setSolidColor(255, 0, 0, 0, 117);
     }
 
-    // Pink = Elevator L4
+    // Pink = Elevator L4x
     public void pink() {
-        setSolidColor(200, 50, 50, 18, 128);
+        setSolidColor(200, 50, 50, 0, 117);
     }
 
     // White = Intake Coral
@@ -96,7 +123,10 @@ public class LED {
 
     // Blue = Enabled (Ground)
     public void blue() {
-        setSolidColor(0, 0, 255, 18, 128);
+        for (int i = 0; i<=100; i+=1) {
+            System.out.println("blue LED should work");
+        }
+        setSolidColor(0, 0, 255, 0, 116);
     }
 
 
@@ -133,5 +163,5 @@ public class LED {
         led.setData(ledBuffer);
     }
 
-    
+
 }

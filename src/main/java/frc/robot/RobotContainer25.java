@@ -66,6 +66,7 @@ public class RobotContainer25 {
     private CoralShooter m_CoralShooter;
     private Funnel m_Funnel;
     private Hang m_Hang;
+    private LED m_LED;
 
     public AutoModeExecutor m_AutoModeExecutor;
     public static final AutoModeSelector m_AutoModeSelector = new AutoModeSelector();
@@ -87,6 +88,7 @@ public class RobotContainer25 {
             // m_CoralShooter = CoralShooter.getInstance();
             m_Hang = Hang.getInstance();
             m_Funnel = Funnel.getInstance();
+            m_LED = LED.getInstance();
 
             // init cancoders
             if (Robot.isReal() && !Constants.isBareboneRobot) {
@@ -114,7 +116,8 @@ public class RobotContainer25 {
                     // m_VisionDevices,
                     // m_CoralShooter,
                     m_Hang,
-                    m_Funnel
+                    m_Funnel,
+                    m_LED
             // Insert instances of additional subsystems here
             );
             // register subsystems to loopers
@@ -175,7 +178,6 @@ public class RobotContainer25 {
             CrashTracker.logThrowableCrash(t);
             throw t;
         }
-
     }
 
     // init manual (teleop) mode

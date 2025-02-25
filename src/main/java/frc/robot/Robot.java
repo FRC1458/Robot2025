@@ -16,6 +16,7 @@ import frc.robot.Loops.Looper;
 //import frc.robot.controlboard.ControlBoard;
 //import frc.robot.controlboard.DriverControls;
 import frc.robot.subsystems.DummySubsystem;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Laser;
 import frc.robot.subsystems.SubsystemManager;
 
@@ -105,7 +106,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    LED.getInstance().rainbowPulse();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

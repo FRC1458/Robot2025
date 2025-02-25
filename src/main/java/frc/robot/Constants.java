@@ -440,8 +440,8 @@ public final class Constants {
     
 
     public static final class LEDS { //TODO: make constants correct
-        public static final int ledStart = 18;
-        public static final int ledLength =  128;
+        public static final int ledStart = 0;
+        public static final int ledLength =  117;
     }
 
     /* dc.10.21.2024 extra constants needed during porting of citrus SwerveModule.java code */
