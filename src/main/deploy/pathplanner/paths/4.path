@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.9495443349460118,
+        "y": 5.292730424409913
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.087076200172711,
+        "y": 5.946795195205667
+      },
+      "isLocked": false,
+      "linkedName": "Reef Score K"
+    },
+    {
+      "anchor": {
+        "x": 1.4910001129425399,
+        "y": 7.204569199629744
+      },
+      "prevControl": {
+        "x": 3.6069217552648385,
+        "y": 5.555864828254318
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Coral Station Top "
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.3,
+      "constraints": {
+        "maxVelocity": 5.05,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.05,
+    "maxAcceleration": 4.4,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -53.88
+  },
+  "reversed": false,
+  "folder": "4L4",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.93361284081543
+  },
+  "useDefaultConstraints": true
+}
