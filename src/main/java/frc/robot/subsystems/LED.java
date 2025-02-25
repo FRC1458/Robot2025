@@ -46,11 +46,10 @@ public class LED extends Subsystem {
 
     }
 
-
     public void TwoWayGradient(int r1, int g1, int b1, int r2, int g2, int b2) {
         int length = ledBuffer.getLength();
         for (int i = 0; i < length; i++) {
-            double ratio = (double) i / (length - 1);
+            double ratio = (double) i / (length);
             int r = (int) ((1 - ratio) * r1 + ratio * r2);
             int g = (int) ((1 - ratio) * g1 + ratio * g2);
             int b = (int) ((1 - ratio) * b1 + ratio * b2);
