@@ -27,11 +27,13 @@ public class Laser {
     public static double getMeasurementShooter() {
         if (Robot.isSimulation()) return Double.NaN;
         return shooterLaser.getMeasurement().distance_mm;
+        }
     }
 
     public static double getMeasurementAlgaeShooter() {
         if (Robot.isSimulation()) return Double.NaN;
         return algaeShooterLaser.getMeasurement().distance_mm;
+        }
     }
 
     public static boolean inRangeIntake() {
