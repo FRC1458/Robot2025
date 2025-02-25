@@ -84,11 +84,11 @@ public class LED extends Subsystem {
 
 
     public void random() {
-        setSolidColor((int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, 18, 128);
+        setSolidColor((int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, 0, 117);
     }
     
     public void yellow() {
-        setSolidColor(255, 255, 0, 18, 128);
+        setSolidColor(255, 255, 0, 0, 117);
     }
 
     // Red = Error
@@ -103,22 +103,22 @@ public class LED extends Subsystem {
 
     // White = Intake Coral
     public void white() {
-        setSolidColor(255, 255, 255, 18, 128);
+        setSolidColor(255, 255, 255, 0, 117);
     }
 
 
     public void orange() {
-        setSolidColor(255, 50, 0, 18, 128);
+        setSolidColor(255, 50, 0, 0, 117);
     }
 
     // Green = Intake Algae
     public void green() {
-        setSolidColor(0, 255, 0, 18, 128);
+        setSolidColor(0, 255, 0, 0, 117);
     }
 
     
     public void lightBlue() {
-        setSolidColor(0, 255, 255, 18, 128);
+        setSolidColor(0, 255, 255, 0, 117);
     }
 
     // Blue = Enabled (Ground)
@@ -131,7 +131,7 @@ public class LED extends Subsystem {
 
 
     public void purple() {
-        setSolidColor(255,0, 255, 18, 128);
+        setSolidColor(255,0, 255, 0, 117);
     }
 
     public void setSolidColor(int r, int g, int b, int startLEDnum, int endLEDnum) {
