@@ -207,8 +207,12 @@ public class DriveMotionPlanner {
 				// RobotState.getInstance().setDisplaySetpointPose(Pose2d.fromTranslation(RobotState.getInstance().getFieldToOdom(timestamp)).transformBy(sample_point.state().state().getPose()));
 				mSetpoint = sample_point;
 
-				//3.calculate chassis speed for next movement via pure pursuit algo, 
-				mOutput = updatePurePursuit(current_pose, 0.0);
+				//3.calculate chassis speed for next movement via pure pursuit algo, using optimal look-ahead state and stops the command from recurring
+				if (mCurrentTrajectory.isDone()) {
+					mOutput = new ChassisSpeeds(); // Base case to stop recursion
+				} else {
+					mOutput = updatePurePursuit(current_pose, 0.0); // Recursive call
+				}
 			}
 		} else {
 			if (mCurrentTrajectory.getLastPoint().velocityMetersPerSecond == 0.0) {
@@ -237,12 +241,15 @@ public class DriveMotionPlanner {
 	}
 
 	//dc 11.21.2024. adapting citrus PurePursuit algo using WPILib math classes
-	protected ChassisSpeeds updatePurePursuit(Pose2d current_pose, double feedforwardOmegaRadiansPerSecond) {
+	protected ChassisSpeeds (Pose2d current_pose, double feedforwardOmegaRadiansPerSecond) {
 		double lookahead_time = kPathLookaheadTime;
 		final double kLookaheadSearchDt = 0.01;
 		Trajectory.State lookahead_state = mCurrentTrajectory.preview(lookahead_time);
 		double actual_lookahead_distance = distance(mSetpoint.poseMeters, lookahead_state.poseMeters);
 		double adaptive_lookahead_distance = mSpeedLookahead.getLookaheadForSpeed(mSetpoint.velocityMetersPerSecond); // (lookahead_range) * (speed - min_speed) / (speed_range) + min_lookahead
+		if (mCurrentTrajectory.getLastPoint().velocityMetersPerSecond == 0.0) {
+			return new ChassisSpeeds(); // Stop the robot
+		}
 				//+ kAdaptiveErrorLookaheadCoefficient * mError.getTranslation().getNorm(); //TODO: TB restored, dc.12.7.24, turn off mError compensation
 		
 		// try Points on Trajectory to approach max lookahead_distance (adaptive_lookahead_distance)
