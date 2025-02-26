@@ -382,7 +382,7 @@ public class DriveMotionPlanner {
 	public synchronized Rotation2d getHeadingError() {
 		return mError.getRotation();
 	}
-
+// hi (just for commit)
 
 	//dc.10.24.24, calculate the curve distance from current pose (from PoseEstimator) to the desired pose of the preview position on the trajectory 
 	private double distanceToTrajectory(Pose2d current_pose, double additional_progress) {
