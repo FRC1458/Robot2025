@@ -1,7 +1,9 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -84,7 +86,11 @@ public class FieldLayout {
 	public static AprilTag getClosestTag(Translation2d robot_position) {
 		AprilTag closest_tag = null;
 		double closest_distance = Double.MAX_VALUE;
+		ArrayList<Integer> validTags = new ArrayList<Integer>(List.of(6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21));
 		for (AprilTag tag : kTagMap.getTags()) {
+			if (validTags.contains(tag.ID)) {
+				continue;
+			}
 			double distance = robot_position.getDistance(tag.pose.getTranslation().toTranslation2d());
 			for (int num : new int[] {14,4,15,5}) {
 				if (num == tag.ID) {
