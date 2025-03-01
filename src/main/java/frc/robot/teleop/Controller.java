@@ -156,17 +156,14 @@ public class Controller {
 
 
         //snap2tag
-        /* 
-        if (mXboxController1.getPOV() == 0 && prevPOV != 0) {
-            mTeleopAutoMode.runAction(new SnapToTag(2));
-            
-        }
-        if (mXboxController1.getPOV() == 90 && prevPOV != 90) {
+        
+        if (mXboxController2.getRightBumperButtonPressed()) {
             mTeleopAutoMode.runAction(new SnapToTag(1));
         }
-        if (mXboxController1.getPOV() == 270 && prevPOV != 270) {
+        
+        if (mXboxController2.getLeftBumperButtonPressed()) {
             mTeleopAutoMode.runAction(new SnapToTag(0));
-        }*/
+        }
 
         
     }
