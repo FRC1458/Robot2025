@@ -33,6 +33,7 @@ import frc.robot.lib.util.Util;
 import frc.robot.lib.trajectory.TrajectoryGenerator;
 import frc.robot.Loops.CrashTracker;
 import frc.robot.teleop.Controller;
+import frc.robot.RobotState;
 /**
  * DC 10.28.2024
  * This class is where the bulk of the robot (for 2025 FRC season) should be
@@ -52,6 +53,7 @@ public class RobotContainer25 {
 
     /* Controllers */
     private final Joystick m_JoyStick = new Joystick(0);
+    private final Joystick m_JoyStick2 = new Joystick(1);
 
     private final XboxController xboxController = new XboxController(0);
     private final XboxController xboxController2 = new XboxController(1);
@@ -59,6 +61,11 @@ public class RobotContainer25 {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+
+    
+    private final int translationAxis2 = XboxController.Axis.kLeftY.value;
+    private final int strafeAxis2 = XboxController.Axis.kLeftX.value;
+    private final int rotationAxis2 = XboxController.Axis.kRightX.value;
     /* JoyStick Buttons */
     
     /* loop framework objects */
@@ -279,16 +286,29 @@ public class RobotContainer25 {
                 double translationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(translationAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
                 double strafeVal = - MathUtil.applyDeadband(m_JoyStick.getRawAxis(strafeAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
                 double rotationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(rotationAxis), Constants.stickDeadband)* Constants.Swerve.maxAngularVelocity;
+                
+                double translationVal2 = -MathUtil.applyDeadband(m_JoyStick2.getRawAxis(translationAxis2), Constants.stickDeadband2)*0.25;
+                double strafeVal2 = - MathUtil.applyDeadband(m_JoyStick2.getRawAxis(strafeAxis2), Constants.stickDeadband2)*0.25;
+                double rotationVal2 = -MathUtil.applyDeadband(m_JoyStick2.getRawAxis(rotationAxis2), Constants.stickDeadband2)*Constants.Swerve.maxAngularVelocity / 4;
 
                 if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
                     translationVal = -translationVal;
                     strafeVal = -strafeVal;
                 }
                 m_Controller.processKeyCommand();
+                
 
-                m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
-                    translationVal, strafeVal, rotationVal,
-                    Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
+                if (Math.max(Math.max(Math.abs(m_JoyStick.getRawAxis(translationAxis)),
+                    Math.abs(m_JoyStick.getRawAxis(strafeAxis))),
+                    Math.abs(m_JoyStick.getRawAxis(rotationAxis)))
+                    > Constants.stickDeadband) {
+                        m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
+                            translationVal, strafeVal, rotationVal,
+                            Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
+                } else {
+                    m_SwerveDrive.feedTeleopSetpoint(new ChassisSpeeds(
+                        translationVal2, strafeVal2, rotationVal2));
+                }
 
                 for(int i = 0; i < 4;  i++) {
                     //SmartDashboard.putBoolean("Mag Sensor " + i, DigitalSensor.getSensor(i));

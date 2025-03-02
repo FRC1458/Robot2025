@@ -162,6 +162,20 @@ public class SwerveModule extends Subsystem {
 		}
 	}
 
+	public void setNudge(SwerveModuleState desiredState, Boolean[] atDes) {
+		double flip = setSteeringAngleOptimized(new Rotation2d(desiredState.angle.getRadians())) ? -1 : 1; //dc: modify to support WPILib Rotation2d constructor
+		boolean move = true;
+		for (boolean b : atDes) {
+			if (!b) move = false;
+		}
+		mPeriodicIO.targetVelocity = desiredState.speedMetersPerSecond * flip * (move ? 1 : 0);
+		double rotorSpeed = Conversions.MPSToRPS(
+				mPeriodicIO.targetVelocity, SwerveConstants.wheelCircumference, SwerveConstants.driveGearRatio);
+		mPeriodicIO.driveDemand = new VoltageOut(rotorSpeed * SwerveConstants.kV)
+				.withEnableFOC(true)
+				.withOverrideBrakeDurNeutral(false);
+	}
+
 	/*DC.11.14.24. bugfix to turn wheels in right direction in teleop swerve mode
 	* We need to negate the desired steering angle because position reading of our robot's rotation motor 
 	* increases along clock-wise direction vs. CCW assumed in Kinematic.toSwerveModuleStates() to calculate disired moduleState.angle.
@@ -257,6 +271,10 @@ public class SwerveModule extends Subsystem {
 		mDriveMotor.getConfigurator().refresh(t);
 		t.MotorOutput.NeutralMode = wantBrake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
 		mDriveMotor.getConfigurator().apply(t);
+	}
+
+	public double getHeadingError() {
+		return getCurrentUnboundedDegrees() - target_angle;
 	}
 
 	@Override

@@ -53,7 +53,8 @@ public class SwerveDrive extends Subsystem {
 		OPEN_LOOP,
 		HEADING_CONTROL,
 		VELOCITY,
-		PATH_FOLLOWING
+		PATH_FOLLOWING,
+		NUDGE
 	}
 
 	public WheelTracker mWheelTracker;
@@ -259,6 +260,7 @@ public class SwerveDrive extends Subsystem {
 						case HEADING_CONTROL:
 							break;
 						case OPEN_LOOP:
+						case NUDGE:
 						case VELOCITY:
 						case FORCE_ORIENT:
 							break;
@@ -630,6 +632,10 @@ public class SwerveDrive extends Subsystem {
 
 	@Override
 	public void writePeriodicOutputs() {
+		List<Boolean> atDes = new ArrayList<>();
+		for (SwerveModule module : mModules) {
+			atDes.add(Math.abs(module.getHeadingError()) < 3);
+		}
 		for (int i = 0; i < mModules.length; i++) {
 			if (mControlState == DriveControlState.OPEN_LOOP || mControlState == DriveControlState.HEADING_CONTROL) {
 				mModules[i].setOpenLoop(mPeriodicIO.des_module_states[i]);
@@ -637,6 +643,8 @@ public class SwerveDrive extends Subsystem {
 					|| mControlState == DriveControlState.VELOCITY
 					|| mControlState == DriveControlState.FORCE_ORIENT) {
 				mModules[i].setVelocity(mPeriodicIO.des_module_states[i]);
+			} else if (mControlState == DriveControlState.NUDGE) {
+				mModules[i].setNudge(mPeriodicIO.des_module_states[i], (Boolean[]) atDes.toArray());
 			}
 		}
 
@@ -815,5 +823,13 @@ public class SwerveDrive extends Subsystem {
 	//dc.10.26.2024 util to convert ChassisSpeed into twist2d object
 	public Twist2d toTwist2d(ChassisSpeeds chassisSpeeds) {
 		return new Twist2d(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond);
+	}
+
+	public void setStateToNudge() {
+		mControlState = DriveControlState.NUDGE;
+	}
+
+	public void setStateToOpenLoop() {
+		mControlState = DriveControlState.OPEN_LOOP;
 	}
 }

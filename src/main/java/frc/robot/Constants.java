@@ -22,6 +22,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 public final class Constants {
     public static final double stickDeadband = 0.07;
+    public static final double stickDeadband2 = 0.1;
     public static boolean isEpsilon;
     public static boolean isBareboneRobot=true; //dc.10.29.2024, set to true for barebone robot, false for full robot//
 
