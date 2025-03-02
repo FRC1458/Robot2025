@@ -21,6 +21,7 @@ public class LED extends Subsystem {
         if (m_Instance == null) {
             m_Instance = new LED();
             m_Instance.blinkerLights(255, 165, 0, 1);
+            //m_Instance.TwoWayGradient(255, 0, 0, 69, 69, 69);
            // m_Instance.setThreeAlternatingColor(255,0,0,255,255,255,0,0,255);
         }
         return m_Instance;
