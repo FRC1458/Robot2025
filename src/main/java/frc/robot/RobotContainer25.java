@@ -302,10 +302,12 @@ public class RobotContainer25 {
                     Math.abs(m_JoyStick.getRawAxis(strafeAxis))),
                     Math.abs(m_JoyStick.getRawAxis(rotationAxis)))
                     > Constants.stickDeadband) {
+                        m_SwerveDrive.setStateToOpenLoop();
                         m_SwerveDrive.feedTeleopSetpoint(ChassisSpeeds.fromFieldRelativeSpeeds(
                             translationVal, strafeVal, rotationVal,
                             Util.robotToFieldRelative(m_SwerveDrive.getHeading(), is_red_alliance)));
                 } else {
+                    m_SwerveDrive.setStateToNudge();
                     m_SwerveDrive.feedTeleopSetpoint(new ChassisSpeeds(
                         translationVal2, strafeVal2, rotationVal2));
                 }

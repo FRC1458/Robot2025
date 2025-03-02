@@ -80,12 +80,14 @@ public class Controller {
 
             // mTeleopAutoMode.runAction(new SeriesAction(new ElevatorAction("Ground"), new AlgaeAction("Intake"), new ElevatorAction("L2")));
         }
-        else if(mXboxController1.getPOV() == 90) {
-            mTeleopAutoMode.runAction(new SnapToTag(1));
-        }
-        else if(mXboxController1.getPOV() == 270) {
-            mTeleopAutoMode.runAction(new SnapToTag(0));
-        }
+        // else if(mXboxController1.getPOV() == 90 && POVReset) {
+        //     mTeleopAutoMode.runAction(new SnapToTag(1));
+        //     POVReset = false;
+        // }
+        // else if(mXboxController1.getPOV() == 270 && POVReset) {
+        //     mTeleopAutoMode.runAction(new SnapToTag(0));
+        //     POVReset = false;
+        // }
         else {
             POVReset = true;
         }

@@ -162,11 +162,11 @@ public class SwerveModule extends Subsystem {
 		}
 	}
 
-	public void setNudge(SwerveModuleState desiredState, Boolean[] atDes) {
+	public void setNudge(SwerveModuleState desiredState, Object[] atDes) {
 		double flip = setSteeringAngleOptimized(new Rotation2d(desiredState.angle.getRadians())) ? -1 : 1; //dc: modify to support WPILib Rotation2d constructor
 		boolean move = true;
-		for (boolean b : atDes) {
-			if (!b) move = false;
+		for (Object b : atDes) {
+			if (!(boolean)b) move = false;
 		}
 		mPeriodicIO.targetVelocity = desiredState.speedMetersPerSecond * flip * (move ? 1 : 0);
 		double rotorSpeed = Conversions.MPSToRPS(

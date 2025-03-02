@@ -153,6 +153,7 @@ public class SwerveDrive extends Subsystem {
 				SmartDashboard.putNumber("Drive/feedTeleop/StabilizingOmega =",omega);
 				return;
 			}
+		} else if (mControlState == DriveControlState.NUDGE) {
 		} else if (mControlState != DriveControlState.OPEN_LOOP) {
 			mControlState = DriveControlState.OPEN_LOOP;
 		}else{	// already in (state == OPEN_LOOP ) mode
@@ -634,7 +635,8 @@ public class SwerveDrive extends Subsystem {
 	public void writePeriodicOutputs() {
 		List<Boolean> atDes = new ArrayList<>();
 		for (SwerveModule module : mModules) {
-			atDes.add(Math.abs(module.getHeadingError()) < 3);
+			atDes.add(Math.abs(module.getHeadingError()) < 90);//TODO: magic number 3
+
 		}
 		for (int i = 0; i < mModules.length; i++) {
 			if (mControlState == DriveControlState.OPEN_LOOP || mControlState == DriveControlState.HEADING_CONTROL) {
@@ -644,7 +646,7 @@ public class SwerveDrive extends Subsystem {
 					|| mControlState == DriveControlState.FORCE_ORIENT) {
 				mModules[i].setVelocity(mPeriodicIO.des_module_states[i]);
 			} else if (mControlState == DriveControlState.NUDGE) {
-				mModules[i].setNudge(mPeriodicIO.des_module_states[i], (Boolean[]) atDes.toArray());
+				mModules[i].setNudge(mPeriodicIO.des_module_states[i], atDes.toArray());
 			}
 		}
 
