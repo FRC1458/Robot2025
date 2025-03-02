@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.LEDS;
@@ -11,6 +12,7 @@ public class LED extends Subsystem {
     private AddressableLEDBuffer ledBuffer;
     private int count;
     private long timer;
+    private double time;
 
     private static LED m_Instance;
 
@@ -18,10 +20,21 @@ public class LED extends Subsystem {
     public static LED getInstance() {
         if (m_Instance == null) {
             m_Instance = new LED();
-            m_Instance.setThreeAlternatingColor(255,0,0,255,255,255,0,0,255);
+            m_Instance.blinkerLights(255, 165, 0, 1);
+           // m_Instance.setThreeAlternatingColor(255,0,0,255,255,255,0,0,255);
         }
         return m_Instance;
     }
+    @Override
+    public void readPeriodicInputs() {
+        time = Timer.getFPGATimestamp();
+    }
+
+
+    @Override
+	public void writePeriodicOutputs() {
+		
+	}
 
     public LED() {
         led = new AddressableLED(3);
@@ -43,9 +56,8 @@ public class LED extends Subsystem {
           led.setData(ledBuffer);
     }
 
-    public void ThreeWayGradient(int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3) {
-
-    }
+    //public void ThreeWayGradient(int r1, int g1, int b1, int r2, int g2, int b2, int r3, int g3, int b3) {
+    //}
 
     public void TwoWayGradient(int r1, int g1, int b1, int r2, int g2, int b2) {
         int length = ledBuffer.getLength();
@@ -81,7 +93,6 @@ public class LED extends Subsystem {
         }
           led.setData(ledBuffer);
     }
-
 
     public void random() {
         setSolidColor((int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, (int)(Math.random() * 50) + 100, 0, 117);
@@ -137,6 +148,13 @@ public class LED extends Subsystem {
     public void setSolidColor(int r, int g, int b, int startLEDnum, int endLEDnum) {
         for(int i = startLEDnum; i < endLEDnum && i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, r, g, b);
+        }
+        led.setData(ledBuffer);
+    }
+
+    public void blinkerLights(int r, int g, int b, double freq) {
+        for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
+            ledBuffer.setRGB(i, r * ((int)Math.floor(time*freq)%2), g * ((int)Math.floor(time*freq)%2), b * ((int)Math.floor(time*freq)%2));
         }
         led.setData(ledBuffer);
     }
