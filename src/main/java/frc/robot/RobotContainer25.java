@@ -283,9 +283,9 @@ public class RobotContainer25 {
                     m_SwerveDrive.zeroGyro(0);
 			}
                 //dc.11.9.24, to scale up joystick input to max-speed
-                double translationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(translationAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
-                double strafeVal = - MathUtil.applyDeadband(m_JoyStick.getRawAxis(strafeAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
-                double rotationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(rotationAxis), Constants.stickDeadband)* Constants.Swerve.maxAngularVelocity;
+                double translationVal = MathUtil.applyDeadband(m_JoyStick.getRawAxis(translationAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
+                double strafeVal =  MathUtil.applyDeadband(m_JoyStick.getRawAxis(strafeAxis), Constants.stickDeadband)*Constants.SwerveConstants.maxSpeed;
+                double rotationVal = MathUtil.applyDeadband(m_JoyStick.getRawAxis(rotationAxis), Constants.stickDeadband)* Constants.Swerve.maxAngularVelocity;
                 
                 double translationVal2 = -MathUtil.applyDeadband(m_JoyStick2.getRawAxis(translationAxis2), Constants.stickDeadband2)*0.25;
                 double strafeVal2 = - MathUtil.applyDeadband(m_JoyStick2.getRawAxis(strafeAxis2), Constants.stickDeadband2)*0.25;
