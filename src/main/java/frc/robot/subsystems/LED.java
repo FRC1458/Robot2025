@@ -177,6 +177,70 @@ public class LED extends Subsystem {
         }
     }
 
+
+    public void blinkerLightsFull(int r, int g, int b, double freq, int startLEDnum, int endLEDnum) {
+        if(timer2.hasElapsed(freq)) {
+        if (isOn) {
+            for(int i = startLEDnum; i < endLEDnum && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, 0,0,0);
+            }
+        }
+        else {
+            for(int i = startLEDnum; i < endLEDnum && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, r,g,b);
+            }
+        }
+        isOn = !isOn;
+        led.setData(ledBuffer);
+        timer2.reset();
+        }
+        else {
+            timer2.start();
+        }
+    }
+
+    public void blinkerLightsRight(int r, int g, int b, double freq) {
+        if(timer2.hasElapsed(freq)) {
+        if (isOn) {
+            for(int i = 45; i < 117 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, 0,0,0);
+            }
+        }
+        else {
+            for(int i = 45; i < 117 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, r,g,b);
+            }
+        }
+        isOn = !isOn;
+        led.setData(ledBuffer);
+        timer2.reset();
+        }
+        else {
+            timer2.start();
+        }
+    }
+
+        public void blinkerLightsLeft(int r, int g, int b, double freq) {
+        if(timer2.hasElapsed(freq)) {
+        if (isOn) {
+            for(int i = 0; i < 47 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, 0,0,0);
+            }
+        }
+        else {
+            for(int i = 0; i < 47 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, r,g,b);
+            }
+        }
+        isOn = !isOn;
+        led.setData(ledBuffer);
+        timer2.reset();
+        }
+        else {
+            timer2.start();
+        }
+    }
+
     public void setAlternatingColorSolid(int r1, int g1, int b1, int r2, int g2, int b2) {
         for (int i = 0; i < ledBuffer.getLength(); i++) {
             if (i % 2 == 0) {
