@@ -13,9 +13,10 @@ public class LED extends Subsystem {
     private int count;
     private long timer;
     private double time;
+    private boolean isOn;
 
     private static LED m_Instance;
-
+    private Timer timer2;
 
     public static LED getInstance() {
         if (m_Instance == null) {
@@ -28,6 +29,7 @@ public class LED extends Subsystem {
     @Override
     public void readPeriodicInputs() {
         time = Timer.getFPGATimestamp();
+        
     }
 
 
@@ -43,6 +45,8 @@ public class LED extends Subsystem {
         timer = System.currentTimeMillis();
         led.setLength(ledBuffer.getLength());
         led.start();
+        timer2 = new Timer();
+        isOn = true;
     }
 
     public void rainbowPulse() {
@@ -153,10 +157,24 @@ public class LED extends Subsystem {
     }
 
     public void blinkerLights(int r, int g, int b, double freq) {
-        for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, r * ((int)Math.floor(time*freq)%2), g * ((int)Math.floor(time*freq)%2), b * ((int)Math.floor(time*freq)%2));
+        if(timer2.hasElapsed(freq)) {
+        if (isOn) {
+            for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, 0,0,0);
+            }
         }
+        else {
+            for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, r,g,b);
+            }
+        }
+        isOn = !isOn;
         led.setData(ledBuffer);
+        timer2.reset();
+        }
+        else {
+            timer2.start();
+        }
     }
 
     public void blinkerLightsright(int r, int g, int b, double freq) {
