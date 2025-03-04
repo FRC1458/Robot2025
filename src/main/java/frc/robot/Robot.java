@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    LED.getInstance().blinkerLights(255, 0, 0, 1);
+    LED.getInstance().blinkerLights(255, 0, 0, 1, 0, 45);
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */

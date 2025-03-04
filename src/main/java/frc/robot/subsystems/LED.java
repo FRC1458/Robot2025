@@ -156,15 +156,15 @@ public class LED extends Subsystem {
         led.setData(ledBuffer);
     }
 
-    public void blinkerLights(int r, int g, int b, double freq) {
+    public void blinkerLights(int r, int g, int b, double freq, int startLEDnum, int endLEDnum) {
         if(timer2.hasElapsed(freq)) {
         if (isOn) {
-            for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
+            for(int i = startLEDnum; i < endLEDnum && i < ledBuffer.getLength(); i++) {
                 ledBuffer.setRGB(i, 0,0,0);
             }
         }
         else {
-            for(int i = 0; i < 117 && i < ledBuffer.getLength(); i++) {
+            for(int i = startLEDnum; i < endLEDnum && i < ledBuffer.getLength(); i++) {
                 ledBuffer.setRGB(i, r,g,b);
             }
         }
@@ -175,20 +175,6 @@ public class LED extends Subsystem {
         else {
             timer2.start();
         }
-    }
-
-    public void blinkerLightsright(int r, int g, int b, double freq) {
-        for(int i = 0; i < 58 && i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, r * ((int)Math.floor(time*freq)%2), g * ((int)Math.floor(time*freq)%2), b * ((int)Math.floor(time*freq)%2));
-        }
-        led.setData(ledBuffer);
-    }
-
-    public void blinkerLightsleft(int r, int g, int b, double freq) {
-        for(int i = 59; i < 117 && i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, r * ((int)Math.floor(time*freq)%2), g * ((int)Math.floor(time*freq)%2), b * ((int)Math.floor(time*freq)%2));
-        }
-        led.setData(ledBuffer);
     }
 
     public void setAlternatingColorSolid(int r1, int g1, int b1, int r2, int g2, int b2) {
