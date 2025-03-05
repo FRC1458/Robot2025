@@ -199,6 +199,15 @@ public class LED extends Subsystem {
         }
     }
 
+    public void blinkerLightsSnap(int mNum){
+        if (mNum == 0) {
+            blinkerLightsRight(255, 0, 0, 1);
+        }
+        else {
+            blinkerLightsLeft(255, 0, 0, 1);
+        }
+     }
+
     public void blinkerLightsRight(int r, int g, int b, double freq) {
         if(timer2.hasElapsed(freq)) {
         if (isOn) {
