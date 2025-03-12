@@ -33,10 +33,11 @@ public class AlgaeShooter extends Subsystem {
     private class PeriodicIO {
 		double speed = 0.0;
 		double position = 0.0;
+		AlgaeShooterState state = AlgaeShooterState.RETRACTED;
 	}
 
 
-
+	private double extendedPosition;
     private TalonFX mAlgaeMotor;
 	private TalonFX mAlgaePivotMotor;
 
@@ -69,8 +70,15 @@ public class AlgaeShooter extends Subsystem {
 		m_request = new MotionMagicVoltage(0);
 		sensor = new DigitalInput(4);
 
+		extendedPosition = Constants.AlgaeSmth.kExtendedPosition;
+
         //mHangMotor.setNeutralMode(NeutralModeValue.Brake);
     }
+
+	public enum AlgaeShooterState {
+		RETRACTED,
+		EXTENDED
+	}
 
     public void registerEnabledLoops(ILooper enabledLooper) {
         enabledLooper.register(new Loop() {
@@ -82,12 +90,20 @@ public class AlgaeShooter extends Subsystem {
 				if(sensor.get()){
 					resetPos();
 				}
-            }
+				switch (mPeriodicIO.state) {
+					case RETRACTED:
+						stop();
+						retracted();
+					case EXTENDED:
+						extended();
+					}
+			}
             
             @Override
             public void onStop(double timestamp) {
                 //stop();
             }
+
         });
     }
 
@@ -122,12 +138,15 @@ public class AlgaeShooter extends Subsystem {
 	}
 
 	public void extended(){
-		mPeriodicIO.position = Constants.AlgaeSmth.kExtendedPosition;
+		mPeriodicIO.position = extendedPosition;
 	}
 
 	public void resetPos(){
 		mAlgaePivotMotor.setPosition(0);
 
 	}
- 
+
+	public void setExtendedTarget(double newPosition) {
+		extendedPosition = newPosition;
+	}
 }
