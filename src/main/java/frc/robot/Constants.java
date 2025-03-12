@@ -433,18 +433,20 @@ public final class Constants {
         }
     }
 
-    public static final class AlgaeShooter { //TODO: make constants correct
-        public static final int kAlgaeShooterLeftMotorId = 26;
-        public static final int kAlgaeShooterRightMotorId = 27;
-        public static final int kAlgaeShooterLimitSwitchId = 32;
-        public static final double kAlgaeShooterSpeed = 0.4;
-    }
+
 // WIP PLS CHANGE SOON I DONT THINK THIS IS CORRECT - AARUSH
     public static final class AlgaeSmth { //TODO: make constants correct
-        public static final int kAlgaeSmthLeftMotorId = 28;
-        public static final int kAlgaeSmthRightMotorId = 29;
+        public static final int kAlgaeMotorId = 28;
+        public static final int kAlgaePivotMotorId = 29;
         public static final int kAlgaeSmthLimitSwitchId = 33;
-        public static final double kAlgaeSmthSpeed = 0.4;
+        public static final double kAlgaeSpeed = 0.2;
+        public static final double kAlgaePivotSpeed = 0.05;
+        public static final double kS = 0;
+        public static final double kV = 0.0;
+        public static final double kP = 2.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kExtendedPosition = 3.0;
     }
 
     public static final class Hang { //TODO: make constants correct
