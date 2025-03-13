@@ -40,6 +40,6 @@ public class AlgaeAction implements Action {
 
 	@Override
 	public void done() {
-		mShooter.stopAlgaeShooter();
+		mShooter.stop();
 	}
 }
