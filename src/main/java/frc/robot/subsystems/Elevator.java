@@ -78,17 +78,6 @@ public class Elevator extends Subsystem {
     m_request = new MotionMagicVoltage(0);
   }
 
-  public enum ElevatorState {
-    GROUND,
-    L2,
-    L3,
-    L4,
-    AP,
-    A1,
-    A2,
-    DEF, 
-  }
-
   private static class PeriodicIO {
     double elevator_target = 0.0;
     String state = "Ground";

@@ -60,6 +60,8 @@ public class AlgaeShooter extends Subsystem {
 		slot0Configs.kP = Constants.AlgaeSmth.kP; // An error of 1 rotation results in 0.4 V output
 		slot0Configs.kI = Constants.AlgaeSmth.kI; // no output for integrated error
 		slot0Configs.kD = Constants.AlgaeSmth.kD; // A velocity of 1 rps results in 0.0 V output
+
+
 	
 		var motionMagicConfigs = talonFXConfigs.MotionMagic;
 		motionMagicConfigs.MotionMagicCruiseVelocity = Constants.Elevator.kCruiseVelocity; // Target cruise velocity of 80 rps
@@ -71,8 +73,6 @@ public class AlgaeShooter extends Subsystem {
 		sensor = new DigitalInput(4);
 
 		extendedPosition = Constants.AlgaeSmth.kExtendedPosition;
-
-        //mHangMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
 	public enum AlgaeShooterState {
@@ -93,9 +93,10 @@ public class AlgaeShooter extends Subsystem {
 				switch (mPeriodicIO.state) {
 					case RETRACTED:
 						stop();
-						retracted();
+						setRetractPos();
 					case EXTENDED:
 						extended();
+						setExtendPos();
 					}
 			}
             
@@ -133,20 +134,20 @@ public class AlgaeShooter extends Subsystem {
 		mAlgaePivotMotor.setControl(m_request.withPosition(mPeriodicIO.position));
 	}
 
-	public void retracted(){
+	public void setRetractPos(){
 		mPeriodicIO.position = 0.0;
+	}
+	public void setExtendPos(){
+		mPeriodicIO.position = extendedPosition;
 	}
 
 	public void extended(){
-		mPeriodicIO.position = extendedPosition;
+		mPeriodicIO.state = AlgaeShooterState.EXTENDED;
 	}
 
 	public void resetPos(){
 		mAlgaePivotMotor.setPosition(0);
-
 	}
 
-	public void setExtendedTarget(double newPosition) {
-		extendedPosition = newPosition;
-	}
+
 }
