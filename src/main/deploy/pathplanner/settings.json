@@ -32,7 +32,7 @@
   "driveMotorType": "krakenX60",
   "driveCurrentLimit": 40.0,
   "wheelCOF": 1.0,
-  "flModuleX": 0.305,
+  "flModuleX": 0.3048,
   "flModuleY": 0.305,
   "frModuleX": 0.305,
   "frModuleY": -0.305,
@@ -42,5 +42,10 @@
   "brModuleY": -0.305,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":1.3,\"y\":0.305},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":1.3,\"y\":-0.305},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":1.3,\"y\":-1.03},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":1.3,\"y\":1.03},\"strokeWidth\":0.01}}"
+  ]
 }
