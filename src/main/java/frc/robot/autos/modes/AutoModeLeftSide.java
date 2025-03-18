@@ -9,5 +9,4 @@ public class AutoModeLeftSide extends AutoStringAuto {
                 "CS 2 Wait 1 " + 
                 "[ ( R 4r ) ( Wait 1 Elevator L4 ) ] Wait 1 CShoot Wait 1 Elevator Ground ");
     }
-
 }
