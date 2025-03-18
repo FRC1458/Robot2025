@@ -4,10 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "AutoCenter",
-    "AutoLeftSide",
     "AutoRightSide",
-    "BetterRightSide",
     "CoralStationToReef",
+    "AutoLeftSide",
+    "OldAutoLeftSide",
+    "OldAutoRightSide",
     "ProcessorToCoralStation",
     "ReefToCoralStation",
     "ReefToProcessor",
