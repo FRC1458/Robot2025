@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.2393262986989246,
-        "y": 7.054464285714285
+        "x": 1.520879121116802,
+        "y": 7.243421544019789
       },
       "prevControl": {
-        "x": 2.113845198675497,
-        "y": 5.7247930463576155
+        "x": 2.3953980210933743,
+        "y": 5.913750304663119
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CS Top"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.746162262803615
+    "rotation": -53.85833693183029
   },
   "reversed": false,
-  "folder": "AutoRightSide",
+  "folder": "OldAutoRightSide",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": -59.1842942482708

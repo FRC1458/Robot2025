@@ -45,7 +45,11 @@
     "rotation": -53.85833693183029
   },
   "reversed": false,
+<<<<<<< Updated upstream
   "folder": "BetterRightSide",
+=======
+  "folder": "BetterAutoRightSide",
+>>>>>>> Stashed changes
   "idealStartingState": {
     "velocity": 0,
     "rotation": -60.133412740898706

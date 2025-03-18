@@ -4,9 +4,15 @@
   "holonomicMode": true,
   "pathFolders": [
     "AutoCenter",
+<<<<<<< Updated upstream
     "AutoLeftSide",
     "AutoRightSide",
     "BetterRightSide",
+=======
+    "OldAutoLeftSide",
+    "OldAutoRightSide",
+    "BetterAutoRightSide",
+>>>>>>> Stashed changes
     "CoralStationToReef",
     "ProcessorToCoralStation",
     "ReefToCoralStation",
@@ -43,9 +49,9 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":1.3,\"y\":0.305},\"strokeWidth\":0.01}}",
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":1.3,\"y\":-0.305},\"strokeWidth\":0.01}}",
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":1.3,\"y\":-1.03},\"strokeWidth\":0.01}}",
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":1.3,\"y\":1.03},\"strokeWidth\":0.01}}"
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":2.3,\"y\":0.31},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":2.3,\"y\":-0.31},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":0.3},\"end\":{\"x\":2.3,\"y\":-2.36},\"strokeWidth\":0.01}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.3,\"y\":-0.3},\"end\":{\"x\":2.3,\"y\":2.36},\"strokeWidth\":0.01}}"
   ]
 }
