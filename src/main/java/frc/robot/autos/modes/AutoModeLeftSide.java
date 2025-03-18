@@ -18,5 +18,4 @@ public class AutoModeLeftSide extends AutoStringAuto {
               "Wait 0.1 R B " +     //Intake coral, Go to Reef B
               ") ]");
     }
-
 }
