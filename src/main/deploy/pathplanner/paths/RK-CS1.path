@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.004091769260459,
-        "y": 5.270115626454586
+        "x": 3.9607487993552453,
+        "y": 5.265023597074748
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.560690789473684,
-        "y": 6.007072368421052
+        "x": 3.3324885513585243,
+        "y": 5.7511989691636884
       },
       "isLocked": false,
-      "linkedName": "Reef J"
+      "linkedName": "Reef K "
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.243421544019789
       },
       "prevControl": {
-        "x": 3.9641447368421048,
-        "y": 5.949342105263157
+        "x": 2.3946948169268434,
+        "y": 6.540279989009834
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +45,10 @@
     "rotation": -53.85833693183029
   },
   "reversed": false,
-  "folder": "TOP 4L4",
+  "folder": "BetterRightSide",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.77828632025155
+    "rotation": -60.133412740898706
   },
   "useDefaultConstraints": true
 }
