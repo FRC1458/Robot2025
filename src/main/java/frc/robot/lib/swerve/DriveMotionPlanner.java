@@ -36,7 +36,7 @@ public class DriveMotionPlanner {
 	* reduce max search radius (searchStepSize initial value) for closest point on trajectory. 
 	* Due to the significant impacts on PurePursuit bahavior, we introduce a constant value for it. 
 	*/
-	public static final double KPurePursuitMaxSearchRadius = 0.5;
+	public static final double KPurePursuitMaxSearchRadius = 0.02;//previously 0.5
 
     //follower type
 	public enum FollowerType {
@@ -229,9 +229,22 @@ public class DriveMotionPlanner {
 				Trajectory.State endPoint = mCurrentTrajectory.getLastPoint();
 				Pose2d delta = endPoint.poseMeters.relativeTo(currPose);	//delta = endPoint - current_pose, in robot's local frame, dc.12.7.2024 bugfix, error shall = target - current
 				if (delta.getTranslation().getNorm() < 0.01 //less then 1cm
-					&& Math.abs(delta.getRotation().getDegrees()) < 3){ //less than 3 degree
+					&& Math.abs(delta.getRotation().getDegrees()) < 3){ //less than 3 degree  //want to try something like 1 here
+						
+						System.out.println("Total Path length: " + mCurrentTrajectory.getLastPoint().timeSeconds);
+						System.out.println("PurePursuit() done. remaining (s) =" + mCurrentTrajectory.getRemainingProgress() 
+				+ ", err.distance=" + currPose.relativeTo(endPoint.poseMeters).getTranslation().getNorm()
+				+ ", err.angle=" + endPoint.poseMeters.getRotation().minus(currPose.getRotation()).getDegrees()); 
+
 						return true;//consider traverse done, even if we have not reached the end of mCurrentTrajectory 
 					}
+			}
+			if (mCurrentTrajectory.isDone()) {
+				System.out.println("Total Path length: " + mCurrentTrajectory.getLastPoint().timeSeconds);
+				System.out.println("PurePursuit() done. remaining (s) =" + mCurrentTrajectory.getRemainingProgress() 
+				+ ", err.distance=" + currPose.relativeTo(mCurrentTrajectory.getLastPoint().poseMeters).getTranslation().getNorm()
+				+ ", err.angle=" + mCurrentTrajectory.getLastPoint().poseMeters.getRotation().minus(currPose.getRotation()).getDegrees());
+
 			}
 			return mCurrentTrajectory.isDone();
 		}
@@ -365,14 +378,14 @@ public class DriveMotionPlanner {
 		//output debug info as we get close to the end of path
 		if (actual_lookahead_distance < adaptive_lookahead_distance) {
 			Trajectory.State endPoint = mCurrentTrajectory.getLastPoint();
-			System.out.println("PurePursuit() remaining (s) =" + mCurrentTrajectory.getRemainingProgress() 
-				+ ", err.distance=" + current_pose.relativeTo(endPoint.poseMeters).getTranslation().getNorm()
-				+ ", err.angle=" + currPoseRotationDelta.getDegrees() 
+			//System.out.println("PurePursuit() remaining (s) =" + mCurrentTrajectory.getRemainingProgress() 
+			//	+ ", err.distance=" + current_pose.relativeTo(endPoint.poseMeters).getTranslation().getNorm()
+			//	+ ", err.angle=" + currPoseRotationDelta.getDegrees() 
 				// + ", lookahead=" + lookaheadTranslation.getNorm()
 //				+ ", OmegaRPS orig=" + mSetpoint.curvatureRadPerMeter*mSetpoint.velocityMetersPerSecond 
 //				+ ", OmegaRPS comp=" + deltaOmegaRadiansPerSecond
 				// + ", OmegaRPS =" + trueOmegaRadiansPerSecond
-				);
+//				);
 
 		
 		}			
@@ -382,7 +395,9 @@ public class DriveMotionPlanner {
 		// Use the PD-Controller for To Follow the Time-Parametrized Heading
 		final double kThetakP = 0.0; //TODO: TB restored, dc.12.7.24, turn off PD controller, citrus orignal value = 3.5;
 		final double kThetakD = 0.0;
-		final double kPositionkP =3; //TODO: TB restored, dc.12.7.24, turn off PD controller,  citrus orignal value = 2.0;
+
+		//used to be 3 but lower values work best in simulation
+		final double kPositionkP = 1; //TODO: TB restored, dc.12.7.24, turn off PD controller,  citrus orignal value = 2.0;
 
 		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond
 				+ kPositionkP * mError.getTranslation().getX();
