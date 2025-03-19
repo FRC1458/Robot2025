@@ -157,12 +157,12 @@ public final class Constants {
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, isDriveInverted, isAngleInverted);
         }
 
-        public static double kMaxAngularAcceleration = 720.0; //TODO: set this to tuned value in future
+        public static double kMaxAngularAcceleration = 720.0; //TODO: set this to tuned value in future (unit is in degrees)
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 1;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3; //want to change to 4
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
     
@@ -232,7 +232,8 @@ public final class Constants {
         public static final double maxSpeed = Swerve.maxSpeed; 
         public static final double maxAngularVelocity = Swerve.maxAngularVelocity;
         public static final double kV = 12 * Math.PI * wheelDiameter / (driveGearRatio * maxSpeed); //TODO: need to finetune with the actual robot
-        public static final double maxAutoSpeed = maxSpeed * 0.85;  // Max out at 85% to ensure attainable speeds, 
+        public static final double maxAutoSpeed = 5.0;  // Max out at 85% to ensure attainable speeds, //used to be maxSpeed * 0.85, but 4m/s (current max) is already not the actual max
+                                                        //also this isn't used for planning the paths, when following the path there's no reason to not try to go as fast as possible
         
         public static final double kCancoderBootAllowanceSeconds = 10.0;
 

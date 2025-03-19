@@ -26,7 +26,7 @@ public class AutoModeSelector {
 		mModeChooser.addOption("RightSide", DesiredMode.RIGHTSIDE);
 		mModeChooser.addOption("Center", DesiredMode.CENTER);
 		mModeChooser.addOption("AutoMode3", DesiredMode.TESTAUTOMODE3);
-		mModeChooser.setDefaultOption("AutoMode3", DesiredMode.TESTAUTOMODE3);
+		mModeChooser.setDefaultOption("Center", DesiredMode.CENTER);
 		SmartDashboard.putData("Auto Mode", mModeChooser);
 	}
 

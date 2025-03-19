@@ -1,0 +1,55 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S3-RE"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RE-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RD-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RC-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RB"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

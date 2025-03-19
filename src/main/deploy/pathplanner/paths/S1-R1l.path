@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.289,
-        "y": 5.052
+        "x": 5.291940789473683,
+        "y": 5.093009868421053
       },
       "prevControl": {
-        "x": 5.982954545454545,
-        "y": 6.408685064935064
+        "x": 5.9858953349282285,
+        "y": 6.449694933356117
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Reef I"
     }
   ],
   "rotationTargets": [],
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 4.4,
     "maxAngularVelocity": 60.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -119.77828632025155
   },
   "reversed": false,
-  "folder": "AutoRightSide",
+  "folder": "OldAutoRightSide",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 180.0

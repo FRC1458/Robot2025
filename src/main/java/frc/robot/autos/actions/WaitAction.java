@@ -25,12 +25,13 @@ public class WaitAction implements Action {
 
 	@Override
 	public void done() {
-		System.out.println("Finished waiting!");
+		System.out.println("Finished waiting " + mTimeToWait + " seconds!");
+		System.out.println("Total time elapsed " + (Timer.getFPGATimestamp() - mStartTime));
 	}
 
 	@Override
 	public void start() {
 		mStartTime = Timer.getFPGATimestamp();
-		System.out.println("Waiting for " + mTimeToWait + "seconds!");
+		System.out.println("Waiting for " + mTimeToWait + " seconds!");
 	}
 }
