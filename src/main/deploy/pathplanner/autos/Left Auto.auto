@@ -33,18 +33,6 @@
           "data": {
             "pathName": "CS2-RC"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RC-CS2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CS2-RB"
-          }
         }
       ]
     }

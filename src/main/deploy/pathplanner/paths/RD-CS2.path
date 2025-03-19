@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.332737391566484,
-        "y": 2.288005309780353
+        "x": 3.3404829545454544,
+        "y": 2.5143039772727276
       },
       "isLocked": false,
       "linkedName": "Reef D"
@@ -20,8 +20,8 @@
         "y": 0.78
       },
       "prevControl": {
-        "x": 2.394814710574492,
-        "y": 1.4831427793908007
+        "x": 1.9511823272632847,
+        "y": 1.3943640332167437
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": 54.62524815612397
+    "velocity": 0.0,
+    "rotation": 55.0
   },
   "reversed": false,
   "folder": "AutoLeftSide",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.78272604261577
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }

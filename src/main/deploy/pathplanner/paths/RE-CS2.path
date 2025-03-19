@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.984046052631578,
-        "y": 2.4951480263157895
+        "x": 4.985795454545455,
+        "y": 2.3647301136363637
       },
       "isLocked": false,
       "linkedName": "Reef E"
@@ -20,8 +20,8 @@
         "y": 0.78
       },
       "prevControl": {
-        "x": 4.416486010462144,
-        "y": 2.0999013157894746
+        "x": 2.2771983919961287,
+        "y": 1.8599632262308634
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,7 +29,21 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.9358830146231745,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.0,
+        "maxAcceleration": 1.25,
+        "maxAngularVelocity": 60.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -41,14 +55,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
-    "rotation": 54.62524815612397
+    "velocity": 0.0,
+    "rotation": 55.0
   },
   "reversed": false,
   "folder": "AutoLeftSide",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.778
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }
