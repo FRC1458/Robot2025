@@ -71,7 +71,7 @@ public class Controller {
         mXboxController1.leftTrigger(0.5, m_loop).rising().ifHigh(
                 () -> mTeleopAutoMode.runAction(new AlgaePivotAction("Intake")));
         mXboxController1.leftTrigger(0.5, m_loop).falling().ifHigh(
-                () -> mTeleopAutoMode.runAction(new AlgaePivotAction("Ground")));
+                () -> mTeleopAutoMode.runAction(new AlgaePivotAction("Resting")));
                 //() -> mTeleopAutoMode.runAction(new SnapToTag("CS", "CS")));
         mXboxController1.start(m_loop).ifHigh(
                 () -> isFieldRelative = !isFieldRelative);

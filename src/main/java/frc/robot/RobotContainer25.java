@@ -69,7 +69,7 @@ public class RobotContainer25 {
     private Elevator m_Elevator;
     //private Shooter m_Shooter; //replaced by CoralShooter
     private Cancoders m_Cancoders;
-    //private AlgaeShooter m_AlgaeShooter;
+    private AlgaeShooter m_AlgaeShooter;
     private CoralShooter m_CoralShooter;
     private Funnel m_Funnel;
     private Hang m_Hang;
@@ -93,7 +93,7 @@ public class RobotContainer25 {
             m_SwerveDrive = SwerveDrive.getInstance();
             m_Elevator = Elevator.getInstance();
             //m_Shooter = Shooter.getInstance();//replaced by CoralShooter
-        //    m_AlgaeShooter = AlgaeShooter.getInstance();
+             m_AlgaeShooter = AlgaeShooter.getInstance();
             m_CoralShooter = CoralShooter.getInstance();
             m_Led = LED.getInstance();
 
@@ -126,8 +126,8 @@ public class RobotContainer25 {
                     m_Elevator,
                     m_ExampleSubsystem,
                     m_VisionDevices,
-                    m_CoralShooter
-//                    m_AlgaeShooter/* ,
+                    m_CoralShooter,
+                    m_AlgaeShooter/* ,
                     // m_Hang,
                     // m_Funnel*/
             // Insert instances of additional subsystems here
