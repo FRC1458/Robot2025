@@ -37,7 +37,7 @@ public class AlgaeShooter extends Subsystem {
     }
 
     private TalonFX mPivotMotor;
-    private TalonFX mShooterMotor;
+
 
     private MotionMagicVoltage m_request;
     private boolean mSafeStop = true;
@@ -49,7 +49,7 @@ public class AlgaeShooter extends Subsystem {
         mPeriodicIO = new PeriodicIO();
 
         mPivotMotor = new TalonFX(Constants.AlgaeShooter.kAlgaePivotMotorId); // MASTER
-        mShooterMotor = new TalonFX(Constants.AlgaeShooter.kAlgaeShooterMotorId);
+        
 
         var talonFXConfigs = new TalonFXConfiguration();
 
@@ -115,7 +115,6 @@ public class AlgaeShooter extends Subsystem {
         } else {
             // runPivotRaw(0.03);// dc. how to counter balance weight and spring forces which are variable to the pivot
         }
-        runShooter(mPeriodicIO.des_shooter_speed);
     }
 
     @Override
@@ -174,9 +173,7 @@ public class AlgaeShooter extends Subsystem {
         return Math.abs(mPeriodicIO.mCurrentPos - mPeriodicIO.pivot_target) < 0.5; //TODO: tune magic number in constants
     }
 
-    public void runShooter(double speed) {
-        mShooterMotor.set(speed);
-    }
+
 
     public void shoot() {
         mPeriodicIO.des_shooter_speed = Constants.AlgaeShooter.kAlgaeShooterSpeed;

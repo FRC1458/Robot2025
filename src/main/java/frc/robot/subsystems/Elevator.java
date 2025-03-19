@@ -139,18 +139,7 @@ public class Elevator extends Subsystem {
 
   @Override
   public void writePeriodicOutputs() {
-    if (!isAtTarget() && !mSafeStop){
-      goToTarget();
-    }else{
-      //System.out.println("it is at target =" );
-      //System.out.println("it is at target =" );=
-      if(mPeriodicIO.state.equals("Ground") && !mSafeStop) {
-//        runElevatorRaw(0);
-      }
-      else{
-        //runElevatorRaw(0.03);
-      }
-    }
+    goToTarget();
   }
 
   @Override
