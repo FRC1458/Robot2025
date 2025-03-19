@@ -328,11 +328,11 @@ public final class Constants {
         public static final double kMaxPowerDown = 0.1;
         
         //TODO: Find correct elevator heights for each level
-        public static final double kGroundHeight = 0.5; //occasionally stalls at bottom
+        public static final double kGroundHeight = 0.3; //occasionally stalls at bottom
         public static final double kL2Height = 9.15;
         public static final double kL3Height = 22;
         
-        public static final double kL4Height = 43.15;    //stalls at top
+        public static final double kL4Height = 43.0;    //stalls at top
         public static final double kAPHeight = 6.9;
         public static final double kA1Height = 25.7;  //19.4
         public static final double kA2Height = 32.5; //Unsure
