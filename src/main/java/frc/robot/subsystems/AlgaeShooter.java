@@ -110,11 +110,7 @@ public class AlgaeShooter extends Subsystem {
 
     @Override
     public void writePeriodicOutputs() {
-        if (!isAtTarget() && !mSafeStop){
             goToTarget();
-        } else {
-            // runPivotRaw(0.03);// dc. how to counter balance weight and spring forces which are variable to the pivot
-        }
     }
 
     @Override
