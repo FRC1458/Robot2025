@@ -256,8 +256,8 @@ public class DriveMotionPlanner {
 	protected ChassisSpeeds updatePIDChassis(ChassisSpeeds chassisSpeeds, Twist2d pid_error) {
 		// dc.10.22.2024, TODO: tune the "K" constants of PID algo
 		// Feedback on longitudinal error (distance).
-		final double kPathk = 2.4; // 2.4;/* * Math.hypot(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond)*/;//0.15;
-		final double kPathKTheta = 3.0;
+		final double kPathk = 0; // 2.4;/* * Math.hypot(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond)*/;//0.15;
+		final double kPathKTheta = 0; //3.0
 		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond + kPathk * pid_error.dx;
 		chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond + kPathk * pid_error.dy;
 		chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond + kPathKTheta * pid_error.dtheta;

@@ -3,6 +3,7 @@ package frc.robot.autos.modes;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.autos.AutoModeBase;
 import frc.robot.autos.AutoModeEndedException;
 import frc.robot.autos.actions.SwerveTrajectoryAction.ResetWheelTracker;
@@ -12,7 +13,7 @@ public class AutoStringAuto extends AutoModeBase {
     public String autoString;
     private String lastPoint = null;
     private Boolean isFirstTrajectory = true;
-
+    private double t;
 
     /**
      * Syntax:
@@ -37,6 +38,7 @@ public class AutoStringAuto extends AutoModeBase {
     
     public AutoStringAuto(String string) {
         autoString = string;
+        t = Timer.getFPGATimestamp();
     }
         
     @Override
@@ -45,7 +47,7 @@ public class AutoStringAuto extends AutoModeBase {
         lastPoint = null; //last point on field
         isFirstTrajectory = true;
         runAction(new SeriesAction(parseAuto(autoString)));
-        System.out.println("Finished auto!");
+        System.out.println("Finished auto in " + (Timer.getFPGATimestamp() - t) + "!");
     }
 
     private List<Action> parseAuto(String string) {
