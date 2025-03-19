@@ -7,13 +7,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S4-R5r"
+            "pathName": "S3-RE"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R5r-CS2"
+            "pathName": "RE-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RD-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RC"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RC-CS2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CS2-RB"
           }
         }
       ]

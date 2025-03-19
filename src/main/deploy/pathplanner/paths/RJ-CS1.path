@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.560690789473684,
-        "y": 6.007072368421052
+        "x": 4.688013698630137,
+        "y": 5.865646404109588
       },
       "isLocked": false,
       "linkedName": "Reef J"
@@ -20,8 +20,8 @@
         "y": 7.243421544019789
       },
       "prevControl": {
-        "x": 3.9641447368421048,
-        "y": 5.949342105263157
+        "x": 3.2605736301369865,
+        "y": 5.655286815068494
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 4.4,
     "maxAngularVelocity": 60.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
