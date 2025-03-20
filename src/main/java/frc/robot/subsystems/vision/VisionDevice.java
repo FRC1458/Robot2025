@@ -160,7 +160,7 @@ public class VisionDevice extends Subsystem {
 
 		if (
 			targetSpace_pose.getTranslation().getDistance(new Translation2d(0, 0)) < 3 
-			&& MathUtil.inputModulus(targetSpace_pose.getRotation().getDegrees() + 15, -180, 180) < 30
+			&& MathUtil.inputModulus(targetSpace_pose.getRotation().getDegrees() + 15, -180, 180) < 15
 			&& Arrays.stream(validIds).anyMatch(n->n==(int) mID.get())
 		) {
 			// System.out.println(mID.get());
