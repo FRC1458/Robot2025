@@ -216,6 +216,7 @@ public class RobotContainer25 {
     // init diabled  mode, this is the staging place to get ready for other modes, such as auto
     public void initDisabledMode() {
         //close current auto mode
+        m_AlgaeShooter.setTarget("Resting");
         if (m_AutoModeExecutor != null) {
             m_AutoModeExecutor.stop();
         }
