@@ -443,7 +443,7 @@ public final class Constants {
         public static final double kIntakePosition = 5.93;
         public static final double kBargePosition = 0;
         public static final double kProcessorPosition = 4.5;
-        public static final double kRestingPosition = -2.0;
+        public static final double kRestingPosition = -0.0;
         public static final double kGroundPosition = 5.93;
 
         public static final double kS = 0.015;
