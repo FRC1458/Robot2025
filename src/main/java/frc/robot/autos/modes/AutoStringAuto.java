@@ -27,6 +27,7 @@ public class AutoStringAuto extends AutoModeBase {
      * <li> ( actions ) denote a series action, where actions are run one by one ({@link SeriesAction})</li>
      * <li> { actions } denote a repeat action, where actions are repeated a number of times denoted by the number after the closing bracket</li>
      * <li> Wait and the following number denotes a wait action for that number of seconds ({@link WaitAction})</li>
+     * <li> CIntake denotes a coral intake action ({@link CoralIntakeAction})</li>
      * <li> CShoot denotes a coral shoot action ({@link CoralShootAction})</li>
      * <li> AIntake denotes an algae intake action ({@link AlgaeIntakeAction})</li>
      * <li> AShoot denotes an algae shoot action ({@link AlgaeShootAction})</li>
@@ -136,6 +137,9 @@ public class AutoStringAuto extends AutoModeBase {
                     break; 
                 case "CShoot":
                     listOfActions.add(new CoralShootAction());
+                    break;                
+                case "CIntake":
+                    listOfActions.add(new CoralIntakeAction());
                     break;
                 case "AShoot":
                     listOfActions.add(new AlgaeShootAction());
