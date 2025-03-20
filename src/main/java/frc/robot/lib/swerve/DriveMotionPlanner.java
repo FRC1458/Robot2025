@@ -399,6 +399,10 @@ public class DriveMotionPlanner {
 		//used to be 3 but lower values work best in simulation
 		final double kPositionkP = 1; //TODO: TB restored, dc.12.7.24, turn off PD controller,  citrus orignal value = 2.0;
 
+		SmartDashboard.putNumber("x error", mError.getTranslation().getX());
+		SmartDashboard.putNumber("y error", mError.getTranslation().getY());
+		SmartDashboard.putNumber("angle error", mError.getRotation().getDegrees());
+
 		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond
 				+ kPositionkP * mError.getTranslation().getX();
 		chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond

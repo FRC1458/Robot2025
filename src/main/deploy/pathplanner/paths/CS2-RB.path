@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8763569014865953,
-        "y": 1.4486669419081306
+        "x": 3.24554794520548,
+        "y": 2.9957405821917806
       },
       "isLocked": false,
       "linkedName": "CS Bottom"
@@ -20,8 +20,8 @@
         "y": 3.86
       },
       "prevControl": {
-        "x": 2.9827324039300707,
-        "y": 3.523888176818406
+        "x": 1.6828767123287671,
+        "y": 3.9273330479452055
       },
       "nextControl": null,
       "isLocked": false,
@@ -37,10 +37,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.79,
+      "minWaypointRelativePos": 0.85,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.5,
         "maxAcceleration": 1.5,
         "maxAngularVelocity": 60.0,
         "maxAngularAcceleration": 720.0,
@@ -52,7 +52,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.05,
+    "maxVelocity": 4.0,
     "maxAcceleration": 4.4,
     "maxAngularVelocity": 60.0,
     "maxAngularAcceleration": 720.0,
