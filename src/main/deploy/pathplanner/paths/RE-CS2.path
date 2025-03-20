@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.004,
-        "y": 2.775
+        "x": 5.381025507548152,
+        "y": 2.887584591358666
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.985795454545455,
-        "y": 2.3647301136363637
+        "x": 5.362820962093608,
+        "y": 2.4773147049950297
       },
       "isLocked": false,
       "linkedName": "Reef E"
     },
     {
       "anchor": {
-        "x": 1.521,
-        "y": 0.78
+        "x": 1.2516137428422698,
+        "y": 1.0512753774075987
       },
       "prevControl": {
-        "x": 2.2771983919961287,
-        "y": 1.8599632262308634
+        "x": 2.0078121348383986,
+        "y": 2.1312386036384616
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 4.4,
     "maxAngularVelocity": 60.0,
     "maxAngularAcceleration": 720.0,

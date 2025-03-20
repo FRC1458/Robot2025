@@ -3,72 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.152226027397259,
-        "y": 2.775
+        "x": 7.564,
+        "y": 1.499
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.840511363636364,
-        "y": 1.5370880681818175
+        "x": 7.180791254554919,
+        "y": 1.4258459135866723
       },
       "isLocked": false,
       "linkedName": "Start 3"
     },
     {
       "anchor": {
-        "x": 5.294914772727273,
-        "y": 2.2650142045454538
+        "x": 6.322019781363872,
+        "y": 1.626834981780321
       },
       "prevControl": {
-        "x": 5.419914772727273,
-        "y": 2.048507853599344
+        "x": 6.736650214685643,
+        "y": 1.3375455215334473
       },
       "nextControl": {
-        "x": 5.169914772727273,
-        "y": 2.481520555491563
+        "x": 5.907389348042102,
+        "y": 1.9161244420271937
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.004,
-        "y": 2.775
+        "x": 5.381025507548152,
+        "y": 2.887584591358666
       },
       "prevControl": {
-        "x": 5.129,
-        "y": 2.55849364905389
+        "x": 5.627693909422176,
+        "y": 2.467334721499218
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Reef E"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.2,
-      "rotationDegrees": 119.99999999999999
-    }
-  ],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.7,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 60.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "rotationTargets": [],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 4.4,
     "maxAngularVelocity": 60.0,
     "maxAngularAcceleration": 720.0,
