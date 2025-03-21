@@ -95,7 +95,7 @@ public class VisionDevice extends Subsystem {
 		mConfigTable.getEntry("camera_exposure").setDouble(mPeriodicIO.camera_exposure);
 		mConfigTable.getEntry("camera_auto_exposure").setDouble(mPeriodicIO.camera_auto_exposure ? 0.0 : 1.0);
 		mConfigTable.getEntry("camera_gain").setDouble(mPeriodicIO.camera_gain);
-	
+
 		inSnapRange = false;
 		hasTarget = false;
 	}
@@ -130,21 +130,22 @@ public class VisionDevice extends Subsystem {
 		Vector<N2> stdDevsVec = VecBuilder.fill(stdDevs[6], stdDevs[7]);
 
 		robotField.setRobotPose(botPose);
-		double deTrust=0.01;
-		double cTag= LimelightHelpers.getTargetCount(mConstants.kTableName);
-		if (cTag <2){
-			deTrust *=2;
+		double deTrust = 0.01;
+		double cTag = LimelightHelpers.getTargetCount(mConstants.kTableName);
+		if (cTag < 2) {
+			deTrust *= 2;
 		}
 		Twist2d vel = RobotState.getInstance().getMeasuredVelocity();
-		double vDrive = Math.hypot(vel.dx,vel.dy);
-		if(vDrive > Constants.Swerve.maxSpeed/2){
-			deTrust *=2;
+		double vDrive = Math.hypot(vel.dx, vel.dy);
+		if (vDrive > Constants.Swerve.maxSpeed / 2) {
+			deTrust *= 2;
 		}
 		double vRotation = Math.abs(vel.dtheta);
-		if (vRotation > Constants.Swerve.maxAngularVelocity/2){
-			deTrust *=2;
+		if (vRotation > Constants.Swerve.maxAngularVelocity / 2) {
+			deTrust *= 2;
 		}
-		Pose2d targetSpace_pose = LimelightHelpers.toPose2D(LimelightHelpers.getBotPose_TargetSpace(mConstants.kTableName));
+		Pose2d targetSpace_pose = LimelightHelpers
+				.toPose2D(LimelightHelpers.getBotPose_TargetSpace(mConstants.kTableName));
 		Vector<N2> betterDevs = VecBuilder.fill(deTrust, deTrust);
 
 		RobotState.getInstance()
@@ -154,19 +155,22 @@ public class VisionDevice extends Subsystem {
 								botPose.getTranslation(),
 								new Translation2d(0, 0),
 								betterDevs));
-		
-		//Pose2d targetSpace_pose = LimelightHelpers.toPose2D(LimelightHelpers.getBotPose_TargetSpace(mConstants.kTableName));
-		int[] validIds = {17, 18, 19, 20, 21, 22, 6, 7, 8, 9, 10, 11};
 
-		if (
-			targetSpace_pose.getTranslation().getDistance(new Translation2d(0, 0)) < 3 
-			&& MathUtil.inputModulus(targetSpace_pose.getRotation().getDegrees() + 15, -180, 180) < 15
-			&& Arrays.stream(validIds).anyMatch(n->n==(int) mID.get())
-		) {
-			// System.out.println(mID.get());
+		// Pose2d targetSpace_pose =
+		// LimelightHelpers.toPose2D(LimelightHelpers.getBotPose_TargetSpace(mConstants.kTableName));
+		int[] validIds = { 17, 18, 19, 20, 21, 22, 6, 7, 8, 9, 10, 11 };
+		Pose2d robotStatePose = RobotState.getInstance().getLatestFieldToVehicle();
+
+		if (targetSpace_pose.getTranslation().getDistance(new Translation2d(0, 0)) < 3
+				&& MathUtil.inputModulus(Math.abs(
+						FieldLayout.getClosestTag(robotStatePose.getTranslation()).pose.toPose2d().getRotation()
+								.getDegrees() - robotStatePose.getRotation().getDegrees())
+						+ 15, 0, 180) < 30
+				&& Arrays.stream(validIds).anyMatch(n -> n == (int) mID.get())) {
 			inSnapRange = true;
 		} else {
-			// System.out.println(MathUtil.inputModulus(mPigeon.getYaw().getDegrees(), -180, 180));
+			// System.out.println(MathUtil.inputModulus(mPigeon.getYaw().getDegrees(), -180,
+			// 180));
 			inSnapRange = false;
 		}
 	}
