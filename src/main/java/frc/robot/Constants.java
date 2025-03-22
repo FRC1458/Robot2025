@@ -319,9 +319,9 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         
-    
-        public static final double kCruiseVelocity = 40;
-        public static final double kAcceleration = 72.5;
+        
+        public static final double kCruiseVelocity = 80;
+        public static final double kAcceleration = 120;
         public static final double kJerk = 1600;
         public static final int CurrentThreshold = 45;
         public static final int kMaxCurrent = 40;
