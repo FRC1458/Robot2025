@@ -16,6 +16,8 @@ public class SwerveTrajectoryAction implements Action {
 	private TrajectoryIterator mTrajectory;
 	private final PathPlannerTrajectory kTrajectory;
 	private ResetWheelTracker mResetWheelTracker = ResetWheelTracker.NO;
+	public static TrajectoryGenerator.TrajectorySet mTrajSet = TrajectoryGenerator.getInstance().getTrajectorySet();
+
 	String name = null;
 	public enum ResetWheelTracker {
 		SET_TO_STARTING_POS,
@@ -37,12 +39,12 @@ public class SwerveTrajectoryAction implements Action {
 	}
 */
 	public SwerveTrajectoryAction(String key, ResetWheelTracker resetPose) {
-		PathPlannerTrajectory pTraj = TrajectoryGenerator.getInstance().getTrajectorySet().loadPathPlannerTrajectory(key);
+		PathPlannerTrajectory pTraj = mTrajSet.loadPathPlannerTrajectory(key);
 		Optional<Alliance> ally = DriverStation.getAlliance();
 		if (ally.isPresent() && ally.get() == Alliance.Red) {
 			kTrajectory = pTraj.flip();
 			System.out.println("flip for running red side trajectory");
-		}else{
+		} else {
 			kTrajectory = pTraj;
 		}
 		mDrive = SwerveDrive.getInstance();

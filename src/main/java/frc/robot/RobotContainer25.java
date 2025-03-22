@@ -142,6 +142,8 @@ public class RobotContainer25 {
             if (m_SwerveDrive != null)
                 m_SwerveDrive.setNeutralBrake(true);
 
+            TrajectoryGenerator.getInstance().getTrajectorySet().loadPathPlannerTrajectory("CS1-RA");
+
         } catch (Throwable t) {
             CrashTracker.logThrowableCrash(t); // TODO: CrashTracker needs to be ported. to log crash/exception
             throw t;
