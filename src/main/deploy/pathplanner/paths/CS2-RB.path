@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.24554794520548,
-        "y": 2.9957405821917806
+        "x": 2.9731085526315786,
+        "y": 3.216776315789474
       },
       "isLocked": false,
       "linkedName": "CS Bottom"
@@ -20,8 +20,8 @@
         "y": 3.8522046232876708
       },
       "prevControl": {
-        "x": 1.968364726027397,
-        "y": 3.8522046232876708
+        "x": 2.4342927631578943,
+        "y": 3.880674342105263
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.5,
-        "maxAcceleration": 4.4,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 60.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,

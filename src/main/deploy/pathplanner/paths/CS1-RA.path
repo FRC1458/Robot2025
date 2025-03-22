@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.876233552631579,
-        "y": 6.5747532894736835
+        "x": 3.223273026315789,
+        "y": 4.611924342105263
       },
       "isLocked": false,
       "linkedName": "CS Top"
     },
     {
       "anchor": {
-        "x": 3.151294209634937,
-        "y": 4.189218197803601
+        "x": 3.098190789473684,
+        "y": 4.198190789473684
       },
       "prevControl": {
-        "x": 2.9827302631578942,
-        "y": 4.525328947368421
+        "x": 2.4485413166808523,
+        "y": 4.178298249564819
       },
       "nextControl": null,
       "isLocked": false,
@@ -37,11 +37,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.79,
+      "minWaypointRelativePos": 0.7540106951871658,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 0.5,
+        "maxAcceleration": 4.4,
         "maxAngularVelocity": 60.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
