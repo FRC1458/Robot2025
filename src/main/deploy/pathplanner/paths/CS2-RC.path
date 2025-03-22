@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.5326327921524454,
-        "y": 1.6288703649951228
+        "y": 1.6288703649951226
       },
       "isLocked": false,
       "linkedName": "CS Bottom"
@@ -29,21 +29,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.66,
-      "maxWaypointRelativePos": 1,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.5,
-        "maxAngularVelocity": 60.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
