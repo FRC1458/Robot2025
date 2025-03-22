@@ -72,7 +72,7 @@ public final class Constants {
         public static final double angleCurrentThresholdTime = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
 
-        public static final int driveCurrentLimit = 30; //dc.11.9.24 reduce max current per motor, total current needs to time motor-count(8)
+        public static final int driveCurrentLimit = 90; //dc.11.9.24 reduce max current per motor, total current needs to time motor-count(8)
         public static final int driveCurrentThreshold = 45; 
         public static final double driveCurrentThresholdTime = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
@@ -287,7 +287,7 @@ public final class Constants {
 			config.Slot0.kV = 12 * Math.PI * wheelDiameter / (driveGearRatio * maxSpeed);
 
 			config.CurrentLimits.StatorCurrentLimitEnable = true;
-			config.CurrentLimits.StatorCurrentLimit = Swerve.driveCurrentLimit;//citrus code value = 110;
+			config.CurrentLimits.StatorCurrentLimit = Swerve.driveCurrentLimit + 20;//citrus code value = 110;
 
 			config.CurrentLimits.SupplyCurrentLimitEnable = true;
 			config.CurrentLimits.SupplyCurrentLimit = Swerve.driveCurrentLimit;//citrus value = 90;
