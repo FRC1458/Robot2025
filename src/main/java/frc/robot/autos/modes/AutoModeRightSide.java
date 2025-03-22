@@ -7,13 +7,13 @@ public class AutoModeRightSide extends AutoStringAuto {
               "[ ( S 1 R J ) ( Wait 1.75 Elevator L4 ) ] CShoot Wait 0.2 " +   
 
               // Elevator to  Ground, 0.2s after this has begun go to Coral Station (bot is stable even at L3, so 0.2s is enough)
-              "[ ( Elevator Ground ) ( CS 1 ) ] " +              
+              "[ ( Elevator Ground ) ( CS 1 ) ] CIntake " +              
 
               // Wait 0.1s at Coral Station to intake coral, then go to Reef K with the same parallel elevator logic as above, then Shoot Coral
               "[ ( R K ) ( Wait 1.5 Elevator L4 ) ] CShoot Wait 0.2 " +
 
               // Elevator to Ground, go to Coral Station
-              "[ ( Elevator Ground ) ( CS 1 ) ] " +          
+              "[ ( Elevator Ground ) ( CS 1 ) ] CIntake " +          
 
               // Wait 0.1s at Coral Station, go to Reef L, Shoot Coral
               "[ ( R L ) ( Wait 1.5 Elevator L4 ) ] CShoot Wait 0.2 " +
