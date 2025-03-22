@@ -93,11 +93,6 @@ public class Controller {
         double rotationVal = -MathUtil.applyDeadband(m_JoyStick.getRawAxis(rotationAxis), Constants.stickDeadband)
                 * Constants.Swerve.maxAngularVelocity;
 
-        if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
-            translationVal = -translationVal;
-            strafeVal = -strafeVal;
-        }
-
         if (mXboxController1.getPOV() == 90) {
             m_SwerveDrive.feedTeleopSetpoint(new ChassisSpeeds(
                     0, -0.4, 0));
