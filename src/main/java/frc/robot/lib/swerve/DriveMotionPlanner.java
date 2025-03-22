@@ -229,7 +229,7 @@ public class DriveMotionPlanner {
 				Trajectory.State endPoint = mCurrentTrajectory.getLastPoint();
 				Pose2d delta = endPoint.poseMeters.relativeTo(currPose);	//delta = endPoint - current_pose, in robot's local frame, dc.12.7.2024 bugfix, error shall = target - current
 				if (delta.getTranslation().getNorm() < 0.01 //less then 1cm
-					&& Math.abs(delta.getRotation().getDegrees()) < 3){ //less than 3 degree  //want to try something like 1 here
+					&& Math.abs(delta.getRotation().getDegrees()) < 1){ //less than 3 degree  //want to try something like 1 here
 						
 						System.out.println("Total Path length: " + mCurrentTrajectory.getLastPoint().timeSeconds);
 						System.out.println("PurePursuit() done. remaining (s) =" + mCurrentTrajectory.getRemainingProgress() 
