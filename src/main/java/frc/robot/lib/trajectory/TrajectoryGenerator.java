@@ -20,8 +20,29 @@ import java.io.IOException;
 //dc.10.21.2024, this class is going to load all paths pre-defined via PathWeaver tool
 
 public class TrajectoryGenerator {
+    private static TrajectoryGenerator mInstance;
+	public static TrajectoryGenerator getInstance() {
+		if (mInstance == null) {
+			mInstance = new TrajectoryGenerator();
+		}
+		return mInstance;
+	}
+
+    public TrajectoryGenerator () {
+        if (mTrajectorySet == null) {
+			System.out.println("Generating trajectories...");
+			mTrajectorySet = new TrajectorySet();
+			System.out.println("Finished trajectory generation");
+		}
+    }
+
+	public TrajectorySet getTrajectorySet() {        
+        if (mTrajectorySet == null) {
+            mTrajectorySet = new TrajectorySet();
+        }
+		return mTrajectorySet;
+	}
     
-    //the trajectories used in auto mode
     private TrajectorySet mTrajectorySet = null;
     /*
      * CS: coral station
@@ -33,29 +54,16 @@ public class TrajectoryGenerator {
 		//the parent folder NEEDs to be "./src/main/deploy/"
         public HashMap<String, PathPlannerTrajectory> set = new HashMap<>();
         public TrajectorySet() {
-           /* File folder = new File(Filesystem.getDeployDirectory(),"pathplanner/paths");
-            System.out.println(folder.getAbsolutePath());
-            for (File file : folder.listFiles()) { 
-                String fileName = file.getName().substring(0,file.getName().length() - 5); 
-                set.put(fileName, loadPathPlannerTrajectory(fileName));
-            } */
+            // File folder = new File(Filesystem.getDeployDirectory(),"pathplanner/paths");
+            // System.out.println(folder.getAbsolutePath());
+            // for (File file : folder.listFiles()) { 
+            //     String fileName = file.getName().substring(0,file.getName().length() - 5); 
+            //     set.put(fileName, loadPathPlannerTrajectory(fileName));
+            // } 
         }
-        /*
-        public Trajectory testTrajectoryZigzag = loadTrajectory("paths/output/s.0.0.zigzag.wpilib.json"); 
-        public Trajectory testTrajectoryBackForth = loadTrajectory("paths/output/s.0.0.back.n.forth.n.return.wpilib.json"); 
-        public Trajectory testTrajectoryStraightForward = loadTrajectory("paths/output/s.0.0.StraightForward.n.return.wpilib.json"); 
-        public Trajectory testTrajectorySlowCurve = loadTrajectory("paths/output/s.0.0.SlowCurve.wpilib.json"); 
-        public Trajectory testTrajectoryOneCircle = loadTrajectory("paths/output/s.0.0.oneCircle.cw.wpilib.json"); 
-        public Trajectory testTrajectoryTwoCircle = loadTrajectory("paths/output/s.0.0.twoCircle.wpilib.json"); 
-        public Trajectory testTrajectoryBeeDancing = loadTrajectory("paths/output/s.0.0.BeeDancing.wpilib.json");         
-        public Trajectory testTrajectorySmallLoop = loadTrajectory("paths/output/s.0.0.smallloop.wpilib.json");         
-        public Trajectory testTrajectoryOhNo = loadTrajectory("paths/output/s.0.0.oh.no.wpilib.json");
-        public Trajectory testTrajectoryForwardBack = loadTrajectory("paths/output/s.0.0.shrimple.wpilib.json");
-        */
-        /* dc.10.21.2024, additional trajectory can be added similar to the TestTrajectory */
 
-        public Trajectory loadTrajectory (String sJsonFile){
-            try{
+        public Trajectory loadTrajectory (String sJsonFile) {
+            try {
                 // Get the path to the deployed JSON file
                 Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(sJsonFile);                
                 // Load the trajectory
@@ -67,7 +75,12 @@ public class TrajectoryGenerator {
                 return null;
             }
         }
+        
         public PathPlannerTrajectory loadPathPlannerTrajectory (String sJsonFile) {
+            if (set.containsKey(sJsonFile)) {
+                System.out.println("Trajectory loaded already: " + sJsonFile);
+                return set.get(sJsonFile);
+            }
             try {
                 PathPlannerPath path;
                 path = PathPlannerPath.fromPathFile(sJsonFile);
@@ -81,26 +94,4 @@ public class TrajectoryGenerator {
 
     }
 
-    // instanciation code 
-    private static TrajectoryGenerator mInstance;
-	public static TrajectoryGenerator getInstance() {
-		if (mInstance == null) {
-			mInstance = new TrajectoryGenerator();
-		}
-		return mInstance;
-	}
-
-    //constructor code
-    public TrajectoryGenerator (){
-        if (mTrajectorySet == null) {
-			System.out.println("Generating trajectories...");
-			mTrajectorySet = new TrajectorySet();
-			System.out.println("Finished trajectory generation");
-		}
-    }
-
-    //access to the trajectory set 
-	public TrajectorySet getTrajectorySet() {
-		return mTrajectorySet;
-	}
 }
