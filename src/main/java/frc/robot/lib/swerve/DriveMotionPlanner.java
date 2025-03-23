@@ -67,6 +67,8 @@ public class DriveMotionPlanner {
 /* 	public TimedState<Pose2dWithMotion> mLastSetpoint = null;*/ //dc.10.21.2024, mLastSetpoint seems only to appear on left and zero right-side reference
 	public Trajectory.State mSetpoint = new Trajectory.State(0.,0.,0.,new Pose2d(0.,0.,new Rotation2d(0)),0.);
 	Pose2d mError = new Pose2d(0, 0, new Rotation2d(0));
+	Pose2d mPrevError = new Pose2d();
+	Pose2d mIntError = new Pose2d();
 /*  ErrorTracker mErrorTracker = new ErrorTracker(15 * 100);   */ //dc.10.21.2024, mErrorTracker seems only to appear on left and its getty function has zero reference. 
 	Translation2d mTranslationalError = new Translation2d(0, 0);
 	Rotation2d mPrevHeadingError = new Rotation2d(0);
@@ -131,7 +133,9 @@ public class DriveMotionPlanner {
 			// Compute error in robot frame
 			mPrevHeadingError = mError.getRotation();
 //			mError = current_pose.relativeTo(mSetpoint.poseMeters);
+			mPrevError = mError;
 			mError = mSetpoint.poseMeters.relativeTo(current_pose);	//delta = mSetpoint - current_pose, in robot's local frame, dc.12.7.2024 bugfix, error shall = target - current
+			//mIntError = mIntError.plus(m)
 			pid_error = current_pose.log(mSetpoint.poseMeters);//* calculate the Twist2d delta/error between actual pose and the desired pose.  citrus original code is //Pose2d.log(mError);			
 			SmartDashboard.putNumber("PurePursuit/mError.norm", mError.getTranslation().getNorm());
 			//dc.10.21.2024			mErrorTracker.addObservation(mError);
@@ -228,7 +232,7 @@ public class DriveMotionPlanner {
 				//check if currPose is really close the ending pose of traj for the last 300ms of the path 
 				Trajectory.State endPoint = mCurrentTrajectory.getLastPoint();
 				Pose2d delta = endPoint.poseMeters.relativeTo(currPose);	//delta = endPoint - current_pose, in robot's local frame, dc.12.7.2024 bugfix, error shall = target - current
-				if (delta.getTranslation().getNorm() < 0.01 //less then 1cm
+				if (delta.getTranslation().getNorm() < 0.005 //less then 1cm
 					&& Math.abs(delta.getRotation().getDegrees()) < 1){ //less than 3 degree  //want to try something like 1 here
 						
 						System.out.println("Total Path length: " + mCurrentTrajectory.getLastPoint().timeSeconds);
@@ -397,7 +401,9 @@ public class DriveMotionPlanner {
 		final double kThetakD = 0.0;
 
 		//used to be 3 but lower values work best in simulation
-		final double kPositionkP = 1; //TODO: TB restored, dc.12.7.24, turn off PD controller,  citrus orignal value = 2.0;
+		final double kPositionkP = 0.02;
+		final double kPositionkI = 0.002;
+		final double kPositionkD = 0.1; //TODO: TB restored, dc.12.7.24, turn off PD controller,  citrus orignal value = 2.0;
 
 		SmartDashboard.putNumber("x error", mError.getTranslation().getX());
 		SmartDashboard.putNumber("y error", mError.getTranslation().getY());
@@ -406,7 +412,15 @@ public class DriveMotionPlanner {
 		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond
 				+ kPositionkP * mError.getTranslation().getX();
 		chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond
-				+ kPositionkP * mError.getTranslation().getY();
+				+ kPositionkP * mError.getTranslation().getY();		
+		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond
+				+ kPositionkI * mError.getTranslation().getX();
+		chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond
+				+ kPositionkI * mError.getTranslation().getY();		
+		chassisSpeeds.vxMetersPerSecond = chassisSpeeds.vxMetersPerSecond
+				+ kPositionkD * mError.getTranslation().getX();
+		chassisSpeeds.vyMetersPerSecond = chassisSpeeds.vyMetersPerSecond
+				+ kPositionkD * mError.getTranslation().getY();
 /*		chassisSpeeds.omegaRadiansPerSecond = chassisSpeeds.omegaRadiansPerSecond
 				+ (kThetakP * mError.getRotation().getRadians())
 				+ kThetakD * ((mError.getRotation().getRadians() - mPrevHeadingError.getRadians()) / mDt);

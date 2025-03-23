@@ -87,15 +87,15 @@ public class SnapToTag implements Action {
 			), List.of(), 
             List.of(
 				new ConstraintsZone(0.5, 15, 
-					new PathConstraints(Constants.Swerve.maxSpeed/2, 
-                                        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared/2, 
+					new PathConstraints(Constants.Swerve.maxSpeed/6, 
+                                        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared/4, 
                                         Constants.Swerve.maxAngularVelocity/4, 
                                         Constants.Swerve.kMaxAngularAcceleration/2)
 				)
 			), List.of(), 
-			new PathConstraints(Constants.Swerve.maxSpeed/2, 
+			new PathConstraints(3, 
                                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared, 
-                                Constants.Swerve.maxAngularVelocity/2, 
+                                Constants.Swerve.maxAngularVelocity, 
                                 Constants.Swerve.kMaxAngularAcceleration), 
 			new IdealStartingState(Util.twist2dMagnitude(initialSpeed), initialPose.getRotation()), 
 			new GoalEndState(0, finalPose.getRotation()), false);
