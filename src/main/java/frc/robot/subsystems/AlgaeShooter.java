@@ -121,7 +121,6 @@ public class AlgaeShooter extends Subsystem {
     @Override
     public void outputTelemetry() {
         SmartDashboard.putNumber("Position/Target", mPeriodicIO.pivot_target);
-        SmartDashboard.putString("State", mPeriodicIO.state);
     }
 
     public void resetRot(double pos) {
