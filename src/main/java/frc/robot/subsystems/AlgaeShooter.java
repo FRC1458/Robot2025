@@ -103,7 +103,11 @@ public class AlgaeShooter extends Subsystem {
 
     @Override
     public void readPeriodicInputs() {
-        //if ()
+
+        if (sensor.get()) {
+            mPivotMotor.setPosition(0);
+        }
+
         mPeriodicIO.mCurrentPos = mPivotMotor.getPosition().getValueAsDouble(); //update pivot current position
     }
 
