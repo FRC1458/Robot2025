@@ -207,7 +207,7 @@ public class Elevator extends Subsystem {
     }
     //System.out.println("Elevator: Going to Target: " + mPeriodicIO.elevator_target);
     //System.out.println("Elevator: Going to Target: " + mPeriodicIO.elevator_target);
-    mLeftMotor.setControl(m_request.withPosition(mPeriodicIO.elevator_target));
+    mLeftMotor.setControl(m_request.withPosition(mPeriodicIO.elevator_target).withFeedForward(Constants.Elevator.kG));
 
     
   }

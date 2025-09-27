@@ -161,7 +161,8 @@ public class AlgaeShooter extends Subsystem {
 
 
     private void goToTarget() {
-        mPivotMotor.setControl(m_request.withPosition(mPeriodicIO.pivot_target));
+        mPivotMotor.setControl(m_request.withPosition(mPeriodicIO.pivot_target).withFeedForward(Constants.AlgaeShooter.kG
+            *Math.sin( (mPivotMotor.getPosition().getValueAsDouble()*2*Math.PI) - Constants.AlgaeShooter.kVerticalAngle )));
     }
 
     public synchronized boolean isAtTarget() {
