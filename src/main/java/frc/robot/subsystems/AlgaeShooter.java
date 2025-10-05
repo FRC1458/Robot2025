@@ -103,7 +103,6 @@ public class AlgaeShooter extends Subsystem {
 
     @Override
     public void readPeriodicInputs() {
-        //if ()
         mPeriodicIO.mCurrentPos = mPivotMotor.getPosition().getValueAsDouble(); //update pivot current position
     }
 
@@ -161,8 +160,8 @@ public class AlgaeShooter extends Subsystem {
 
 
     private void goToTarget() {
-        mPivotMotor.setControl(m_request.withPosition(mPeriodicIO.pivot_target));//.withFeedForward(Constants.AlgaeShooter.kG
-        //    *Math.cos( (mPivotMotor.getPosition().getValueAsDouble()*2*Math.PI) - Constants.AlgaeShooter.kVerticalAngle )));
+        mPivotMotor.setControl(m_request.withPosition(mPeriodicIO.pivot_target).withFeedForward(Constants.AlgaeShooter.kG
+            *Math.cos( (mPivotMotor.getPosition().getValueAsDouble()*2*Math.PI) - Constants.AlgaeShooter.kVerticalAngleRad )));
     }
 
     public synchronized boolean isAtTarget() {

@@ -445,18 +445,17 @@ public final class Constants {
         public static final double kProcessorPosition = 4.5;
         public static final double kRestingPosition = -0.32; //TODO: Tune
         public static final double kGroundPosition = 6.23;
-        public static final double kVerticalAngle = 1; //TODO: Tune
+        public static final double kVerticalAngleRad = 1.5; //TODO: Tune
 
         public static final double kS = 0.015;
         public static final double kV = 0.0;
         public static final double kP = 4.25;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kG = 0.1; //TODO: Tune
+        public static final double kG = 0.05; //TODO: Tune
         
     
-        public static final double kCruiseVelocity 
-        = 50;
+        public static final double kCruiseVelocity = 50;
         public static final double kAcceleration = 60;
         public static final double kJerk = 1600;
         public static final double kWaitTime = 0.5;
