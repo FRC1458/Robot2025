@@ -454,6 +454,7 @@ public final class Constants {
         public static final double kD = 0.1;
         public static final double kG = 0.05; //TODO: Tune
         
+        public static final double kElevatorCountering = 0.1; //TODO: Tune
     
         public static final double kCruiseVelocity = 50;
         public static final double kAcceleration = 60;

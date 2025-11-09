@@ -225,4 +225,8 @@ public class Elevator extends Subsystem {
     return Math.abs(mPeriodicIO.mCurrentPos - mPeriodicIO.elevator_target) < 0.5;
   }
 
+  public double getVelocity() {
+    return mRightMotor.getVelocity().getValueAsDouble();
+  }
+
 }
